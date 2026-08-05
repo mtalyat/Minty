@@ -1,0 +1,37 @@
+: 3C6E4EF2E15E4C04B9CC6C45A4F1D4D8
+RenderPass: A9FE466CCD06333461FD0D0549FE4B22
+PrimitiveTopology: TriangleList
+PolygonMode: Fill
+CullMode: None
+FrontFace: Clockwise
+LineWidth: 1
+Transparency: True
+DepthMode: None
+DepthTestOperation: <
+StencilMode: None
+StencilTestOperation: ==
+Stages
+    Vertex: A1C9D6E5F4B3417A8C2D9E0F1234ABCD
+    Fragment: B2D8E7F6A5C4528B9D3E0F1A2345BCDE
+Attributes
+    0: Vertex
+        0: Float2
+        1: Float2
+    1: Instance
+        2: Matrix4
+        6: Float4
+        7: Float2
+        8: Float2
+        9: Float2
+        10: Float
+        11: UInt
+        12: Float2
+Inputs
+    texture
+        Type: CombinedImageSampler
+        Stage: Fragment
+        Set: 0
+        Binding: 1
+        Frequent: false
+        Object
+            texSampler: Object: UUID

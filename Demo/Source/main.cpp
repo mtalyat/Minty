@@ -1,4 +1,5 @@
 #include <Minty.hpp>
+#include "World/Component/CanvasComponent.hpp"
 
 using namespace Minty;
 
@@ -40,8 +41,12 @@ int main()
     MeshResourceHandle const meshResourceHandle = resourceManager.load<MeshResource>("Assets/test.msh.minty");
     ShaderResourceHandle const spriteVertResourceHandle = resourceManager.load<ShaderResource>("../Data/Default/Shader/sprite.vert.sha.minty");
     ShaderResourceHandle const spriteFragResourceHandle = resourceManager.load<ShaderResource>("../Data/Default/Shader/sprite.frag.sha.minty");
+    ShaderResourceHandle const uiVertResourceHandle = resourceManager.load<ShaderResource>("../Data/Default/Shader/ui.vert.sha.minty");
+    ShaderResourceHandle const uiFragResourceHandle = resourceManager.load<ShaderResource>("../Data/Default/Shader/ui.frag.sha.minty");
     PipelineResourceHandle const spritePipelineResourceHandle = resourceManager.load<PipelineResource>("../Data/Default/Pipeline/sprite.pip.minty");
+    PipelineResourceHandle const uiPipelineResourceHandle = resourceManager.load<PipelineResource>("../Data/Default/Pipeline/ui.pip.minty");
     MaterialResourceHandle const spriteMaterialResourceHandle = resourceManager.load<MaterialResource>("../Data/Default/Material/sprite.mat.minty");
+    MaterialResourceHandle const uiMaterialResourceHandle = resourceManager.load<MaterialResource>("../Data/Default/Material/ui.mat.minty");
     SpriteResourceHandle const spriteResourceHandle1 = resourceManager.load<SpriteResource>("Assets/test.spr.minty");
     SpriteResourceHandle const spriteResourceHandle2 = resourceManager.load<SpriteResource>("Assets/test2.spr.minty");
 
@@ -53,7 +58,9 @@ int main()
     MaterialHandle const materialHandle = renderManager.create(materialResourceHandle);
     GeometryHandle const geometryHandle = renderManager.create(meshResourceHandle);
     PipelineHandle const spritePipelineHandle = renderManager.create(spritePipelineResourceHandle);
+    PipelineHandle const uiPipelineHandle = renderManager.create(uiPipelineResourceHandle);
     MaterialHandle const spriteMaterialHandle = renderManager.create(spriteMaterialResourceHandle);
+    MaterialHandle const uiMaterialHandle = renderManager.create(uiMaterialResourceHandle);
     SpriteHandle const spriteHandle1 = renderManager.create(spriteResourceHandle1);
     SpriteHandle const spriteHandle2 = renderManager.create(spriteResourceHandle2);
 
@@ -62,8 +69,6 @@ int main()
     SceneInfo sceneInfo{};
     sceneInfo.name = "World Scene";
     SceneHandle const worldSceneHandle = sceneManager.create(sceneInfo);
-    sceneInfo.name = "UI Scene";
-    SceneHandle const uiSceneHandle = sceneManager.create(sceneInfo);
 
     // WORLD SCENE
     Scene& worldScene = sceneManager.at(worldSceneHandle);
@@ -106,7 +111,7 @@ int main()
         spriteHandle1,
         spriteMaterialHandle
     });
-    worldEntityManager.add<VisibleTag>(spriteEntity);
+    // worldEntityManager.add<VisibleTag>(spriteEntity);
 
     // Create child entity
     EntityHandle const childEntity = worldEntityManager.create(spriteEntity);
@@ -117,7 +122,39 @@ int main()
         spriteHandle2,
         spriteMaterialHandle
     });
-    worldEntityManager.add<VisibleTag>(childEntity);
+    // worldEntityManager.add<VisibleTag>(childEntity);
+
+    // Create canvas root entity
+    EntityHandle const uiCanvasEntity = worldEntityManager.create();
+    CanvasComponent& canvasComponent = worldEntityManager.add<CanvasComponent>(uiCanvasEntity);
+    canvasComponent.resolution = applicationInfo.windowInfo.size;
+    UITransformComponent& canvasTransformComponent = worldEntityManager.add<UITransformComponent>(uiCanvasEntity);
+    canvasTransformComponent.canvas = uiCanvasEntity;
+    canvasTransformComponent.transform = UITransform(0.0f, 0.0f,
+        static_cast<Float>(applicationInfo.windowInfo.size.x),
+        static_cast<Float>(applicationInfo.windowInfo.size.y),
+        AnchorEnumFlags::TopLeft);
+
+    // Create child UI entity anchored to the canvas
+    EntityHandle const uiChildEntity = worldEntityManager.create(uiCanvasEntity);
+    UITransformComponent& childTransformComponent = worldEntityManager.add<UITransformComponent>(uiChildEntity);
+    childTransformComponent.canvas = uiCanvasEntity;
+    childTransformComponent.transform = UITransform(16.0f, -16.0f, 64.0f, 64.0f, AnchorEnumFlags::TopLeft);
+    worldEntityManager.add<SpriteComponent>(uiChildEntity, SpriteComponent{
+        spriteHandle2,
+        uiMaterialHandle
+    });
+    worldEntityManager.add<VisibleTag>(uiChildEntity);
+
+    EntityHandle const uiChildEntity2 = worldEntityManager.create(uiCanvasEntity);
+    UITransformComponent& childTransformComponent2 = worldEntityManager.add<UITransformComponent>(uiChildEntity2);
+    childTransformComponent2.canvas = uiCanvasEntity;
+    childTransformComponent2.transform = UITransform(-16.0f, 16.0f, 64.0f, 64.0f, AnchorEnumFlags::BottomRight);
+    worldEntityManager.add<SpriteComponent>(uiChildEntity2, SpriteComponent{
+        spriteHandle1,
+        uiMaterialHandle
+    });
+    worldEntityManager.add<VisibleTag>(uiChildEntity2);
 
     // Enable scene
     sceneManager.enable(worldSceneHandle);

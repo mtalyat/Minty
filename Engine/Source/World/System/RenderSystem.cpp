@@ -12,7 +12,9 @@
 #include "Render/Sprite/Sprite.hpp"
 
 #include "World/Component/CameraComponent.hpp"
+#include "World/Component/CanvasComponent.hpp"
 #include "World/Component/MeshComponent.hpp"
+#include "World/Component/RelationshipComponent.hpp"
 #include "World/Component/SpriteComponent.hpp"
 #include "World/Component/TransformComponent.hpp"
 #include "World/Component/UITransformComponent.hpp"
@@ -52,6 +54,118 @@ namespace
 
 		s_spriteQuadGeometry = renderManager.create(geometryInfo);
 		return s_spriteQuadGeometry;
+	}
+
+	struct UIRenderData
+	{
+		Rect rect;
+		Float depth = 0.0f;
+		Float rotation = 0.0f;
+		EntityHandle canvas = INVALID_ENTITY;
+	};
+
+	EntityHandle resolve_canvas(EntityHandle const entity, EntityManager const &entityManager)
+	{
+		EntityHandle current = entity;
+		while (current != INVALID_ENTITY)
+		{
+			if (entityManager.has<CanvasComponent>(current))
+			{
+				return current;
+			}
+
+			RelationshipComponent const *relationship = entityManager.try_get<RelationshipComponent const>(current);
+			if (!relationship)
+			{
+				break;
+			}
+
+			current = relationship->parent;
+		}
+
+		return INVALID_ENTITY;
+	}
+
+	Rect compute_ui_rect(UITransform const &transform, Rect const &parentRect)
+	{
+		Float x = 0.0f;
+		Float y = 0.0f;
+		Float width = transform.get_width();
+		Float height = transform.get_height();
+
+		Anchor const horizontal = transform.get_anchor() & AnchorEnumFlags::Horizontal;
+		if (horizontal == AnchorEnumFlags::Left)
+		{
+			x = parentRect.x + transform.get_x();
+		}
+		else if (horizontal == AnchorEnumFlags::Center)
+		{
+			x = parentRect.x + transform.get_x() + (parentRect.width - width) * 0.5f;
+		}
+		else if (horizontal == AnchorEnumFlags::Right)
+		{
+			x = parentRect.x + parentRect.width + transform.get_x() - width;
+		}
+		else
+		{
+			x = parentRect.x + transform.get_x();
+			width = parentRect.width - transform.get_x() - transform.get_width();
+		}
+
+		Anchor const vertical = transform.get_anchor() & AnchorEnumFlags::Vertical;
+		if (vertical == AnchorEnumFlags::Top)
+		{
+			y = parentRect.y + parentRect.height + transform.get_y() - height;
+		}
+		else if (vertical == AnchorEnumFlags::Middle)
+		{
+			y = parentRect.y + transform.get_y() + (parentRect.height - height) * 0.5f;
+		}
+		else if (vertical == AnchorEnumFlags::Bottom)
+		{
+			y = parentRect.y + transform.get_y();
+		}
+		else
+		{
+			y = parentRect.y + transform.get_y();
+			height = parentRect.height - transform.get_y() - transform.get_height();
+		}
+
+		return Rect(x, y, width, height);
+	}
+
+	Matrix4 create_ui_matrix(Rect const &rect, Float const rotation, CanvasComponent const &canvas, Sprite const &sprite)
+	{
+		Float2 const spriteSize = {
+			static_cast<Float>(Math::max(sprite.get_size().x, 1)),
+			static_cast<Float>(Math::max(sprite.get_size().y, 1))};
+
+		Float const canvasWidth = Math::max(static_cast<Float>(canvas.resolution.x), 1.0f);
+		Float const canvasHeight = Math::max(static_cast<Float>(canvas.resolution.y), 1.0f);
+
+		Float const sx = rect.width / spriteSize.x;
+		Float const sy = rect.height / spriteSize.y;
+
+		Float const pivotX = static_cast<Float>(sprite.get_pivot().x) * sx;
+		Float const pivotY = static_cast<Float>(sprite.get_pivot().y) * sy;
+
+		Float const pivotPixelX = rect.x + pivotX;
+		Float const pivotPixelY = rect.y + pivotY;
+
+		Float const x = (pivotPixelX / canvasWidth) * 2.0f - 1.0f;
+		Float const y = 1.0f - (pivotPixelY / canvasHeight) * 2.0f;
+		Float const z = 0.0f;
+
+		Float3 const position = {
+			x,
+			y,
+			z};
+
+		Matrix4 matrix = Math::translate(Math::identity<Matrix4>(), position);
+		matrix = Math::rotate(matrix, rotation, Math::FORWARD);
+		matrix = Math::scale(matrix, Float3((2.0f / canvasWidth) * sx, (2.0f / canvasHeight) * sy, 1.0f));
+
+		return matrix;
 	}
 }
 
@@ -162,6 +276,137 @@ void Minty::RenderSystem::on_render()
 					spriteBatch.get_group_count(),
 					View(spriteBatch.get_data(), spriteBatch.get_size()));
 			}
+
+		}
+
+		// Render all entities with UITransform + SpriteComponent once per pass, independent of cameras.
+		Factory<MaterialHandle, SpriteBatch> uiBatchFactory;
+		Map<EntityHandle, UIRenderData> uiRenderData;
+
+		auto const uiLooseView = entityManager.view<UITransformComponent, SpriteComponent, VisibleTag>();
+		for (auto &&[entity, uiTransformComp, spriteComp] : uiLooseView.each())
+		{
+			EntityHandle const entityHandle = static_cast<EntityHandle>(entity);
+
+			if (entityManager.has<RelationshipComponent>(entityHandle))
+			{
+				continue;
+			}
+
+			EntityHandle const canvasEntity = resolve_canvas(entityHandle, entityManager);
+			if (canvasEntity == INVALID_ENTITY)
+			{
+				continue;
+			}
+
+			CanvasComponent const *canvasComp = entityManager.try_get<CanvasComponent const>(canvasEntity);
+			if (!canvasComp)
+			{
+				continue;
+			}
+
+			Sprite const &sprite = renderManager.get(spriteComp.spriteHandle);
+			UInt2 const textureSize = renderManager.get_size(sprite.get_texture_handle());
+
+			Rect const canvasRect(0.0f, 0.0f, static_cast<Float>(canvasComp->resolution.x), static_cast<Float>(canvasComp->resolution.y));
+			Rect const globalRect = compute_ui_rect(uiTransformComp.transform, canvasRect);
+			Matrix4 const transform = create_ui_matrix(globalRect, uiTransformComp.transform.get_rotation(), *canvasComp, sprite);
+
+			UIRenderData data{};
+			data.rect = globalRect;
+			data.depth = uiTransformComp.transform.get_depth();
+			data.rotation = uiTransformComp.transform.get_rotation();
+			data.canvas = canvasEntity;
+			uiRenderData.add(entityHandle, data);
+
+			MaterialHandle const materialHandle = spriteComp.materialHandle;
+			SpriteBatch &uiBatch = uiBatchFactory.get_or_create(materialHandle);
+			uiBatch.add_group(
+				transform,
+				spriteComp.color.to_float4(),
+				sprite.get_offset(),
+				sprite.get_size(),
+				sprite.get_pivot(),
+				1.0f,
+				static_cast<UInt32>(spriteComp.flipState),
+				Float2(static_cast<Float>(textureSize.x), static_cast<Float>(textureSize.y)));
+		}
+
+		auto const uiHierarchyView = entityManager.view<RelationshipComponent, UITransformComponent, SpriteComponent, VisibleTag>();
+		for (auto &&[entity, relationshipComp, uiTransformComp, spriteComp] : uiHierarchyView.each())
+		{
+			EntityHandle const entityHandle = static_cast<EntityHandle>(entity);
+
+			EntityHandle const canvasEntity = resolve_canvas(entityHandle, entityManager);
+			if (canvasEntity == INVALID_ENTITY)
+			{
+				continue;
+			}
+
+			CanvasComponent const *canvasComp = entityManager.try_get<CanvasComponent const>(canvasEntity);
+			if (!canvasComp)
+			{
+				continue;
+			}
+
+			Rect parentRect(0.0f, 0.0f, static_cast<Float>(canvasComp->resolution.x), static_cast<Float>(canvasComp->resolution.y));
+			Float parentDepth = 0.0f;
+			Float parentRotation = 0.0f;
+
+			if (relationshipComp.parent != INVALID_ENTITY && uiRenderData.contains(relationshipComp.parent))
+			{
+				UIRenderData const &parentData = uiRenderData.at(relationshipComp.parent);
+				parentRect = parentData.rect;
+				parentDepth = parentData.depth;
+				parentRotation = parentData.rotation;
+			}
+
+			Rect const globalRect = compute_ui_rect(uiTransformComp.transform, parentRect);
+			Float const globalDepth = parentDepth + uiTransformComp.transform.get_depth();
+			Float const globalRotation = parentRotation + uiTransformComp.transform.get_rotation();
+
+			UIRenderData data{};
+			data.rect = globalRect;
+			data.depth = globalDepth;
+			data.rotation = globalRotation;
+			data.canvas = canvasEntity;
+			if (uiRenderData.contains(entityHandle))
+			{
+				uiRenderData.at(entityHandle) = data;
+			}
+			else
+			{
+				uiRenderData.add(entityHandle, data);
+			}
+
+			Sprite const &sprite = renderManager.get(spriteComp.spriteHandle);
+			UInt2 const textureSize = renderManager.get_size(sprite.get_texture_handle());
+			Matrix4 const transform = create_ui_matrix(globalRect, globalRotation, *canvasComp, sprite);
+
+			MaterialHandle const materialHandle = spriteComp.materialHandle;
+			SpriteBatch &uiBatch = uiBatchFactory.get_or_create(materialHandle);
+			uiBatch.add_group(
+				transform,
+				spriteComp.color.to_float4(),
+				sprite.get_offset(),
+				sprite.get_size(),
+				sprite.get_pivot(),
+				1.0f,
+				static_cast<UInt32>(spriteComp.flipState),
+				Float2(static_cast<Float>(textureSize.x), static_cast<Float>(textureSize.y)));
+		}
+
+		GeometryHandle const uiGeometryHandle = create_sprite_quad_geometry(renderManager);
+		renderManager.bind(uiGeometryHandle);
+
+		for (auto &&[materialHandle, uiBatch] : uiBatchFactory)
+		{
+			PipelineHandle const pipelineHandle = renderManager.get_pipeline(materialHandle);
+			renderManager.bind(pipelineHandle);
+			renderManager.bind(materialHandle);
+			renderManager.draw_batch(
+				uiBatch.get_group_count(),
+				View(uiBatch.get_data(), uiBatch.get_size()));
 		}
 
 		// End the pass

@@ -6,7 +6,8 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/UI/Canvas.h"
+#include "Core/Type/UInt2.hpp"
+#include "Core/Serialize/Serializer.hpp"
 
 namespace Minty
 {
@@ -15,10 +16,7 @@ namespace Minty
 	 */
 	struct CanvasComponent	
 	{
-		/**
-		 * @brief The Canvas data.
-		 */
-		Canvas canvas;
+		UInt2 resolution = UInt2(0, 0);
 	};
 
 	template<>
