@@ -3,6 +3,7 @@
 #include "Scene/Manager/SceneManagerInfo.hpp"
 #include "Scene/Scene/Scene.hpp"
 #include "Event/Event/Event.hpp"
+#include "Render/Manager/RenderManager.hpp"
 
 using namespace Minty;
 
@@ -145,12 +146,33 @@ void Minty::SceneManager::on_finalize()
 
 void Minty::SceneManager::on_render()
 {
-    // Render all active scenes
-    for (SceneHandle const handle : m_activeScenes)
+    RenderManager &renderManager = RenderManager::get_instance();
+
+    // Start frame once for all scenes.
+    if (!renderManager.begin_frame())
     {
-        Scene &scene = at(handle);
-        scene.on_render();
+        return;
     }
+
+    Vector<RenderPassHandle> const &passes = renderManager.get_passes();
+    for (RenderPassHandle const passHandle : passes)
+    {
+        if (!renderManager.begin_pass(passHandle))
+        {
+            continue;
+        }
+
+        // Render all active scenes into the currently open pass.
+        for (SceneHandle const handle : m_activeScenes)
+        {
+            Scene &scene = at(handle);
+            scene.on_render();
+        }
+
+        renderManager.end_pass();
+    }
+
+    renderManager.end_frame();
 }
 
 void Minty::SceneManager::on_event(Event &event)

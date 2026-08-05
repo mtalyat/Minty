@@ -70,13 +70,24 @@ int main()
     sceneInfo.name = "World Scene";
     SceneHandle const worldSceneHandle = sceneManager.create(sceneInfo);
 
+    SceneInfo uiSceneInfo{};
+    uiSceneInfo.name = "UI Scene";
+    uiSceneInfo.priority = 1;
+    SceneHandle const uiSceneHandle = sceneManager.create(uiSceneInfo);
+
     // WORLD SCENE
     Scene& worldScene = sceneManager.at(worldSceneHandle);
     SystemManager& worldSystemManager = worldScene.get_system_manager();
     EntityManager& worldEntityManager = worldScene.get_entity_manager();
 
+    // UI SCENE
+    Scene& uiScene = sceneManager.at(uiSceneHandle);
+    SystemManager& uiSystemManager = uiScene.get_system_manager();
+    EntityManager& uiEntityManager = uiScene.get_entity_manager();
+
     // Add the systems
     worldSystemManager.create_system<RenderSystem>();
+    uiSystemManager.create_system<RenderSystem>();
 
     // Create camera entity
     EntityHandle const cameraEntity = worldEntityManager.create();
@@ -91,6 +102,19 @@ int main()
         Float3{0.0f, 0.0f, 0.0f}
     });
 
+    // Create UI scene camera entity so the render view is always bound for UI draws.
+    EntityHandle const uiCameraEntity = uiEntityManager.create();
+    CameraComponent& uiCameraComponent = uiEntityManager.add<CameraComponent>(uiCameraEntity);
+    CameraInfo uiCameraInfo{};
+    uiCameraInfo.aspectRatio = static_cast<Float>(applicationInfo.windowInfo.size.x) / static_cast<Float>(applicationInfo.windowInfo.size.y);
+    uiCameraComponent.camera = Camera(uiCameraInfo);
+    RenderViewInfo uiRenderViewInfo{};
+    uiRenderViewInfo.direction = Math::FORWARD;
+    uiCameraComponent.renderViewHandle = renderManager.create(uiRenderViewInfo, uiCameraComponent.camera);
+    uiEntityManager.add<TransformComponent>(uiCameraEntity, Transform{
+        Float3{0.0f, 0.0f, 0.0f}
+    });
+
     // Create model entity
     EntityHandle const modelEntity = worldEntityManager.create();
     worldEntityManager.add<TransformComponent>(modelEntity, Transform{
@@ -100,7 +124,7 @@ int main()
         geometryHandle,
         materialHandle
     });
-    // worldEntityManager.add<VisibleTag>(modelEntity);
+    worldEntityManager.add<VisibleTag>(modelEntity);
 
     // Create sprite entity
     EntityHandle const spriteEntity = worldEntityManager.create();
@@ -111,7 +135,7 @@ int main()
         spriteHandle1,
         spriteMaterialHandle
     });
-    // worldEntityManager.add<VisibleTag>(spriteEntity);
+    worldEntityManager.add<VisibleTag>(spriteEntity);
 
     // Create child entity
     EntityHandle const childEntity = worldEntityManager.create(spriteEntity);
@@ -122,13 +146,13 @@ int main()
         spriteHandle2,
         spriteMaterialHandle
     });
-    // worldEntityManager.add<VisibleTag>(childEntity);
+    worldEntityManager.add<VisibleTag>(childEntity);
 
     // Create canvas root entity
-    EntityHandle const uiCanvasEntity = worldEntityManager.create();
-    CanvasComponent& canvasComponent = worldEntityManager.add<CanvasComponent>(uiCanvasEntity);
+    EntityHandle const uiCanvasEntity = uiEntityManager.create();
+    CanvasComponent& canvasComponent = uiEntityManager.add<CanvasComponent>(uiCanvasEntity);
     canvasComponent.resolution = applicationInfo.windowInfo.size;
-    UITransformComponent& canvasTransformComponent = worldEntityManager.add<UITransformComponent>(uiCanvasEntity);
+    UITransformComponent& canvasTransformComponent = uiEntityManager.add<UITransformComponent>(uiCanvasEntity);
     canvasTransformComponent.canvas = uiCanvasEntity;
     canvasTransformComponent.transform = UITransform(0.0f, 0.0f,
         static_cast<Float>(applicationInfo.windowInfo.size.x),
@@ -136,28 +160,29 @@ int main()
         AnchorEnumFlags::TopLeft);
 
     // Create child UI entity anchored to the canvas
-    EntityHandle const uiChildEntity = worldEntityManager.create(uiCanvasEntity);
-    UITransformComponent& childTransformComponent = worldEntityManager.add<UITransformComponent>(uiChildEntity);
+    EntityHandle const uiChildEntity = uiEntityManager.create(uiCanvasEntity);
+    UITransformComponent& childTransformComponent = uiEntityManager.add<UITransformComponent>(uiChildEntity);
     childTransformComponent.canvas = uiCanvasEntity;
     childTransformComponent.transform = UITransform(16.0f, -16.0f, 64.0f, 64.0f, AnchorEnumFlags::TopLeft);
-    worldEntityManager.add<SpriteComponent>(uiChildEntity, SpriteComponent{
+    uiEntityManager.add<SpriteComponent>(uiChildEntity, SpriteComponent{
         spriteHandle2,
         uiMaterialHandle
     });
-    worldEntityManager.add<VisibleTag>(uiChildEntity);
+    uiEntityManager.add<VisibleTag>(uiChildEntity);
 
-    EntityHandle const uiChildEntity2 = worldEntityManager.create(uiCanvasEntity);
-    UITransformComponent& childTransformComponent2 = worldEntityManager.add<UITransformComponent>(uiChildEntity2);
+    EntityHandle const uiChildEntity2 = uiEntityManager.create(uiCanvasEntity);
+    UITransformComponent& childTransformComponent2 = uiEntityManager.add<UITransformComponent>(uiChildEntity2);
     childTransformComponent2.canvas = uiCanvasEntity;
     childTransformComponent2.transform = UITransform(-16.0f, 16.0f, 64.0f, 64.0f, AnchorEnumFlags::BottomRight);
-    worldEntityManager.add<SpriteComponent>(uiChildEntity2, SpriteComponent{
+    uiEntityManager.add<SpriteComponent>(uiChildEntity2, SpriteComponent{
         spriteHandle1,
         uiMaterialHandle
     });
-    worldEntityManager.add<VisibleTag>(uiChildEntity2);
+    uiEntityManager.add<VisibleTag>(uiChildEntity2);
 
     // Enable scene
     sceneManager.enable(worldSceneHandle);
+    sceneManager.enable(uiSceneHandle);
 
     // Run application
     return app.run();
