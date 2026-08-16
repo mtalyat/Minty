@@ -3,9 +3,10 @@
 
 using namespace Minty;
 
-void Minty::Serializer<TransformComponent>::serialize(Writer &writer, TransformComponent const &value)
+Bool Minty::Serializer<TransformComponent>::serialize(Writer &writer, TransformComponent const &value)
 {
-	Serializer<Transform>::serialize(writer, value.transform);	
+	Serializer<Transform>::serialize(writer, value.transform);
+	return true;
 }
 
 Bool Minty::Serializer<TransformComponent>::deserialize(Reader &reader, TransformComponent &value)

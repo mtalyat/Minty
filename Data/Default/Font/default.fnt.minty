@@ -1,0 +1,589 @@
+: F92738F666CB87B8FCDFE71C2214B530
+Name: Default Font
+Variants
+    -
+        Info: "Arial"
+            Size: 32
+        Common
+            LineHeight: 32
+            # Base: 26
+            # ScaleW: 256
+            # ScaleH: 256
+        Pages
+            - 96FFA5DE915F075B04DABDE5C5E8E4A4
+        Chars
+            -  
+                Position: (254, 0)
+                Size: (1, 1)
+                Offset: (0, 0)
+                Advance: 8
+            - !
+                Position: (164, 63)
+                Size: (3, 20)
+                Offset: (2, 6)
+                Advance: 8
+            - "
+                Position: (198, 79)
+                Size: (8, 8)
+                Offset: (0, 6)
+                Advance: 10
+            - #
+                Position: (95, 45)
+                Size: (14, 20)
+                Offset: (0, 6)
+                Advance: 15
+            - $
+                Position: (87, 0)
+                Size: (14, 23)
+                Offset: (0, 5)
+                Advance: 15
+            - %
+                Position: (151, 0)
+                Size: (21, 20)
+                Offset: (1, 6)
+                Advance: 24
+            - &
+                Position: (95, 24)
+                Size: (17, 20)
+                Offset: (0, 6)
+                Advance: 18
+            - '
+                Position: (207, 79)
+                Size: (3, 8)
+                Offset: (0, 6)
+                Advance: 5
+            - (
+                Position: (54, 0)
+                Size: (7, 25)
+                Offset: (1, 6)
+                Advance: 9
+            - )
+                Position: (46, 0)
+                Size: (7, 25)
+                Offset: (0, 6)
+                Advance: 9
+            - *
+                Position: (186, 79)
+                Size: (11, 9)
+                Offset: (0, 6)
+                Advance: 11
+            - +
+                Position: (145, 86)
+                Size: (13, 13)
+                Offset: (0, 10)
+                Advance: 16
+            - ,
+                Position: (211, 79)
+                Size: (3, 6)
+                Offset: (1, 24)
+                Advance: 8
+            - -
+                Position: (172, 79)
+                Size: (8, 3)
+                Offset: (0, 18)
+                Advance: 9
+            - .
+                Position: (181, 79)
+                Size: (3, 2)
+                Offset: (1, 24)
+                Advance: 8
+            - /
+                Position: (120, 66)
+                Size: (9, 20)
+                Offset: (0, 6)
+                Advance: 8
+            - 0
+                Position: (110, 45)
+                Size: (14, 20)
+                Offset: (0, 6)
+                Advance: 15
+            - 1
+                Position: (130, 65)
+                Size: (8, 20)
+                Offset: (2, 6)
+                Advance: 15
+            - 2
+                Position: (229, 42)
+                Size: (13, 20)
+                Offset: (0, 6)
+                Advance: 15
+            - 3
+                Position: (125, 44)
+                Size: (14, 20)
+                Offset: (0, 6)
+                Advance: 15
+            - 4
+                Position: (140, 42)
+                Size: (14, 20)
+                Offset: (0, 6)
+                Advance: 15
+            - 5
+                Position: (155, 42)
+                Size: (14, 20)
+                Offset: (0, 6)
+                Advance: 15
+            - 6
+                Position: (80, 47)
+                Size: (14, 20)
+                Offset: (0, 6)
+                Advance: 15
+            - 7
+                Position: (215, 42)
+                Size: (13, 20)
+                Offset: (0, 6)
+                Advance: 15
+            - 8
+                Position: (185, 42)
+                Size: (14, 20)
+                Offset: (0, 6)
+                Advance: 15
+            - 9
+                Position: (200, 42)
+                Size: (14, 20)
+                Offset: (0, 6)
+                Advance: 15
+            - :
+                Position: (113, 87)
+                Size: (3, 15)
+                Offset: (2, 11)
+                Advance: 8
+            - ;
+                Position: (168, 63)
+                Size: (3, 19)
+                Offset: (2, 11)
+                Advance: 8
+            - <
+                Position: (131, 86)
+                Size: (13, 14)
+                Offset: (1, 10)
+                Advance: 16
+            - =
+                Position: (171, 83)
+                Size: (14, 9)
+                Offset: (0, 12)
+                Advance: 16
+            - >
+                Position: (117, 87)
+                Size: (13, 14)
+                Offset: (1, 10)
+                Advance: 16
+            - ?
+                Position: (65, 47)
+                Size: (14, 20)
+                Offset: (0, 6)
+                Advance: 15
+            - @
+                Position: (0, 0)
+                Size: (26, 26)
+                Offset: (0, 6)
+                Advance: 27
+            - A
+                Position: (214, 0)
+                Size: (19, 20)
+                Offset: (1, 6)
+                Advance: 18
+            - B
+                Position: (201, 21)
+                Size: (16, 20)
+                Offset: (1, 6)
+                Advance: 18
+            - C
+                Position: (194, 0)
+                Size: (19, 20)
+                Offset: (0, 6)
+                Advance: 20
+            - D
+                Position: (58, 26)
+                Size: (18, 20)
+                Offset: (1, 6)
+                Advance: 20
+            - E
+                Position: (184, 21)
+                Size: (16, 20)
+                Offset: (1, 6)
+                Advance: 18
+            - F
+                Position: (17, 48)
+                Size: (15, 20)
+                Offset: (1, 6)
+                Advance: 17
+            - G
+                Position: (0, 27)
+                Size: (19, 20)
+                Offset: (0, 6)
+                Advance: 21
+            - H
+                Position: (235, 21)
+                Size: (16, 20)
+                Offset: (1, 6)
+                Advance: 19
+            - I
+                Position: (156, 63)
+                Size: (3, 20)
+                Offset: (2, 6)
+                Advance: 8
+            - J
+                Position: (98, 66)
+                Size: (11, 20)
+                Offset: (0, 6)
+                Advance: 13
+            - K
+                Position: (77, 26)
+                Size: (17, 20)
+                Offset: (1, 6)
+                Advance: 18
+            - L
+                Position: (84, 68)
+                Size: (13, 20)
+                Offset: (1, 6)
+                Advance: 15
+            - M
+                Position: (39, 26)
+                Size: (18, 20)
+                Offset: (2, 6)
+                Advance: 23
+            - N
+                Position: (218, 21)
+                Size: (16, 20)
+                Offset: (1, 6)
+                Advance: 19
+            - O
+                Position: (173, 0)
+                Size: (20, 20)
+                Offset: (0, 6)
+                Advance: 21
+            - P
+                Position: (33, 48)
+                Size: (15, 20)
+                Offset: (1, 6)
+                Advance: 17
+            - Q
+                Position: (102, 0)
+                Size: (20, 22)
+                Offset: (0, 6)
+                Advance: 21
+            - R
+                Position: (20, 27)
+                Size: (18, 20)
+                Offset: (1, 6)
+                Advance: 20
+            - S
+                Position: (149, 21)
+                Size: (17, 20)
+                Offset: (0, 6)
+                Advance: 18
+            - T
+                Position: (49, 47)
+                Size: (15, 20)
+                Offset: (0, 6)
+                Advance: 16
+            - U
+                Position: (0, 48)
+                Size: (16, 20)
+                Offset: (1, 6)
+                Advance: 19
+            - V
+                Position: (234, 0)
+                Size: (19, 20)
+                Offset: (1, 6)
+                Advance: 17
+            - W
+                Position: (123, 0)
+                Size: (27, 20)
+                Offset: (0, 6)
+                Advance: 28
+            - X
+                Position: (131, 21)
+                Size: (17, 20)
+                Offset: (0, 6)
+                Advance: 17
+            - Y
+                Position: (113, 23)
+                Size: (17, 20)
+                Offset: (0, 6)
+                Advance: 18
+            - Z
+                Position: (167, 21)
+                Size: (16, 20)
+                Offset: (0, 6)
+                Advance: 17
+            - [
+                Position: (62, 0)
+                Size: (6, 25)
+                Offset: (1, 6)
+                Advance: 8
+            - \\
+                Position: (110, 66)
+                Size: (9, 20)
+                Offset: (1, 6)
+                Advance: 8
+            - ]
+                Position: (76, 0)
+                Size: (6, 25)
+                Offset: (0, 6)
+                Advance: 8
+            - ^
+                Position: (159, 84)
+                Size: (11, 11)
+                Offset: (0, 6)
+                Advance: 12
+            - _
+                Position: (238, 79)
+                Size: (16, 3)
+                Offset: (1, 28)
+                Advance: 15
+            - `
+                Position: (231, 79)
+                Size: (6, 5)
+                Offset: (0, 6)
+                Advance: 9
+            - a
+                Position: (230, 63)
+                Size: (14, 15)
+                Offset: (0, 11)
+                Advance: 15
+            - b
+                Position: (0, 69)
+                Size: (13, 20)
+                Offset: (1, 6)
+                Advance: 15
+            - c
+                Position: (73, 89)
+                Size: (13, 15)
+                Offset: (0, 11)
+                Advance: 14
+            - d
+                Position: (14, 69)
+                Size: (13, 20)
+                Offset: (0, 6)
+                Advance: 15
+            - e
+                Position: (0, 90)
+                Size: (14, 15)
+                Offset: (0, 11)
+                Advance: 15
+            - f
+                Position: (139, 65)
+                Size: (8, 20)
+                Offset: (0, 6)
+                Advance: 7
+            - g
+                Position: (28, 69)
+                Size: (13, 20)
+                Offset: (0, 11)
+                Advance: 15
+            - h
+                Position: (243, 42)
+                Size: (12, 20)
+                Offset: (1, 6)
+                Advance: 15
+            - i
+                Position: (252, 21)
+                Size: (3, 20)
+                Offset: (1, 6)
+                Advance: 6
+            - j
+                Position: (69, 0)
+                Size: (6, 25)
+                Offset: (2, 6)
+                Advance: 6
+            - k
+                Position: (42, 69)
+                Size: (13, 20)
+                Offset: (1, 6)
+                Advance: 14
+            - l
+                Position: (160, 63)
+                Size: (3, 20)
+                Offset: (1, 6)
+                Advance: 6
+            - m
+                Position: (194, 63)
+                Size: (19, 15)
+                Offset: (1, 11)
+                Advance: 22
+            - n
+                Position: (87, 89)
+                Size: (12, 15)
+                Offset: (1, 11)
+                Advance: 15
+            - o
+                Position: (15, 90)
+                Size: (14, 15)
+                Offset: (0, 11)
+                Advance: 15
+            - p
+                Position: (56, 68)
+                Size: (13, 20)
+                Offset: (1, 11)
+                Advance: 15
+            - q
+                Position: (70, 68)
+                Size: (13, 20)
+                Offset: (0, 11)
+                Advance: 15
+            - r
+                Position: (245, 63)
+                Size: (8, 15)
+                Offset: (1, 11)
+                Advance: 9
+            - s
+                Position: (59, 89)
+                Size: (13, 15)
+                Offset: (0, 11)
+                Advance: 14
+            - t
+                Position: (148, 63)
+                Size: (7, 20)
+                Offset: (0, 6)
+                Advance: 8
+            - u
+                Position: (100, 87)
+                Size: (12, 15)
+                Offset: (1, 11)
+                Advance: 15
+            - v
+                Position: (214, 63)
+                Size: (15, 15)
+                Offset: (1, 11)
+                Advance: 13
+            - w
+                Position: (172, 63)
+                Size: (21, 15)
+                Offset: (1, 11)
+                Advance: 19
+            - x
+                Position: (45, 90)
+                Size: (13, 15)
+                Offset: (0, 11)
+                Advance: 12
+            - y
+                Position: (170, 42)
+                Size: (14, 20)
+                Offset: (0, 11)
+                Advance: 14
+            - z
+                Position: (30, 90)
+                Size: (14, 15)
+                Offset: (1, 11)
+                Advance: 13
+            - {
+                Position: (27, 0)
+                Size: (9, 25)
+                Offset: (0, 6)
+                Advance: 9
+            - |
+                Position: (83, 0)
+                Size: (3, 25)
+                Offset: (1, 6)
+                Advance: 6
+            - }
+                Position: (37, 0)
+                Size: (8, 25)
+                Offset: (0, 6)
+                Advance: 9
+            - ~
+                Position: (215, 79)
+                Size: (15, 5)
+                Offset: (0, 14)
+                Advance: 16
+        Kernings
+            " A": -2
+            " T": -1
+            " Y": -1
+            "11": -2
+            "A ": -2
+            "AT": -2
+            "AV": -2
+            "AW": -1
+            "AY": -2
+            "Av": -1
+            "Aw": -1
+            "Ay": -1
+            "Sp": -1
+            "F,": -3
+            "F.": -3
+            "FA": -2
+            "L ": -1
+            "LT": -2
+            "LV": -2
+            "LW": -2
+            "LY": -2
+            "Ly": -1
+            "St": -1
+            "P ": -1
+            "P,": -4
+            "P.": -4
+            "PA": -2
+            "RT": -1
+            "RV": -1
+            "RW": -1
+            "RY": -1
+            "T ": -1
+            "T,": -3
+            "T-": -2
+            "T.": -3
+            "T:": -3
+            "T;": -3
+            "TA": -2
+            "TO": -1
+            "Ta": -3
+            "Tc": -3
+            "Te": -3
+            "Ti": -1
+            "To": -3
+            "Tr": -1
+            "Ts": -3
+            "Tu": -1
+            "Tw": -2
+            "Ty": -2
+            "V,": -3
+            "V-": -2
+            "V.": -3
+            "V:": -1
+            "V;": -1
+            "VA": -2
+            "Va": -2
+            "Ve": -2
+            "Vi": -1
+            "Vo": -2
+            "Vr": -1
+            "Vu": -1
+            "Vy": -1
+            "W,": -2
+            "W-": -1
+            "W.": -2
+            "W:": -1
+            "W;": -1
+            "WA": -1
+            "Wa": -1
+            "We": -1
+            "G.": -3
+            "Wo": -1
+            "Wr": -1
+            "Wu": -1
+            "G,": -3
+            "Y ": -1
+            "Y,": -4
+            "Y-": -3
+            "Y.": -4
+            "Y:": -2
+            "Y;": -2
+            "YA": -2
+            "Ya": -2
+            "Ye": -3
+            "Yi": -1
+            "Yo": -3
+            "Yp": -2
+            "Yq": -3
+            "Yu": -2
+            "Yv": -2
+            "ff": -1
+            "y.": -2
+            "r,": -2
+            "r.": -2
+            "y,": -2
+            "v,": -2
+            "v.": -2
+            "w,": -2
+            "w.": -2

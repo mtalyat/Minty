@@ -20,8 +20,8 @@ namespace Minty
     struct FontResource;
     using FontResourceHandle = Handle<FontResource>;
 
-    struct FontVariantResource;
-    using FontVariantResourceHandle = Handle<FontVariantResource>;
+    struct FontVariant;
+    using FontVariantResourceHandle = Handle<FontVariant>;
 
     struct MeshResource;
     using MeshResourceHandle = Handle<MeshResource>;

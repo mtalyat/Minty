@@ -414,6 +414,7 @@ namespace Minty
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
 				mp_table = other.mp_table;
+				m_allocator = std::move(other.m_allocator);
 				other.m_capacity = 0;
 				other.m_size = 0;
 				other.mp_table = nullptr;

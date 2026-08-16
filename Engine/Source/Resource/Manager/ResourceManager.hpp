@@ -22,10 +22,11 @@
 #include "Resource/Data/ResourcePool.hpp"
 
 #include "Resource/Clip/ClipResource.hpp"
-#include "Resource/Mesh/MeshResource.hpp"
+#include "Resource/Font/FontResource.hpp"
 #include "Resource/Generic/GenericResource.hpp"
 #include "Resource/Image/ImageResource.hpp"
 #include "Resource/Material/MaterialResource.hpp"
+#include "Resource/Mesh/MeshResource.hpp"
 #include "Resource/Pipeline/PipelineResource.hpp"
 #include "Resource/Prefab/PrefabResource.hpp"
 #include "Resource/RenderPass/RenderPassResource.hpp"
@@ -257,9 +258,9 @@ namespace Minty
             {
                 return m_assets_clips;
             }
-            else if constexpr (std::is_same_v<T, MeshResource>)
+            else if constexpr (std::is_same_v<T, FontResource>)
             {
-                return m_assets_geometry;
+                return m_assets_fonts;
             }
             else if constexpr (std::is_same_v<T, GenericResource>)
             {
@@ -272,6 +273,10 @@ namespace Minty
             else if constexpr (std::is_same_v<T, MaterialResource>)
             {
                 return m_assets_materials;
+            }
+            else if constexpr (std::is_same_v<T, MeshResource>)
+            {
+                return m_assets_geometry;
             }
             else if constexpr (std::is_same_v<T, PipelineResource>)
             {
@@ -327,10 +332,11 @@ namespace Minty
     public:
         Wrapper m_wrapper;
         ResourcePool<ClipResource> m_assets_clips;
-        ResourcePool<MeshResource> m_assets_geometry;
+        ResourcePool<FontResource> m_assets_fonts;
         ResourcePool<GenericResource> m_assets_generic;
         ResourcePool<ImageResource> m_assets_images;
         ResourcePool<MaterialResource> m_assets_materials;
+        ResourcePool<MeshResource> m_assets_geometry;
         ResourcePool<PipelineResource> m_assets_pipelines;
         ResourcePool<PrefabResource> m_assets_prefabs;
         ResourcePool<RenderPassResource> m_assets_renderPasses;

@@ -55,12 +55,26 @@ Bool Minty::TextReader::read_byte(Byte *const value)
 
 Bool Minty::TextReader::read_char(Char *const value)
 {
-    String temp;
-    if (!read_raw_value(temp))
+    Char ch;
+
+    // Skip leading spaces/tabs before reading the character token.
+    while (peek(ch) && (ch == ' ' || ch == '\t'))
+    {
+        read_from_stream(&ch, sizeof(Char));
+    }
+
+    if (!peek(ch))
     {
         return false;
     }
-    *value = temp.front();
+
+    // Read a single raw character token directly (important for '#').
+    if (!read_from_stream(&ch, sizeof(Char)))
+    {
+        return false;
+    }
+
+    *value = ch;
     return true;
 }
 
@@ -370,6 +384,13 @@ Bool Minty::TextReader::get_next_key(String &key)
             // Read the key until we hit a colon or unexpected whitespace
             while (peek(ch) && ch != ':' && ch != '\t' && ch != '\n' && ch != '\r')
             {
+                if (check_for_string(builder))
+                {
+                    // There was a string, so keep going
+                    continue;
+                }
+
+                // No string, so just read the character
                 builder.append(ch);
                 read_from_stream(&ch, sizeof(Char));
             }
@@ -436,7 +457,7 @@ Bool Minty::TextReader::consume_next_key()
 Bool Minty::TextReader::consume_next_value(Bool const force)
 {
     // if there is a value, skip it
-    // the indent must be a lesser or equal level to consume it (same level or parent level)
+    // the indent must match this level to consume it unless forced
     if (m_hasNextValue && (force || m_nextIndent == get_indent()))
     {
         Char ch;
@@ -531,6 +552,45 @@ Bool Minty::TextReader::check_for_break()
         return true;
     }
     return false;
+}
+
+Bool Minty::TextReader::check_for_string(StringBuilder &builder)
+{
+    // Check for string starting with a quote
+    Char ch;
+    Char lastChar = '\0';
+    if (!peek(ch) || ch != '\"')
+    {
+        return false;
+    }
+
+    // Consume the opening quote
+    read_from_stream(&ch, sizeof(Char));
+
+    // Get inner string
+    while (true)
+    {
+        if (!read_from_stream(&ch, sizeof(Char)))
+        {
+            return false;
+        }
+
+        MINTY_ASSERT(ch != '\0', ErrorCodeEnum::Serialization_UnexpectedEndOfData);
+
+        if (ch == '\"' && lastChar != '\\')
+        {
+            // Found the closing quote
+            break;
+        }
+        else
+        {
+            // keep building the string
+            builder.append(ch);
+            lastChar = ch;
+        }
+    }
+
+    return true;
 }
 
 void Minty::TextReader::skip_line()

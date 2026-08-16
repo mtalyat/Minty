@@ -16,6 +16,10 @@
 #include "Render/Geometry/GeometryInfo.hpp"
 #include "Core/Tool/Copy.hpp"
 #include "Core/Data/Map.hpp"
+#include "Core/Data/UUID.hpp"
+#include "Resource/Manager/ResourceManager.hpp"
+#include "Resource/Texture/TextureResource.hpp"
+#include "Resource/Image/ImageResource.hpp"
 #include "Resource/RenderPass/RenderAttachment.hpp"
 #include "Render/RenderPass/RenderPassInfo.hpp"
 #include "Render/RenderTarget/RenderTargetInfo.hpp"
@@ -86,6 +90,45 @@ static BufferUsageFlags to_buffer_usage(PipelineInputType const type)
 
 	MINTY_NOT_SUPPORTED();
 	return BufferUsageFlagsEnum::Undefined;
+}
+
+static TextureHandle resolve_default_sampler_texture(PipelineInput const &input)
+{
+	for (auto const &[name, variable] : input.object.get_variables())
+	{
+		if (variable.get_type() != TypeEnum::Object || variable.is_empty())
+		{
+			continue;
+		}
+
+		if (variable.get_data().get_size() < sizeof(UUID))
+		{
+			continue;
+		}
+
+		UUID resourceId{};
+		memcpy(&resourceId, variable.get_data().get_data(), sizeof(UUID));
+		ResourceManager &resourceManager = ResourceManager::get_instance();
+
+		TextureResourceHandle textureResourceHandle = resourceManager.find_handle<TextureResource>(resourceId);
+		if (!textureResourceHandle.is_valid())
+		{
+			ImageResourceHandle const imageResourceHandle = resourceManager.find_handle<ImageResource>(resourceId);
+			if (imageResourceHandle.is_valid())
+			{
+				TextureResource textureResource{};
+				textureResource.imageHandle = imageResourceHandle;
+				textureResourceHandle = resourceManager.add<TextureResource>(std::move(textureResource), UUID::generate());
+			}
+		}
+
+		if (textureResourceHandle.is_valid())
+		{
+			return RenderManager::get_instance().create(textureResourceHandle);
+		}
+	}
+
+	return INVALID_HANDLE;
 }
 
 Minty::RenderManager::Impl::Impl(RenderManagerInfo const &info)
@@ -938,9 +981,14 @@ PipelineHandle Minty::RenderManager::Impl::create(PipelineInfo const &pipelineIn
 	{
 		if ((input.type == PipelineInputTypeEnum::CombinedImageSampler || input.type == PipelineInputTypeEnum::SampledImage) && input.count == 1)
 		{
-			TextureHandle defaultTextureHandle = INVALID_HANDLE;
+			TextureHandle defaultTextureHandle = resolve_default_sampler_texture(input);
 			for (TextureHandle const &textureHandle : m_textureDataPool.get_handles())
 			{
+				if (defaultTextureHandle.is_valid())
+				{
+					break;
+				}
+
 				Vulkan_TextureData const &textureData = m_textureDataPool.at(textureHandle);
 				if (textureData.view == VK_NULL_HANDLE)
 				{

@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "FontFlags.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "FontFlags.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

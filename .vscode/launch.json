@@ -8,7 +8,7 @@
       "program": "${workspaceFolder:Minty}/Demo/Output/Debug/demo_app.exe",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${workspaceFolder:Minty}/Demo",
+      "cwd": "${workspaceFolder:Minty}",
       "environment": [],
       "console": "integratedTerminal",
       "preLaunchTask": "Build Demo (Debug)"
@@ -20,7 +20,7 @@
       "program": "${workspaceFolder:Minty}/Demo/Output/Debug/demo_app.exe",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${workspaceFolder:Minty}/Demo",
+      "cwd": "${workspaceFolder:Minty}",
       "environment": [],
       "console": "integratedTerminal",
       "preLaunchTask": "Build Demo Stack (Debug)"
