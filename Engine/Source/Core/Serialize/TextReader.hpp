@@ -65,6 +65,7 @@ namespace Minty
         Bool check_for_comment();
         Bool check_for_indentation(UInt& indentLevel);
         Bool check_for_break();
+        Bool check_for_string(StringBuilder &builder);
         void skip_line();
 
 #pragma endregion

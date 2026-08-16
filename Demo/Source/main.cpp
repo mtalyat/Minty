@@ -1,5 +1,6 @@
 #include <Minty.hpp>
 #include "World/Component/CanvasComponent.hpp"
+#include "World/Component/TextComponent.hpp"
 
 using namespace Minty;
 
@@ -29,26 +30,36 @@ int main()
 
     // Load data
     ResourceManager& resourceManager = app.get_resource_manager();
-    ClipResourceHandle const clipResourceHandle = resourceManager.load<ClipResource>("Assets/test2.clp.minty");
-    ImageResourceHandle const imageResourceHandle = resourceManager.load<ImageResource>("Assets/test.img.minty");
-    TextureResourceHandle const textureResourceHandle = resourceManager.load<TextureResource>("Assets/test.tex.minty");
-    ViewportResourceHandle const viewportResourceHandle = resourceManager.load<ViewportResource>("../Data/Default/Viewport/default.vpt.minty");
-    RenderPassResourceHandle const renderPassResourceHandle = resourceManager.load<RenderPassResource>("../Data/Default/RenderPass/default.rpa.minty");
-    ShaderResourceHandle const shaderFragResourceHandle = resourceManager.load<ShaderResource>("../Data/Default/Shader/default.frag.sha.minty");
-    ShaderResourceHandle const shaderVertResourceHandle = resourceManager.load<ShaderResource>("../Data/Default/Shader/default.vert.sha.minty");
-    PipelineResourceHandle const pipelineResourceHandle = resourceManager.load<PipelineResource>("../Data/Default/Pipeline/default.pip.minty");
-    MaterialResourceHandle const materialResourceHandle = resourceManager.load<MaterialResource>("Assets/test.mat.minty");
-    MeshResourceHandle const meshResourceHandle = resourceManager.load<MeshResource>("Assets/test.msh.minty");
-    ShaderResourceHandle const spriteVertResourceHandle = resourceManager.load<ShaderResource>("../Data/Default/Shader/sprite.vert.sha.minty");
-    ShaderResourceHandle const spriteFragResourceHandle = resourceManager.load<ShaderResource>("../Data/Default/Shader/sprite.frag.sha.minty");
-    ShaderResourceHandle const uiVertResourceHandle = resourceManager.load<ShaderResource>("../Data/Default/Shader/ui.vert.sha.minty");
-    ShaderResourceHandle const uiFragResourceHandle = resourceManager.load<ShaderResource>("../Data/Default/Shader/ui.frag.sha.minty");
-    PipelineResourceHandle const spritePipelineResourceHandle = resourceManager.load<PipelineResource>("../Data/Default/Pipeline/sprite.pip.minty");
-    PipelineResourceHandle const uiPipelineResourceHandle = resourceManager.load<PipelineResource>("../Data/Default/Pipeline/ui.pip.minty");
-    MaterialResourceHandle const spriteMaterialResourceHandle = resourceManager.load<MaterialResource>("../Data/Default/Material/sprite.mat.minty");
-    MaterialResourceHandle const uiMaterialResourceHandle = resourceManager.load<MaterialResource>("../Data/Default/Material/ui.mat.minty");
-    SpriteResourceHandle const spriteResourceHandle1 = resourceManager.load<SpriteResource>("Assets/test.spr.minty");
-    SpriteResourceHandle const spriteResourceHandle2 = resourceManager.load<SpriteResource>("Assets/test2.spr.minty");
+    ClipResourceHandle const clipResourceHandle = resourceManager.load<ClipResource>("Demo/Assets/test2.clp.minty");
+    ImageResourceHandle const imageResourceHandle = resourceManager.load<ImageResource>("Demo/Assets/test.img.minty");
+    TextureResourceHandle const textureResourceHandle = resourceManager.load<TextureResource>("Demo/Assets/test.tex.minty");
+    ViewportResourceHandle const viewportResourceHandle = resourceManager.load<ViewportResource>("Data/Default/Viewport/default.vpt.minty");
+    RenderPassResourceHandle const renderPassResourceHandle = resourceManager.load<RenderPassResource>("Data/Default/RenderPass/default.rpa.minty");
+    ShaderResourceHandle const shaderFragResourceHandle = resourceManager.load<ShaderResource>("Data/Default/Shader/default.frag.sha.minty");
+    ShaderResourceHandle const shaderVertResourceHandle = resourceManager.load<ShaderResource>("Data/Default/Shader/default.vert.sha.minty");
+    PipelineResourceHandle const pipelineResourceHandle = resourceManager.load<PipelineResource>("Data/Default/Pipeline/default.pip.minty");
+    MaterialResourceHandle const materialResourceHandle = resourceManager.load<MaterialResource>("Demo/Assets/test.mat.minty");
+    MeshResourceHandle const meshResourceHandle = resourceManager.load<MeshResource>("Demo/Assets/test.msh.minty");
+    ShaderResourceHandle const spriteVertResourceHandle = resourceManager.load<ShaderResource>("Data/Default/Shader/sprite.vert.sha.minty");
+    ShaderResourceHandle const spriteFragResourceHandle = resourceManager.load<ShaderResource>("Data/Default/Shader/sprite.frag.sha.minty");
+    ShaderResourceHandle const uiVertResourceHandle = resourceManager.load<ShaderResource>("Data/Default/Shader/ui.vert.sha.minty");
+    ShaderResourceHandle const uiFragResourceHandle = resourceManager.load<ShaderResource>("Data/Default/Shader/ui.frag.sha.minty");
+    ShaderResourceHandle const uiFontVertResourceHandle = resourceManager.load<ShaderResource>("Data/Default/Shader/ui_font.vert.sha.minty");
+    ShaderResourceHandle const uiFontFragResourceHandle = resourceManager.load<ShaderResource>("Data/Default/Shader/ui_font.frag.sha.minty");
+    PipelineResourceHandle const spritePipelineResourceHandle = resourceManager.load<PipelineResource>("Data/Default/Pipeline/sprite.pip.minty");
+    PipelineResourceHandle const uiPipelineResourceHandle = resourceManager.load<PipelineResource>("Data/Default/Pipeline/ui.pip.minty");
+    PipelineResourceHandle const uiFontPipelineResourceHandle = resourceManager.load<PipelineResource>("Data/Default/Pipeline/ui_font.pip.minty");
+    MaterialResourceHandle const spriteMaterialResourceHandle = resourceManager.load<MaterialResource>("Data/Default/Material/sprite.mat.minty");
+    MaterialResourceHandle const uiMaterialResourceHandle = resourceManager.load<MaterialResource>("Data/Default/Material/ui.mat.minty");
+    ImageResourceHandle const defaultFontImageResourceHandle = resourceManager.load<ImageResource>("Data/Default/Image/default_font.img.minty");
+    TextureResourceHandle const defaultFontTextureResourceHandle = resourceManager.load<TextureResource>("Data/Default/Texture/default_font.tex.minty");
+    MaterialResourceHandle const uiFontMaterialResourceHandle = resourceManager.load<MaterialResource>("Data/Default/Material/ui_font.mat.minty");
+    FontResourceHandle const defaultFontResourceHandle = resourceManager.load<FontResource>("Data/Default/Font/default.fnt.minty");
+    SpriteResourceHandle const spriteResourceHandle1 = resourceManager.load<SpriteResource>("Demo/Assets/test.spr.minty");
+    SpriteResourceHandle const spriteResourceHandle2 = resourceManager.load<SpriteResource>("Demo/Assets/test2.spr.minty");
+
+    (void)defaultFontImageResourceHandle;
+    (void)defaultFontTextureResourceHandle;
 
     // Create render data
     RenderManager& renderManager = app.get_render_manager();
@@ -59,8 +70,10 @@ int main()
     GeometryHandle const geometryHandle = renderManager.create(meshResourceHandle);
     PipelineHandle const spritePipelineHandle = renderManager.create(spritePipelineResourceHandle);
     PipelineHandle const uiPipelineHandle = renderManager.create(uiPipelineResourceHandle);
+    PipelineHandle const uiFontPipelineHandle = renderManager.create(uiFontPipelineResourceHandle);
     MaterialHandle const spriteMaterialHandle = renderManager.create(spriteMaterialResourceHandle);
     MaterialHandle const uiMaterialHandle = renderManager.create(uiMaterialResourceHandle);
+    MaterialHandle const uiFontMaterialHandle = renderManager.create(uiFontMaterialResourceHandle);
     SpriteHandle const spriteHandle1 = renderManager.create(spriteResourceHandle1);
     SpriteHandle const spriteHandle2 = renderManager.create(spriteResourceHandle2);
 
@@ -179,6 +192,20 @@ int main()
         uiMaterialHandle
     });
     uiEntityManager.add<VisibleTag>(uiChildEntity2);
+
+    EntityHandle const uiTextEntity = uiEntityManager.create(uiCanvasEntity);
+    UITransformComponent &textTransformComponent = uiEntityManager.add<UITransformComponent>(uiTextEntity);
+    textTransformComponent.canvas = uiCanvasEntity;
+    textTransformComponent.transform = UITransform(24.0f, -32.0f, 320.0f, 32.0f, AnchorEnumFlags::TopLeft);
+
+    TextComponent &textComponent = uiEntityManager.add<TextComponent>(uiTextEntity);
+    textComponent.text = "Hello world!";
+    textComponent.color = Color::white();
+    textComponent.fontResourceHandle = defaultFontResourceHandle;
+    textComponent.materialHandle = uiFontMaterialHandle;
+    textComponent.dirty = true;
+
+    uiEntityManager.add<VisibleTag>(uiTextEntity);
 
     // Enable scene
     sceneManager.enable(worldSceneHandle);

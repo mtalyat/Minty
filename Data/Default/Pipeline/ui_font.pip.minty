@@ -1,0 +1,37 @@
+: C43AD6B5E9CC49F6903C1659ED89E637
+RenderPass: A9FE466CCD06333461FD0D0549FE4B22
+PrimitiveTopology: TriangleList
+PolygonMode: Fill
+CullMode: None
+FrontFace: Clockwise
+LineWidth: 1
+Transparency: True
+DepthMode: None
+DepthTestOperation: <
+StencilMode: None
+StencilTestOperation: ==
+Stages
+    Vertex: 57A6E7B80A7E4479A9A3F53E352AC3DE
+    Fragment: 2314656A7B6D4D2E8BEE9204BB5A2D6F
+Attributes
+    0: Vertex
+        0: Float2
+        1: Float2
+    1: Instance
+        2: Matrix4
+        6: Float4
+        7: Float2
+        8: Float2
+        9: Float2
+        10: Float
+        11: UInt
+        12: Float2
+Inputs
+    texture
+        Type: CombinedImageSampler
+        Stage: Fragment
+        Set: 0
+        Binding: 1
+        Frequent: false
+        Object
+            texSampler: Object: 4B78E3C87E60EF74B96B8622E701969C
