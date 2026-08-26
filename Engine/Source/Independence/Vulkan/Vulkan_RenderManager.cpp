@@ -1605,30 +1605,24 @@ RenderViewHandle Minty::RenderManager::Impl::create(RenderViewInfo const &render
 	// Create the Vulkan data
 	Vulkan_RenderViewData renderViewData{};
 	renderViewData.position = renderViewInfo.position;
+	renderViewData.perspective = camera.get_perspective();
+	renderViewData.fov = camera.get_fov();
+	renderViewData.nearPlane = camera.get_near_plane();
+	renderViewData.farPlane = camera.get_far_plane();
+	renderViewData.size = camera.get_size();
+	renderViewData.aspectRatio = camera.get_aspect_ratio();
 
-	// Create the projection matrix based on the camera's perspective or orthographic settings
-	switch (camera.get_perspective())
+	if (m_surface != INVALID_HANDLE)
 	{
-	case CameraPerspectiveEnum::Perspective:
-		renderViewData.projectionMatrix = Math::perspective(
-			camera.get_fov(),
-			camera.get_aspect_ratio(),
-			camera.get_near_plane(),
-			camera.get_far_plane());
-		break;
-	case CameraPerspectiveEnum::Orthographic:
-		renderViewData.projectionMatrix = Math::orthographic(
-			camera.get_size(),
-			camera.get_aspect_ratio(),
-			camera.get_near_plane(),
-			camera.get_far_plane());
-		break;
-	default:
-		MINTY_NOT_IMPLEMENTED(); // "Unsupported camera perspective type."
+		Vulkan_SurfaceData const &surfaceData = m_surfaceDataPool.at(m_surface);
+		if (surfaceData.extent.width > 0 && surfaceData.extent.height > 0)
+		{
+			renderViewData.aspectRatio = static_cast<Float>(surfaceData.extent.width) / static_cast<Float>(surfaceData.extent.height);
+		}
 	}
 
-	// Flip Y axis so Y is up in Vulkan's coordinate system
-	renderViewData.projectionMatrix[1][1] *= -1.0f;
+	// Create the projection matrix based on the camera's perspective or orthographic settings
+	renderViewData.update_projection(renderViewData.aspectRatio);
 
 	// Add to pool
 	RenderViewHandle const handle = m_renderViewDataPool.add(std::move(renderViewData));
@@ -2159,6 +2153,18 @@ void Minty::RenderManager::Impl::refresh()
 		viewportData.scissor.offset.y = static_cast<int32_t>(viewportData.normalizedScissorPosition.y * static_cast<Float>(surfaceData.extent.height));
 		viewportData.scissor.extent.width = static_cast<uint32_t>(viewportData.normalizedScissorSize.x * static_cast<Float>(surfaceData.extent.width));
 		viewportData.scissor.extent.height = static_cast<uint32_t>(viewportData.normalizedScissorSize.y * static_cast<Float>(surfaceData.extent.height));
+	}
+
+	Float const aspect = surfaceData.extent.width > 0 && surfaceData.extent.height > 0
+		? static_cast<Float>(surfaceData.extent.width) / static_cast<Float>(surfaceData.extent.height)
+		: 1.0f;
+
+	for (RenderViewHandle const &renderViewHandle : m_renderViewDataPool.get_handles())
+	{
+		Vulkan_RenderViewData &renderViewData = m_renderViewDataPool.at(renderViewHandle);
+		renderViewData.aspectRatio = aspect;
+		renderViewData.update_projection(aspect);
+		renderViewData.viewProjectionMatrix = renderViewData.projectionMatrix * renderViewData.viewMatrix;
 	}
 }
 
