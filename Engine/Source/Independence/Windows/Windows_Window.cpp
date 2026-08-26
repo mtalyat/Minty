@@ -42,6 +42,13 @@ Minty::Window::Impl::Impl(WindowInfo const &info, Window *const owner)
             MINTY_ASSERT(callbackData->window, ErrorCodeEnum::InvalidUserData);
 			callbackData->window->on_resize(Int2(width, height)); });
 
+    glfwSetFramebufferSizeCallback(mp_window, [](GLFWwindow *window, Int width, Int height)
+                                   {
+			Windows_CallbackData* callbackData = static_cast<Windows_CallbackData*>(glfwGetWindowUserPointer(window));
+			MINTY_ASSERT(callbackData, ErrorCodeEnum::InvalidUserData);
+            MINTY_ASSERT(callbackData->window, ErrorCodeEnum::InvalidUserData);
+			callbackData->window->on_resize(Int2(width, height)); });
+
     glfwSetWindowCloseCallback(mp_window, [](GLFWwindow *window)
                                {
 			Windows_CallbackData* callbackData = static_cast<Windows_CallbackData*>(glfwGetWindowUserPointer(window));

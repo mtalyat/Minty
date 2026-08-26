@@ -1,8 +1,8 @@
 : 40FAAA0B51944A8B87713CECF8AEF9A1
 Dynamic: true
 ViewPosition: (0.0, 0.0)
-ViewSize: (800.0, 600.0)
+ViewSize: (1.0, 1.0)
 MinDepth: 0.0
 MaxDepth: 1.0
-ScissorPosition: (0, 0)
-ScissorSize: (800, 600)
+ScissorPosition: (0.0, 0.0)
+ScissorSize: (1.0, 1.0)

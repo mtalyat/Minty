@@ -17,11 +17,11 @@ namespace Minty
     {
         Bool dynamic = false;
         Float2 viewPosition = { 0.0f, 0.0f };
-        Float2 viewSize = { 0.0f, 0.0f };
+        Float2 viewSize = { 1.0f, 1.0f };
         Float minDepth = 0.0f;
         Float maxDepth = 1.0f;
-        Int2 scissorPosition = { 0, 0 };
-        UInt2 scissorSize = { 0, 0 };
+        Float2 scissorPosition = { 0.0f, 0.0f };
+        Float2 scissorSize = { 1.0f, 1.0f };
     };
 
     template<>

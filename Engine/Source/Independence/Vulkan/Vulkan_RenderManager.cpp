@@ -194,12 +194,14 @@ Minty::RenderManager::Impl::Impl(RenderManagerInfo const &info)
 		create_frame(m_frames.at(i));
 	}
 
-	//     viewport
+	// default viewport covers the full surface in normalized coordinates
 	Vulkan_SurfaceData const &m_vulkanSurface = m_surfaceDataPool.at(m_surface);
-	UInt2 const swapchainSize = {m_vulkanSurface.extent.width, m_vulkanSurface.extent.height};
 	ViewportInfo viewportInfo{};
-	viewportInfo.viewSize = swapchainSize;
-	viewportInfo.scissorSize = swapchainSize;
+	viewportInfo.dynamic = true;
+	viewportInfo.viewPosition = { 0.0f, 0.0f };
+	viewportInfo.viewSize = { 1.0f, 1.0f };
+	viewportInfo.scissorPosition = { 0.0f, 0.0f };
+	viewportInfo.scissorSize = { 1.0f, 1.0f };
 	m_defaultViewport = create(viewportInfo);
 
 	RenderTargetInfo renderTargetInfo{};
@@ -416,16 +418,24 @@ ViewportHandle Minty::RenderManager::Impl::create(ViewportInfo const &viewportIn
 	// Create the Vulkan data
 	Vulkan_ViewportData viewportData{};
 	viewportData.dynamic = viewportInfo.dynamic;
-	viewportData.viewport.x = viewportInfo.viewPosition.x;
-	viewportData.viewport.y = viewportInfo.viewPosition.y;
-	viewportData.viewport.width = viewportInfo.viewSize.x;
-	viewportData.viewport.height = viewportInfo.viewSize.y;
+	viewportData.normalizedPosition = viewportInfo.viewPosition;
+	viewportData.normalizedSize = viewportInfo.viewSize;
+	viewportData.normalizedScissorPosition = viewportInfo.scissorPosition;
+	viewportData.normalizedScissorSize = viewportInfo.scissorSize;
+
+	VkExtent2D const surfaceExtent = m_surfaceDataPool.contains(m_surface)
+		? m_surfaceDataPool.at(m_surface).extent
+		: VkExtent2D{ 0u, 0u };
+	viewportData.viewport.x = viewportData.normalizedPosition.x * static_cast<Float>(surfaceExtent.width);
+	viewportData.viewport.y = viewportData.normalizedPosition.y * static_cast<Float>(surfaceExtent.height);
+	viewportData.viewport.width = viewportData.normalizedSize.x * static_cast<Float>(surfaceExtent.width);
+	viewportData.viewport.height = viewportData.normalizedSize.y * static_cast<Float>(surfaceExtent.height);
 	viewportData.viewport.minDepth = viewportInfo.minDepth;
 	viewportData.viewport.maxDepth = viewportInfo.maxDepth;
-	viewportData.scissor.offset.x = viewportInfo.scissorPosition.x;
-	viewportData.scissor.offset.y = viewportInfo.scissorPosition.y;
-	viewportData.scissor.extent.width = viewportInfo.scissorSize.x;
-	viewportData.scissor.extent.height = viewportInfo.scissorSize.y;
+	viewportData.scissor.offset.x = static_cast<int32_t>(viewportData.normalizedScissorPosition.x * static_cast<Float>(surfaceExtent.width));
+	viewportData.scissor.offset.y = static_cast<int32_t>(viewportData.normalizedScissorPosition.y * static_cast<Float>(surfaceExtent.height));
+	viewportData.scissor.extent.width = static_cast<uint32_t>(viewportData.normalizedScissorSize.x * static_cast<Float>(surfaceExtent.width));
+	viewportData.scissor.extent.height = static_cast<uint32_t>(viewportData.normalizedScissorSize.y * static_cast<Float>(surfaceExtent.height));
 
 	// Add to pool and return handle
 	return m_viewportDataPool.add(std::move(viewportData));
@@ -805,9 +815,17 @@ PipelineHandle Minty::RenderManager::Impl::create(PipelineInfo const &pipelineIn
 	VkPipelineViewportStateCreateInfo viewportStateInfo{};
 	viewportStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 	viewportStateInfo.viewportCount = 1;
-	viewportStateInfo.pViewports = &viewportData.viewport;
+	viewportStateInfo.pViewports = nullptr;
 	viewportStateInfo.scissorCount = 1;
-	viewportStateInfo.pScissors = &viewportData.scissor;
+	viewportStateInfo.pScissors = nullptr;
+
+	Vector<VkDynamicState> dynamicStates;
+	dynamicStates.add(VK_DYNAMIC_STATE_VIEWPORT);
+	dynamicStates.add(VK_DYNAMIC_STATE_SCISSOR);
+	VkPipelineDynamicStateCreateInfo dynamicStateInfo{};
+	dynamicStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+	dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(dynamicStates.get_size());
+	dynamicStateInfo.pDynamicStates = dynamicStates.get_data();
 
 	// rasterizer
 	VkPipelineRasterizationStateCreateInfo rasterizerInfo{};
@@ -939,7 +957,7 @@ PipelineHandle Minty::RenderManager::Impl::create(PipelineInfo const &pipelineIn
 	pipelineInfoCreate.pMultisampleState = &multisamplingInfo;
 	pipelineInfoCreate.pDepthStencilState = &depthStencilInfo;
 	pipelineInfoCreate.pColorBlendState = &colorBlendInfo;
-	pipelineInfoCreate.pDynamicState = nullptr; // TODO: dynamic state for viewport/scissor, maybe others?
+	pipelineInfoCreate.pDynamicState = &dynamicStateInfo;
 
 	// layout of pipeline
 	pipelineInfoCreate.layout = pipelineLayout.layout;
@@ -1917,6 +1935,10 @@ Bool Minty::RenderManager::Impl::begin_pass(RenderPassHandle const handle)
 								   ? VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
 								   : VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
+	// Apply the current viewport and scissor before drawing into this pass.
+	Vulkan_Renderer::bind_viewport(currentFrame.commandBuffer, viewportData.viewport);
+	Vulkan_Renderer::bind_scissor(currentFrame.commandBuffer, viewportData.scissor);
+
 	// Begin the render pass
 	Vulkan_Renderer::begin_render_pass(
 		currentFrame.commandBuffer,
@@ -2109,14 +2131,18 @@ void Minty::RenderManager::Impl::refresh()
 		}
 	}
 
-	// Resize the default viewport to match the new surface size
+	// Resize the default viewport to match the new surface size while preserving normalized values.
 	Vulkan_ViewportData &defaultViewportData = m_viewportDataPool.at(m_defaultViewport);
-	defaultViewportData.viewport.width = static_cast<float>(surfaceData.extent.width);
-	defaultViewportData.viewport.height = static_cast<float>(surfaceData.extent.height);
-	defaultViewportData.scissor.extent.width = surfaceData.extent.width;
-	defaultViewportData.scissor.extent.height = surfaceData.extent.height;
+	defaultViewportData.viewport.x = defaultViewportData.normalizedPosition.x * static_cast<Float>(surfaceData.extent.width);
+	defaultViewportData.viewport.y = defaultViewportData.normalizedPosition.y * static_cast<Float>(surfaceData.extent.height);
+	defaultViewportData.viewport.width = defaultViewportData.normalizedSize.x * static_cast<Float>(surfaceData.extent.width);
+	defaultViewportData.viewport.height = defaultViewportData.normalizedSize.y * static_cast<Float>(surfaceData.extent.height);
+	defaultViewportData.scissor.offset.x = static_cast<int32_t>(defaultViewportData.normalizedScissorPosition.x * static_cast<Float>(surfaceData.extent.width));
+	defaultViewportData.scissor.offset.y = static_cast<int32_t>(defaultViewportData.normalizedScissorPosition.y * static_cast<Float>(surfaceData.extent.height));
+	defaultViewportData.scissor.extent.width = static_cast<uint32_t>(defaultViewportData.normalizedScissorSize.x * static_cast<Float>(surfaceData.extent.width));
+	defaultViewportData.scissor.extent.height = static_cast<uint32_t>(defaultViewportData.normalizedScissorSize.y * static_cast<Float>(surfaceData.extent.height));
 
-	// Resize all dynamic viewports to match the new surface size.
+	// Resize all dynamic viewports to match the new surface size while preserving their normalized bounds.
 	for (ViewportHandle const &viewportHandle : m_viewportDataPool.get_handles())
 	{
 		Vulkan_ViewportData &viewportData = m_viewportDataPool.at(viewportHandle);
@@ -2125,10 +2151,14 @@ void Minty::RenderManager::Impl::refresh()
 			continue;
 		}
 
-		viewportData.viewport.width = static_cast<float>(surfaceData.extent.width);
-		viewportData.viewport.height = static_cast<float>(surfaceData.extent.height);
-		viewportData.scissor.extent.width = surfaceData.extent.width;
-		viewportData.scissor.extent.height = surfaceData.extent.height;
+		viewportData.viewport.x = viewportData.normalizedPosition.x * static_cast<Float>(surfaceData.extent.width);
+		viewportData.viewport.y = viewportData.normalizedPosition.y * static_cast<Float>(surfaceData.extent.height);
+		viewportData.viewport.width = viewportData.normalizedSize.x * static_cast<Float>(surfaceData.extent.width);
+		viewportData.viewport.height = viewportData.normalizedSize.y * static_cast<Float>(surfaceData.extent.height);
+		viewportData.scissor.offset.x = static_cast<int32_t>(viewportData.normalizedScissorPosition.x * static_cast<Float>(surfaceData.extent.width));
+		viewportData.scissor.offset.y = static_cast<int32_t>(viewportData.normalizedScissorPosition.y * static_cast<Float>(surfaceData.extent.height));
+		viewportData.scissor.extent.width = static_cast<uint32_t>(viewportData.normalizedScissorSize.x * static_cast<Float>(surfaceData.extent.width));
+		viewportData.scissor.extent.height = static_cast<uint32_t>(viewportData.normalizedScissorSize.y * static_cast<Float>(surfaceData.extent.height));
 	}
 }
 

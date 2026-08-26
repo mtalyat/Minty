@@ -160,6 +160,11 @@ namespace Minty
         void draw_batch(Size const count, View const data);
 
         /**
+         * @brief Refreshes the render manager and recreates swapchain resources if needed.
+         */
+        void refresh();
+
+        /**
          * @brief Gets the singleton instance of the RenderManager.
          * @return The RenderManager instance.
          */

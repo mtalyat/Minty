@@ -127,12 +127,17 @@ Int Minty::Application::run()
     {
         mp_inputManager->set_mouse_scroll(scroll);
     };
+    Function resizeListener = [this](Int2 size)
+    {
+        mp_renderManager->refresh();
+    };
 
     // TODO: Move this out of run()
     mp_window->on_key += keyListener;
     mp_window->on_mouse_button += mouseButtonListener;
     mp_window->on_mouse_move += mouseMoveListener;
     mp_window->on_mouse_scroll += mouseScrollListener;
+    mp_window->on_resize += resizeListener;
 
     m_running = true;
     while (m_running && mp_window->is_open())
@@ -170,6 +175,7 @@ Int Minty::Application::run()
     mp_window->on_mouse_button -= mouseButtonListener;
     mp_window->on_mouse_move -= mouseMoveListener;
     mp_window->on_mouse_scroll -= mouseScrollListener;
+    mp_window->on_resize -= resizeListener;
 
     return 0;
 }

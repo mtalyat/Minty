@@ -682,6 +682,11 @@ void Minty::RenderManager::draw_batch(Size const count, View const data)
     mp_impl->draw_instanced(data, count);
 }
 
+void Minty::RenderManager::refresh()
+{
+    mp_impl->refresh();
+}
+
 RenderManager &Minty::RenderManager::get_instance()
 {
     MINTY_ASSERT(s_instance != nullptr, ErrorCodeEnum::Singleton_DoesNotExist);
