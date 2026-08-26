@@ -11,6 +11,7 @@
 #include "Core/Type/Float2.hpp"
 #include "Render/Geometry/GeometryInfo.hpp"
 #include "Render/Sprite/Sprite.hpp"
+#include "Window/Window/Window.hpp"
 
 #include "World/Component/CameraComponent.hpp"
 #include "World/Component/CanvasComponent.hpp"
@@ -144,6 +145,38 @@ namespace
 		return Rect(x, y, width, height);
 	}
 
+	void update_dynamic_canvas_resolution(EntityManager &entityManager)
+	{
+		Int2 const framebufferSize = Window::get_main().get_framebuffer_size();
+		UInt2 const resolution(
+			static_cast<UInt>(Math::max(framebufferSize.x, 1)),
+			static_cast<UInt>(Math::max(framebufferSize.y, 1)));
+
+		auto const canvasView = entityManager.view<CanvasComponent>();
+		for (auto &&[entity, canvasComp] : canvasView.each())
+		{
+			EntityHandle const entityHandle = static_cast<EntityHandle>(entity);
+
+			if (canvasComp.resizeMode != CanvasResizeModeEnum::Dynamic)
+			{
+				continue;
+			}
+
+			if (canvasComp.resolution != resolution)
+			{
+				canvasComp.resolution = resolution;
+			}
+
+			UITransformComponent *canvasTransformComp = entityManager.try_get<UITransformComponent>(entityHandle);
+			if (canvasTransformComp)
+			{
+				canvasTransformComp->transform.set_size(
+					static_cast<Float>(resolution.x),
+					static_cast<Float>(resolution.y));
+			}
+		}
+	}
+
 	Int make_kerning_key(Char const first, Char const second)
 	{
 		UInt8 const a = static_cast<UInt8>(first);
@@ -212,6 +245,7 @@ void Minty::RenderSystem::on_render()
 	ResourceManager &resourceManager = ResourceManager::get_instance();
 
 	EntityManager &entityManager = mp_scene->get_entity_manager();
+	update_dynamic_canvas_resolution(entityManager);
 
 	// Render each camera/view within the scene.
 	auto const cameraView = entityManager.view<CameraComponent, TransformComponent>();

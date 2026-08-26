@@ -177,25 +177,6 @@ int main()
         static_cast<Float>(initialCanvasResolution.y),
         AnchorEnumFlags::TopLeft);
 
-    Function uiResizeListener = [&](Int2)
-    {
-        if (canvasComponent.resizeMode != CanvasResizeModeEnum::Dynamic)
-        {
-            return;
-        }
-
-        Int2 const framebufferSize = app.get_window().get_framebuffer_size();
-        UInt2 const canvasResolution = UInt2(
-            static_cast<UInt>(Math::max(framebufferSize.x, 1)),
-            static_cast<UInt>(Math::max(framebufferSize.y, 1)));
-
-        canvasComponent.resolution = canvasResolution;
-        canvasTransformComponent.transform.set_size(
-            static_cast<Float>(canvasResolution.x),
-            static_cast<Float>(canvasResolution.y));
-    };
-    app.get_window().on_resize += uiResizeListener;
-
     // Create child UI entity anchored to the canvas
     EntityHandle const uiChildEntity = uiEntityManager.create(uiCanvasEntity);
     UITransformComponent& childTransformComponent = uiEntityManager.add<UITransformComponent>(uiChildEntity);
