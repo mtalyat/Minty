@@ -23,6 +23,8 @@ namespace Minty
 		Vector<TextureResourceHandle> pages;
 		Map<Char, FontGlyph> characters;
 		Map<Int, Float> kernings;
+
+		static Int make_kerning_key(Char const first, Char const second);
 	};
 
     template<>

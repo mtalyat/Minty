@@ -25,18 +25,16 @@
 
 using namespace Minty;
 
-namespace
-{
-	struct SpriteQuadVertex
-	{
-		Float2 position;
-		Float2 texCoord;
-	};
+using SpriteBatch = Batch<Matrix4x4, Float4, Float2, Float2, Float2, Float, UInt32, Float2>;
 
-	using SpriteBatch = Batch<Matrix4x4, Float4, Float2, Float2, Float2, Float, UInt32, Float2>;
-
-	GeometryHandle create_sprite_quad_geometry(RenderManager &renderManager)
+GeometryHandle Minty::RenderSystem::create_sprite_quad_geometry(RenderManager &renderManager)
 	{
+		struct SpriteQuadVertex
+		{
+			Float2 position;
+			Float2 texCoord;
+		};
+
 		static GeometryHandle s_spriteQuadGeometry = INVALID_HANDLE;
 		if (s_spriteQuadGeometry != INVALID_HANDLE)
 		{
@@ -61,15 +59,7 @@ namespace
 		return s_spriteQuadGeometry;
 	}
 
-	struct UIRenderData
-	{
-		Rect rect;
-		Float depth = 0.0f;
-		Float rotation = 0.0f;
-		EntityHandle canvas = INVALID_ENTITY;
-	};
-
-	EntityHandle resolve_canvas(EntityHandle const entity, EntityManager const &entityManager)
+EntityHandle Minty::RenderSystem::resolve_canvas(EntityHandle const entity, EntityManager const &entityManager)
 	{
 		EntityHandle current = entity;
 		while (current != INVALID_ENTITY)
@@ -91,7 +81,7 @@ namespace
 		return INVALID_ENTITY;
 	}
 
-	Rect compute_ui_rect(UITransform const &transform, Rect const &parentRect)
+Rect Minty::RenderSystem::compute_ui_rect(UITransform const &transform, Rect const &parentRect)
 	{
 		Float x = 0.0f;
 		Float y = 0.0f;
@@ -145,7 +135,7 @@ namespace
 		return Rect(x, y, width, height);
 	}
 
-	void update_dynamic_canvas_resolution(EntityManager &entityManager)
+void Minty::RenderSystem::update_dynamic_canvas_resolution(EntityManager &entityManager)
 	{
 		Int2 const framebufferSize = Window::get_main().get_framebuffer_size();
 		UInt2 const resolution(
@@ -177,14 +167,7 @@ namespace
 		}
 	}
 
-	Int make_kerning_key(Char const first, Char const second)
-	{
-		UInt8 const a = static_cast<UInt8>(first);
-		UInt8 const b = static_cast<UInt8>(second);
-		return static_cast<Int>((static_cast<UInt16>(a) << 8) | static_cast<UInt16>(b));
-	}
-
-	Matrix4 create_ui_matrix(Rect const &rect, Float const rotation, CanvasComponent const &canvas, Float2 const spriteSize, Float2 const spritePivot)
+Matrix4 Minty::RenderSystem::create_ui_matrix(Rect const &rect, Float const rotation, CanvasComponent const &canvas, Float2 const spriteSize, Float2 const spritePivot)
 	{
 		Float2 const safeSpriteSize = {
 			Math::max(spriteSize.x, 1.0f),
@@ -218,7 +201,7 @@ namespace
 		return matrix;
 	}
 
-	Matrix4 create_ui_matrix(Rect const &rect, Float const rotation, CanvasComponent const &canvas, Sprite const &sprite)
+Matrix4 Minty::RenderSystem::create_ui_matrix(Rect const &rect, Float const rotation, CanvasComponent const &canvas, Sprite const &sprite)
 	{
 		return create_ui_matrix(
 			rect,
@@ -231,7 +214,6 @@ namespace
 				static_cast<Float>(sprite.get_pivot().x),
 				static_cast<Float>(sprite.get_pivot().y)));
 	}
-}
 
 Minty::RenderSystem::RenderSystem(Scene &scene)
 	: mp_scene(&scene)
@@ -246,6 +228,14 @@ void Minty::RenderSystem::on_render()
 
 	EntityManager &entityManager = mp_scene->get_entity_manager();
 	update_dynamic_canvas_resolution(entityManager);
+
+	struct UIRenderData
+	{
+		Rect rect;
+		Float depth = 0.0f;
+		Float rotation = 0.0f;
+		EntityHandle canvas = INVALID_ENTITY;
+	};
 
 	// Render each camera/view within the scene.
 	auto const cameraView = entityManager.view<CameraComponent, TransformComponent>();
@@ -537,7 +527,7 @@ void Minty::RenderSystem::on_render()
 
 				if (hasPrevious)
 				{
-					Int const kerningKey = make_kerning_key(previous, c);
+					Int const kerningKey = FontVariant::make_kerning_key(previous, c);
 					if (variant.kernings.contains(kerningKey))
 					{
 						cursorX += variant.kernings.at(kerningKey) * glyphScale;

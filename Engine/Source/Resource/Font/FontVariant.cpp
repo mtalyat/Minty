@@ -7,7 +7,7 @@
 
 using namespace Minty;
 
-static Int make_kerning_key(Char const first, Char const second)
+Int Minty::FontVariant::make_kerning_key(Char const first, Char const second)
 {
     UInt8 const a = static_cast<UInt8>(first);
     UInt8 const b = static_cast<UInt8>(second);
@@ -144,7 +144,7 @@ Bool Minty::Serializer<FontVariant>::deserialize(Reader &reader, FontVariant &va
         }
         
         // Add the kerning pair to the map
-        Int const key = make_kerning_key(pair[0], pair[1]);
+        Int const key = FontVariant::make_kerning_key(pair[0], pair[1]);
         if (kernings.contains(key))
         {
             kernings.at(key) = amount;
