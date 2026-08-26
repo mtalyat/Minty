@@ -98,41 +98,47 @@ namespace
 		Float height = transform.get_height();
 
 		Anchor const horizontal = transform.get_anchor() & AnchorEnumFlags::Horizontal;
-		if (horizontal == AnchorEnumFlags::Left)
+		Bool const hasLeft = horizontal.has_flag(AnchorEnumFlags::Left);
+		Bool const hasCenter = horizontal.has_flag(AnchorEnumFlags::Center);
+		Bool const hasRight = horizontal.has_flag(AnchorEnumFlags::Right);
+		if (hasLeft && hasRight)
 		{
 			x = parentRect.x + transform.get_x();
+			width = parentRect.width - transform.get_x() - transform.get_width();
 		}
-		else if (horizontal == AnchorEnumFlags::Center)
+		else if (hasCenter && !hasLeft && !hasRight)
 		{
 			x = parentRect.x + transform.get_x() + (parentRect.width - width) * 0.5f;
 		}
-		else if (horizontal == AnchorEnumFlags::Right)
+		else if (hasRight && !hasLeft)
 		{
 			x = parentRect.x + parentRect.width + transform.get_x() - width;
 		}
 		else
 		{
 			x = parentRect.x + transform.get_x();
-			width = parentRect.width - transform.get_x() - transform.get_width();
 		}
 
 		Anchor const vertical = transform.get_anchor() & AnchorEnumFlags::Vertical;
-		if (vertical == AnchorEnumFlags::Top)
+		Bool const hasTop = vertical.has_flag(AnchorEnumFlags::Top);
+		Bool const hasMiddle = vertical.has_flag(AnchorEnumFlags::Middle);
+		Bool const hasBottom = vertical.has_flag(AnchorEnumFlags::Bottom);
+		if (hasTop && hasBottom)
 		{
-			y = parentRect.y + parentRect.height + transform.get_y() - height;
+			y = parentRect.y + transform.get_y();
+			height = parentRect.height - transform.get_y() - transform.get_height();
 		}
-		else if (vertical == AnchorEnumFlags::Middle)
+		else if (hasMiddle && !hasTop && !hasBottom)
 		{
 			y = parentRect.y + transform.get_y() + (parentRect.height - height) * 0.5f;
 		}
-		else if (vertical == AnchorEnumFlags::Bottom)
+		else if (hasBottom && !hasTop)
 		{
 			y = parentRect.y + transform.get_y();
 		}
 		else
 		{
-			y = parentRect.y + transform.get_y();
-			height = parentRect.height - transform.get_y() - transform.get_height();
+			y = parentRect.y + parentRect.height + transform.get_y() - height;
 		}
 
 		return Rect(x, y, width, height);

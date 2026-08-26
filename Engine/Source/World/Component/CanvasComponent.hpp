@@ -7,6 +7,7 @@
  */
 
 #include "Core/Type/UInt2.hpp"
+#include "Core/Type/CanvasResizeMode.hpp"
 #include "Core/Serialize/Serializer.hpp"
 
 namespace Minty
@@ -17,6 +18,7 @@ namespace Minty
 	struct CanvasComponent	
 	{
 		UInt2 resolution = UInt2(0, 0);
+		CanvasResizeMode resizeMode = CanvasResizeModeEnum::Default;
 	};
 
 	template<>

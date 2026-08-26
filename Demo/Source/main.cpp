@@ -164,13 +164,37 @@ int main()
     // Create canvas root entity
     EntityHandle const uiCanvasEntity = uiEntityManager.create();
     CanvasComponent& canvasComponent = uiEntityManager.add<CanvasComponent>(uiCanvasEntity);
-    canvasComponent.resolution = applicationInfo.windowInfo.size;
+    canvasComponent.resizeMode = CanvasResizeModeEnum::Dynamic;
+    Int2 const initialFramebufferSize = app.get_window().get_framebuffer_size();
+    UInt2 const initialCanvasResolution = UInt2(
+        static_cast<UInt>(Math::max(initialFramebufferSize.x, 1)),
+        static_cast<UInt>(Math::max(initialFramebufferSize.y, 1)));
+    canvasComponent.resolution = initialCanvasResolution;
     UITransformComponent& canvasTransformComponent = uiEntityManager.add<UITransformComponent>(uiCanvasEntity);
     canvasTransformComponent.canvas = uiCanvasEntity;
     canvasTransformComponent.transform = UITransform(0.0f, 0.0f,
-        static_cast<Float>(applicationInfo.windowInfo.size.x),
-        static_cast<Float>(applicationInfo.windowInfo.size.y),
+        static_cast<Float>(initialCanvasResolution.x),
+        static_cast<Float>(initialCanvasResolution.y),
         AnchorEnumFlags::TopLeft);
+
+    Function uiResizeListener = [&](Int2)
+    {
+        if (canvasComponent.resizeMode != CanvasResizeModeEnum::Dynamic)
+        {
+            return;
+        }
+
+        Int2 const framebufferSize = app.get_window().get_framebuffer_size();
+        UInt2 const canvasResolution = UInt2(
+            static_cast<UInt>(Math::max(framebufferSize.x, 1)),
+            static_cast<UInt>(Math::max(framebufferSize.y, 1)));
+
+        canvasComponent.resolution = canvasResolution;
+        canvasTransformComponent.transform.set_size(
+            static_cast<Float>(canvasResolution.x),
+            static_cast<Float>(canvasResolution.y));
+    };
+    app.get_window().on_resize += uiResizeListener;
 
     // Create child UI entity anchored to the canvas
     EntityHandle const uiChildEntity = uiEntityManager.create(uiCanvasEntity);
