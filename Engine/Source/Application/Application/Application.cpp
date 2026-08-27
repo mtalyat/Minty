@@ -129,7 +129,7 @@ Int Minty::Application::run()
     };
     Function resizeListener = [this](Int2 size)
     {
-        mp_renderManager->refresh();
+        mp_renderManager->notify_framebuffer_resized(size);
     };
 
     // TODO: Move this out of run()

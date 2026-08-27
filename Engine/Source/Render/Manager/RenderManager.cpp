@@ -13,6 +13,7 @@
 #include "Render/Sprite/SpriteInfo.hpp"
 #include "Render/Sprite/Sprite.hpp"
 #include "Core/Data/Transform.hpp"
+#include "Window/Window/Window.hpp"
 
 using namespace Minty;
 
@@ -26,6 +27,9 @@ Minty::RenderManager::RenderManager(RenderManagerInfo const &info)
     : mp_impl(nullptr), m_state(State::Idle)
 {
     mp_impl = new Impl(info);
+
+    m_pendingFramebufferSize = Window::get_main().get_framebuffer_size();
+    m_lastRefreshedFramebufferSize = m_pendingFramebufferSize;
 
     MINTY_ASSERT(s_instance == nullptr, ErrorCodeEnum::Singleton_AlreadyExists);
     s_instance = this;
@@ -593,6 +597,17 @@ Sprite const &Minty::RenderManager::get(SpriteHandle const handle) const
 
 Bool Minty::RenderManager::begin_frame()
 {
+    if (m_refreshPending &&
+        m_pendingFramebufferSize.x > 0 &&
+        m_pendingFramebufferSize.y > 0 &&
+        m_pendingFramebufferSize != m_lastRefreshedFramebufferSize)
+    {
+        // Coalesce resize events and refresh at most once before rendering the next frame.
+        refresh();
+        m_lastRefreshedFramebufferSize = m_pendingFramebufferSize;
+    }
+    m_refreshPending = false;
+
     // validate state
     MINTY_ASSERT(m_state < State::Frame, ErrorCodeEnum::Render_AlreadyRenderingFrame);
     MINTY_ASSERT(m_state < State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
@@ -680,6 +695,17 @@ void Minty::RenderManager::draw(Transform const &transform, Object const &object
 void Minty::RenderManager::draw_batch(Size const count, View const data)
 {
     mp_impl->draw_instanced(data, count);
+}
+
+void Minty::RenderManager::notify_framebuffer_resized(Int2 const size)
+{
+    if (size.x <= 0 || size.y <= 0)
+    {
+        return;
+    }
+
+    m_pendingFramebufferSize = size;
+    m_refreshPending = true;
 }
 
 void Minty::RenderManager::refresh()

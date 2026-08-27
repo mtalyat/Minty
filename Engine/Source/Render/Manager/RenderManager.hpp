@@ -160,6 +160,12 @@ namespace Minty
         void draw_batch(Size const count, View const data);
 
         /**
+         * @brief Notifies the render manager that the framebuffer size changed.
+         * The expensive refresh is deferred and coalesced to the next frame.
+         */
+        void notify_framebuffer_resized(Int2 const size);
+
+        /**
          * @brief Refreshes the render manager and recreates swapchain resources if needed.
          */
         void refresh();
@@ -320,6 +326,10 @@ namespace Minty
         Map<ViewportResourceHandle, ViewportHandle> m_viewportCache;
         Map<MeshResourceHandle, GeometryHandle> m_geometryCache;
         Map<SpriteResourceHandle, SpriteHandle> m_spriteCache;
+
+        Bool m_refreshPending = false;
+        Int2 m_pendingFramebufferSize = Int2(0, 0);
+        Int2 m_lastRefreshedFramebufferSize = Int2(0, 0);
 
         State m_state;
 

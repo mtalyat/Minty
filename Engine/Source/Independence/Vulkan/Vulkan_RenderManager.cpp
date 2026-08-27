@@ -2090,11 +2090,32 @@ void Minty::RenderManager::Impl::sync()
 
 void Minty::RenderManager::Impl::refresh()
 {
+	// Recreate the swapchain for the current surface
+	Vulkan_SurfaceData &surfaceData = m_surfaceDataPool.at(m_surface);
+
+	// If minimized, skip refresh until a valid framebuffer size is restored.
+	UInt2 const framebufferSize = surfaceData.window->get_framebuffer_size();
+	if (framebufferSize.x == 0 || framebufferSize.y == 0)
+	{
+		return;
+	}
+
+	// Avoid a full refresh if the requested extent did not actually change.
+	Vulkan_SwapchainSupportDetails const swapchainSupport = Vulkan_Renderer::query_swapchain_support(
+		m_physicalDevice,
+		surfaceData.surface);
+	VkExtent2D const requestedExtent = Vulkan_Renderer::get_swapchain_extent(
+		swapchainSupport.capabilities,
+		framebufferSize);
+	if (requestedExtent.width == surfaceData.extent.width && requestedExtent.height == surfaceData.extent.height)
+	{
+		return;
+	}
+
 	// Sync before refreshing
 	sync();
 
-	// Recreate the swapchain for the current surface
-	Vulkan_SurfaceData &surfaceData = m_surfaceDataPool.at(m_surface);
+	// Recreate swapchain-dependent resources.
 	recreate_swapchain(surfaceData);
 
 	// Recreate the depth resources
