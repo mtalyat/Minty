@@ -2,7 +2,7 @@
 
 namespace Minty
 {
-    struct LayerManagerInfo
+    struct CollisionManagerInfo
     {
         
     };

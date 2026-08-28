@@ -6,7 +6,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Layer/LayerMask/LayerMask.hpp"
+#include "Collision/CollisionMask/CollisionMask.hpp"
 #include "Core/Serialize/Serializer.hpp"
 
 namespace Minty
@@ -19,7 +19,7 @@ namespace Minty
 		/**
 		 * @brief The mask value.
 		 */
-		LayerMask mask = MASK_ALL;
+		CollisionMask mask = MASK_ALL;
 	};
 
 	template<>

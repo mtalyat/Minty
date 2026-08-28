@@ -5,17 +5,17 @@
 
 namespace Minty
 {
-    using LayerType = UInt;
+    using CollisionType = UInt;
     using MaskType = UInt;
 
-    constexpr LayerType LAYER_DEFAULT = 0;
-    constexpr LayerType LAYER_COUNT = 32;
+    constexpr CollisionType COLLISION_DEFAULT = 0;
+    constexpr CollisionType COLLISION_COUNT = 32;
 
     constexpr MaskType MASK_DEFAULT = 0;
     constexpr MaskType MASK_NONE = 0;
     constexpr MaskType MASK_ALL = ~0;
 
-    struct Layer;
+    struct Collision;
 
     template<typename T = MaskType>
     struct Mask
@@ -68,59 +68,59 @@ namespace Minty
         constexpr Bool operator==(T const &other) const { return value == other; }
         constexpr Bool operator!=(T const &other) const { return value != other; }
 
-        constexpr Bool has_layer(LayerType const layer) const;
+        constexpr Bool has_collision(CollisionType const collision) const;
     };
 
-    struct Layer
+    struct Collision
     {
-        LayerType value;
+        CollisionType value;
 
-        constexpr Layer() : value(LAYER_DEFAULT) {}
-        constexpr Layer(LayerType layer) : value(layer) {}
-        constexpr operator LayerType() const { return value; }
+        constexpr Collision() : value(COLLISION_DEFAULT) {}
+        constexpr Collision(CollisionType collision) : value(collision) {}
+        constexpr operator CollisionType() const { return value; }
 
-        constexpr Bool operator==(Layer const &other) const { return value == other.value; }
-        constexpr Bool operator!=(Layer const &other) const { return value != other.value; }
-        constexpr Bool operator<(Layer const &other) const { return value < other.value; }
-        constexpr Bool operator>(Layer const &other) const { return value > other.value; }
-        constexpr Bool operator<=(Layer const &other) const { return value <= other.value; }
-        constexpr Bool operator>=(Layer const &other) const { return value >= other.value; }
-        constexpr Bool operator==(LayerType const &other) const { return value == other; }
-        constexpr Bool operator!=(LayerType const &other) const { return value != other; }
-        constexpr Bool operator<(LayerType const &other) const { return value < other; }
-        constexpr Bool operator>(LayerType const &other) const { return value > other; }
-        constexpr Bool operator<=(LayerType const &other) const { return value <= other; }
-        constexpr Bool operator>=(LayerType const &other) const { return value >= other; }
+        constexpr Bool operator==(Collision const &other) const { return value == other.value; }
+        constexpr Bool operator!=(Collision const &other) const { return value != other.value; }
+        constexpr Bool operator<(Collision const &other) const { return value < other.value; }
+        constexpr Bool operator>(Collision const &other) const { return value > other.value; }
+        constexpr Bool operator<=(Collision const &other) const { return value <= other.value; }
+        constexpr Bool operator>=(Collision const &other) const { return value >= other.value; }
+        constexpr Bool operator==(CollisionType const &other) const { return value == other; }
+        constexpr Bool operator!=(CollisionType const &other) const { return value != other; }
+        constexpr Bool operator<(CollisionType const &other) const { return value < other; }
+        constexpr Bool operator>(CollisionType const &other) const { return value > other; }
+        constexpr Bool operator<=(CollisionType const &other) const { return value <= other; }
+        constexpr Bool operator>=(CollisionType const &other) const { return value >= other; }
 
         template<typename T = MaskType>
         constexpr Mask<T> to_mask() const;
     };
 
-    using LayerMask = Mask<MaskType>;
+    using CollisionMask = Mask<MaskType>;
 
     template<typename T>
-    constexpr Bool Minty::Mask<T>::has_layer(LayerType const layer) const
+    constexpr Bool Minty::Mask<T>::has_collision(CollisionType const collision) const
     {
-        return (value & (1 << layer)) != 0;
+        return (value & (1 << collision)) != 0;
     }
 
     template<typename T>
-    constexpr Mask<T> Minty::Layer::to_mask() const
+    constexpr Mask<T> Minty::Collision::to_mask() const
     {
         return Mask<T>(1 << value);
     }
 
     template<>
-    struct Parser<Layer>
+    struct Parser<Collision>
     {
-        static Bool parse(StringView const str, Layer &value);
-        static String to_string(Layer const &value);
+        static Bool parse(StringView const str, Collision &value);
+        static String to_string(Collision const &value);
     };
 
     template<>
-    struct Parser<LayerMask>
+    struct Parser<CollisionMask>
     {
-        static Bool parse(StringView const str, LayerMask &value);
-        static String to_string(LayerMask const &value);
+        static Bool parse(StringView const str, CollisionMask &value);
+        static String to_string(CollisionMask const &value);
     };
 }
