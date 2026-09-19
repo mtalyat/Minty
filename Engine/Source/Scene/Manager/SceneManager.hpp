@@ -5,6 +5,7 @@
 #include "Core/Data/PriorityVector.hpp"
 #include "Core/Data/HandlePool.hpp"
 #include "Core/Data/StringView.hpp"
+#include "Core/Type/Status.hpp"
 
 namespace Minty
 {
@@ -43,6 +44,10 @@ namespace Minty
         void on_render();
         void on_event(Event &event);
 
+        // Status functions
+        void trigger_promotion(StatusEnum const status);
+        void trigger_demotion(StatusEnum const status);
+
 #pragma endregion
 
 #pragma region Variables
@@ -50,6 +55,7 @@ namespace Minty
     private:
         HandlePool<Scene> m_scenes;
         PriorityVector<SceneHandle> m_activeScenes;
+        Status m_status;
 
 #pragma endregion
     };

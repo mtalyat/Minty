@@ -25,8 +25,16 @@ Minty::Application::Application(ApplicationInfo const &info)
       mp_inputManager(nullptr),
       mp_scriptManager(nullptr),
       mp_timeController(nullptr),
-      m_running(false)
+      m_running(false),
+      m_status(),
+      keyListener(nullptr),
+      mouseButtonListener(nullptr),
+      mouseMoveListener(nullptr),
+      mouseScrollListener(nullptr),
+      resizeListener(nullptr)
 {
+    m_status.promote_to(StatusEnum::Created);
+
     // Initialize the platform
     Platform::initialize();
 
@@ -41,6 +49,8 @@ Minty::Application::Application(ApplicationInfo const &info)
     mp_inputManager = new InputManager(info.inputManagerInfo);
     mp_scriptManager = new ScriptManager(info.scriptManagerInfo);
     mp_timeController = new TimeController(info.timeControllerInfo);
+
+    m_status.promote_to(StatusEnum::Loaded);
 }
 
 Minty::Application::~Application()
@@ -69,7 +79,13 @@ Minty::Application::Application(Application &&app)
       mp_inputManager(app.mp_inputManager),
       mp_scriptManager(app.mp_scriptManager),
       mp_timeController(app.mp_timeController),
-      m_running(app.m_running)
+      m_running(app.m_running),
+      m_status(app.m_status),
+      keyListener(app.keyListener),
+      mouseButtonListener(app.mouseButtonListener),
+      mouseMoveListener(app.mouseMoveListener),
+      mouseScrollListener(app.mouseScrollListener),
+      resizeListener(app.resizeListener)
 {
     app.mp_sceneManager = nullptr;
     app.mp_resourceManager = nullptr;
@@ -79,6 +95,11 @@ Minty::Application::Application(Application &&app)
     app.mp_scriptManager = nullptr;
     app.mp_timeController = nullptr;
     app.m_running = false;
+    app.keyListener = nullptr;
+    app.mouseButtonListener = nullptr;
+    app.mouseMoveListener = nullptr;
+    app.mouseScrollListener = nullptr;
+    app.resizeListener = nullptr;
 }
 
 Minty::Application &Minty::Application::operator=(Application &&app)
@@ -101,6 +122,7 @@ Minty::Application &Minty::Application::operator=(Application &&app)
         mp_scriptManager = app.mp_scriptManager;
         mp_timeController = app.mp_timeController;
         m_running = app.m_running;
+        m_status = app.m_status;
 
         app.mp_sceneManager = nullptr;
         app.mp_resourceManager = nullptr;
@@ -110,6 +132,12 @@ Minty::Application &Minty::Application::operator=(Application &&app)
         app.mp_scriptManager = nullptr;
         app.mp_timeController = nullptr;
         app.m_running = false;
+        app.m_status = Status();
+        app.keyListener = nullptr;
+        app.mouseButtonListener = nullptr;
+        app.mouseMoveListener = nullptr;
+        app.mouseScrollListener = nullptr;
+        app.resizeListener = nullptr;
     }
     return *this;
 }
@@ -118,35 +146,8 @@ Int Minty::Application::run()
 {
     Int fixedUpdates, i;
 
-    // TODO: Move this out of run()
-    // Register Window events to InputManager
-    Function keyListener = [this](KeyEnum key, KeyActionEnum action, KeyModifierFlagsEnum mods)
-    {
-        mp_inputManager->set_key(key, action != KeyActionEnum::Up);
-    };
-    Function mouseButtonListener = [this](MouseButtonEnum button, MouseActionEnum action)
-    {
-        mp_inputManager->set_mouse_button(button, action != MouseActionEnum::Up);
-    };
-    Function mouseMoveListener = [this](Float2 position)
-    {
-        mp_inputManager->set_mouse_position(position);
-    };
-    Function mouseScrollListener = [this](Float2 scroll)
-    {
-        mp_inputManager->set_mouse_scroll(scroll);
-    };
-    Function resizeListener = [this](Int2 size)
-    {
-        mp_renderManager->notify_framebuffer_resized(size);
-    };
-
-    // TODO: Move this out of run()
-    mp_window->on_key += keyListener;
-    mp_window->on_mouse_button += mouseButtonListener;
-    mp_window->on_mouse_move += mouseMoveListener;
-    mp_window->on_mouse_scroll += mouseScrollListener;
-    mp_window->on_resize += resizeListener;
+    load();
+    enable();
 
     m_running = true;
     while (m_running && mp_window->is_open())
@@ -178,13 +179,8 @@ Int Minty::Application::run()
     // Sync the platform to ensure all events are processed before exiting
     Platform::sync();
 
-    // TODO: Move this out of run()
-    // Unregister Window events from InputManager
-    mp_window->on_key -= keyListener;
-    mp_window->on_mouse_button -= mouseButtonListener;
-    mp_window->on_mouse_move -= mouseMoveListener;
-    mp_window->on_mouse_scroll -= mouseScrollListener;
-    mp_window->on_resize -= resizeListener;
+    disable();
+    unload();
 
     return 0;
 }
@@ -192,4 +188,85 @@ Int Minty::Application::run()
 void Minty::Application::quit()
 {
     m_running = false;
+}
+
+void Minty::Application::load()
+{
+    // Register Window events to InputManager
+    keyListener = [this](KeyEnum key, KeyActionEnum action, KeyModifierFlagsEnum mods)
+    {
+        mp_inputManager->set_key(key, action != KeyActionEnum::Up);
+    };
+    mouseButtonListener = [this](MouseButtonEnum button, MouseActionEnum action)
+    {
+        mp_inputManager->set_mouse_button(button, action != MouseActionEnum::Up);
+    };
+    mouseMoveListener = [this](Float2 position)
+    {
+        mp_inputManager->set_mouse_position(position);
+    };
+    mouseScrollListener = [this](Float2 scroll)
+    {
+        mp_inputManager->set_mouse_scroll(scroll);
+    };
+    resizeListener = [this](Int2 size)
+    {
+        mp_renderManager->notify_framebuffer_resized(size);
+    };
+
+    mp_window->on_key += keyListener;
+    mp_window->on_mouse_button += mouseButtonListener;
+    mp_window->on_mouse_move += mouseMoveListener;
+    mp_window->on_mouse_scroll += mouseScrollListener;
+    mp_window->on_resize += resizeListener;
+
+    // Trigger promotions after loading the application
+    trigger_promotion(StatusEnum::Loaded);
+}
+
+void Minty::Application::unload()
+{
+    // Trigger demotions before unloading the application
+    trigger_demotion(StatusEnum::Unloaded);
+
+    // Unregister Window events from InputManager
+    mp_window->on_key -= keyListener;
+    mp_window->on_mouse_button -= mouseButtonListener;
+    mp_window->on_mouse_move -= mouseMoveListener;
+    mp_window->on_mouse_scroll -= mouseScrollListener;
+    mp_window->on_resize -= resizeListener;
+
+    keyListener = nullptr;
+    mouseButtonListener = nullptr;
+    mouseMoveListener = nullptr;
+    mouseScrollListener = nullptr;
+    resizeListener = nullptr;
+}
+
+void Minty::Application::enable()
+{
+    m_running = true;
+
+    // Trigger promotions
+    trigger_promotion(StatusEnum::Enabled);
+}
+
+void Minty::Application::disable()
+{
+    // Trigger demotions
+    trigger_demotion(StatusEnum::Disabled);
+
+    m_running = false;
+}
+
+void Minty::Application::trigger_promotion(StatusEnum status)
+{
+    m_status.value = status;
+    mp_sceneManager->trigger_promotion(m_status.value);
+}
+
+void Minty::Application::trigger_demotion(StatusEnum status)
+{
+    m_status.value = status;
+    mp_sceneManager->trigger_demotion(m_status.value);
 }

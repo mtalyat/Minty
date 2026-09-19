@@ -2,13 +2,17 @@
 
 #include "Platform/Type/Primitive.hpp"
 #include "Script/Type/Function.hpp"
+#include "Core/Type/Status.hpp"
 
 namespace Minty
 {
     struct Script
     {
         Pointer data = nullptr;
+        Status status = {};
 
+        ScriptFunction create = nullptr;
+        ScriptFunction destroy = nullptr;
         ScriptFunction load = nullptr;
         ScriptFunction unload = nullptr;
         ScriptFunction enable = nullptr;

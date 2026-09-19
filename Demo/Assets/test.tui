@@ -1,3 +1,12 @@
+OnCreate = function()
+{
+    print("OnCreate")
+}
+
+OnDestroy = function()
+{
+    print("OnDestroy")
+}
 
 OnLoad = function()
 {
@@ -19,14 +28,12 @@ OnDisable = function()
     print("OnDisable")
 }
 
-OnFrameUpdate = function()
-{
-    print("OnFrameUpdate")
-}
+# OnFrameUpdate = function()
+# {
+#     print("OnFrameUpdate")
+# }
 
-OnFixedUpdate = function()
-{
-    print("OnFixedUpdate")
-}
-
-
+# OnFixedUpdate = function()
+# {
+#     print("OnFixedUpdate")
+# }

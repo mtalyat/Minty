@@ -253,6 +253,10 @@ namespace Minty
         Application_SceneManagerNotInitialized,
         Application_TimeControllerNotInitialized,
 
+        Status = 2600,
+        Status_PromoteFailed,
+        Status_DemoteFailed,
+
         Unknown = ~0U
     };
 

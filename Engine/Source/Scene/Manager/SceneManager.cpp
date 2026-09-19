@@ -8,6 +8,9 @@
 using namespace Minty;
 
 Minty::SceneManager::SceneManager(SceneManagerInfo const &info)
+    : m_scenes(),
+      m_activeScenes(),
+      m_status(StatusEnum::Created)
 {
 }
 
@@ -19,6 +22,9 @@ SceneHandle Minty::SceneManager::create(SceneInfo const &info)
 {
     // Create a Scene
     Scene scene(info);
+
+    // Trigger the scene's load event
+    scene.on_load();
 
     // Add the Scene to the HandlePool
     SceneHandle const handle = m_scenes.add(std::move(scene));
@@ -33,6 +39,9 @@ void Minty::SceneManager::destroy(SceneHandle const handle)
 
     // If the scene is active, remove it from the active scenes list
     disable(handle);
+
+    // Trigger the scene's unload event
+    m_scenes.at(handle).on_unload();
 
     // Remove the Scene from the HandlePool
     m_scenes.remove(handle);
@@ -189,5 +198,31 @@ void Minty::SceneManager::on_event(Event &event)
         // Send the event to the scene
         Scene &scene = at(handle);
         scene.on_event(event);
+    }
+}
+
+void Minty::SceneManager::trigger_promotion(StatusEnum const status)
+{
+    // Trigger scenes if they are affected by the status change
+    if (m_status.promote_parent_to(status))
+    {
+        for (SceneHandle const handle : m_activeScenes)
+        {
+            Scene &scene = at(handle);
+            scene.trigger_promotion(status);
+        }
+    }
+}
+
+void Minty::SceneManager::trigger_demotion(StatusEnum const status)
+{
+    // Trigger scenes if they are affected by the status change
+    if (m_status.demote_parent_to(status))
+    {
+        for (SceneHandle const handle : m_activeScenes)
+        {
+            Scene &scene = at(handle);
+            scene.trigger_demotion(status);
+        }
     }
 }

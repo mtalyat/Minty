@@ -4,6 +4,8 @@
 
 namespace Minty
 {
+    constexpr StringView SCRIPT_FUNC_CREATE = "OnCreate";
+    constexpr StringView SCRIPT_FUNC_DESTROY = "OnDestroy";
     constexpr StringView SCRIPT_FUNC_LOAD = "OnLoad";
     constexpr StringView SCRIPT_FUNC_UNLOAD = "OnUnload";
     constexpr StringView SCRIPT_FUNC_ENABLE = "OnEnable";

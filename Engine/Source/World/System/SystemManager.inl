@@ -46,7 +46,7 @@ void Minty::SystemManager::register_system(StringView const name, Int const prio
         manager.m_systems.add(typeid(T), system);
 
         // Add to hooks
-        if constexpr (HasOnLoad<T>)
+        if constexpr (HasOnCreate<T>)
         {
             manager.m_loadHooks.add({system, [](Pointer const system)
                              {

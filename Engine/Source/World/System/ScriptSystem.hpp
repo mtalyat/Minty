@@ -24,18 +24,6 @@ namespace Minty
 #pragma region Method
 
 public:
-    /**
-     * List of functions that systems can implement:
-     on_frame_update
-     on_fixed_update
-     on_finalize
-     on_render
-     on_event
-     on_load
-     on_unload
-     on_enable
-     on_disable
-     */
     void on_load();
     void on_unload();
     void on_enable();

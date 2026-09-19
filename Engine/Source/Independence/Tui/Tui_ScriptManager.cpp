@@ -19,7 +19,7 @@ Bool Minty::Tui_ScriptManager::load_script(Path const &path, Script &script)
     // Register functions if the script was successfully loaded
     TuiTable* table = static_cast<TuiTable*>(script.data);
     TuiFunction* func = nullptr;
-    if (func = table->getFunction(SCRIPT_FUNC_LOAD.get_data()))
+    if (func = table->getFunction(SCRIPT_FUNC_CREATE.get_data()))
     {
         script.load = [func]()
         {
@@ -28,7 +28,7 @@ Bool Minty::Tui_ScriptManager::load_script(Path const &path, Script &script)
             args->release();
         };
     }
-    if (func = table->getFunction(SCRIPT_FUNC_UNLOAD.get_data()))
+    if (func = table->getFunction(SCRIPT_FUNC_DESTROY.get_data()))
     {
         script.unload = [func]()
         {

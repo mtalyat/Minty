@@ -11,6 +11,7 @@
 #include "Platform/Type/Primitive.hpp"
 #include "Core/Data/PriorityVector.hpp"
 #include "Core/Data/Map.hpp"
+#include "Core/Type/Status.hpp"
 #include <concepts>
 
 namespace Minty
@@ -61,6 +62,13 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Accessor
+
+    public:
+        Status get_status() const { return m_status; }
+
+#pragma endregion
+
 #pragma region Method
 
     public:
@@ -73,18 +81,26 @@ namespace Minty
         void destroy_system();
 
         // Events
+        void on_load();
+        void on_unload();
+        void on_enable();
+        void on_disable();
         void on_frame_update(Timestep const &timestep);
         void on_fixed_update(Timestep const &timestep);
         void on_finalize();
         void on_render();
         void on_event(Event &event);
-        void on_load();
-        void on_unload();
-        void on_enable();
-        void on_disable();
+
+        // Status
+        void trigger_promotion(StatusEnum const status);
+        void trigger_demotion(StatusEnum const status);
 
         template <typename T>
         static void register_system(StringView const name, Int const priority = 0);
+
+    private:
+        void on_promotion();
+        void on_demotion();
 
 #pragma endregion
 
@@ -93,15 +109,18 @@ namespace Minty
     private:
         Scene* mp_scene;
         Map<TypeID, Pointer> m_systems;
+        PriorityVector<EventHook> m_createHooks;
+        PriorityVector<EventHook> m_destroyHooks;
+        PriorityVector<EventHook> m_loadHooks;
+        PriorityVector<EventHook> m_unloadHooks;
+        PriorityVector<EventHook> m_enableHooks;
+        PriorityVector<EventHook> m_disableHooks;
         PriorityVector<UpdateEventHook> m_frameUpdateHooks;
         PriorityVector<UpdateEventHook> m_fixedUpdateHooks;
         PriorityVector<EventHook> m_finalizeHooks;
         PriorityVector<EventHook> m_renderHooks;
         PriorityVector<EventEventHook> m_eventHooks;
-        PriorityVector<EventHook> m_loadHooks;
-        PriorityVector<EventHook> m_unloadHooks;
-        PriorityVector<EventHook> m_enableHooks;
-        PriorityVector<EventHook> m_disableHooks;
+        Status m_status;
 
         static Registry<Pointer, SystemManager&> s_registeredSystems;
 

@@ -54,6 +54,12 @@ ScriptHandle Minty::ScriptManager::create(ScriptInfo const &info)
         return ScriptHandle{};
     }
 
+    // Call the create function on the script, if it exists
+    if (script.create)
+    {
+        script.create();
+    }
+
     // Add the script to the pool and return its handle
     ScriptHandle handle = m_scriptPool.add(std::move(script));
     return handle;
@@ -82,6 +88,15 @@ ScriptHandle Minty::ScriptManager::create(ScriptResourceHandle const handle)
 
 void Minty::ScriptManager::destroy(ScriptHandle handle)
 {
+    MINTY_ASSERT(m_scriptPool.contains(handle), ErrorCodeEnum::Argument_ExpectedDefined);
+    
+    // Call the destroy function on the script, if it exists
+    Script& script = m_scriptPool.at(handle);
+    if (script.destroy)
+    {
+        script.destroy();
+    }
+
     // Destroy the script and remove it from the cache
     for (auto it = m_scriptCache.begin(); it != m_scriptCache.end(); ++it)
     {
