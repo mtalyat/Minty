@@ -186,13 +186,13 @@ namespace Minty
 		{
 			// get index
 			Size index = m_values.get_size();
-
-			// add to values
-			m_values.add(Tuple<String, Key, Value>(string, key, std::move(value)));
-
+			
 			// add to lookups
 			m_strings.add(string, index);
 			m_keys.add(key, index);
+
+			// add to values
+			m_values.add(Tuple<String, Key, Value>(string, key, std::move(value)));
 		}
 
 		/**

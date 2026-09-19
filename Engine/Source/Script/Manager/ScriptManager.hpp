@@ -20,11 +20,19 @@ namespace Minty
     public:
         ScriptManager(ScriptManagerInfo const &info);
 
+        ~ScriptManager();
+
 #pragma endregion
 
 #pragma region Accessor
 
     public:
+        /**
+         * @brief Gets the singleton instance of the ScriptManager.
+         * @return The ScriptManager instance.
+         */
+        static ScriptManager &get_instance();
+
 #pragma endregion
 
 #pragma region Method
@@ -51,6 +59,8 @@ namespace Minty
     private:
         HandlePool<Script> m_scriptPool;
         Map<ScriptResourceHandle, ScriptHandle> m_scriptCache;
+
+        static ScriptManager* s_instance;
 
 #pragma endregion
     };

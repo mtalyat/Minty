@@ -10,9 +10,25 @@
 
 using namespace Minty;
 
+ScriptManager* Minty::ScriptManager::s_instance = nullptr;
+
 Minty::ScriptManager::ScriptManager(ScriptManagerInfo const &info)
     : m_scriptPool(), m_scriptCache()
 {
+    MINTY_ASSERT(s_instance == nullptr, ErrorCodeEnum::Singleton_AlreadyExists);
+    s_instance = this;
+}
+
+Minty::ScriptManager::~ScriptManager()
+{
+    MINTY_ASSERT(s_instance != nullptr, ErrorCodeEnum::Singleton_DifferentObject);
+    s_instance = nullptr;
+}
+
+ScriptManager &Minty::ScriptManager::get_instance()
+{
+    MINTY_ASSERT(s_instance != nullptr, ErrorCodeEnum::Singleton_DoesNotExist);
+    return *s_instance;
 }
 
 ScriptHandle Minty::ScriptManager::create(ScriptInfo const &info)

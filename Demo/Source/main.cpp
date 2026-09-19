@@ -20,6 +20,7 @@ int main()
 
     // TODO: move into application...
     SystemManager::register_system<RenderSystem>("Render");
+    SystemManager::register_system<ScriptSystem>("Script");
 
     // APPLICATION
     ApplicationInfo applicationInfo{};
@@ -63,9 +64,6 @@ int main()
     ScriptManager& scriptManager = app.get_script_manager();
     ScriptHandle const scriptHandle = scriptManager.create(scriptResourceHandle);
 
-    // Test
-    scriptManager.call_load(scriptHandle);
-
     // Create render data
     RenderManager& renderManager = app.get_render_manager();
     TextureHandle const textureHandle = renderManager.create(textureResourceHandle);
@@ -105,6 +103,7 @@ int main()
 
     // Add the systems
     worldSystemManager.create_system<RenderSystem>();
+    worldSystemManager.create_system<ScriptSystem>();
     uiSystemManager.create_system<RenderSystem>();
 
     // Create camera entity
@@ -165,6 +164,12 @@ int main()
         spriteMaterialHandle
     });
     worldEntityManager.add<VisibleTag>(childEntity);
+
+    // Create script entity
+    EntityHandle const scriptEntity = worldEntityManager.create();
+    worldEntityManager.add<ScriptComponent>(scriptEntity, ScriptComponent{
+        { scriptHandle }
+    });
 
     // Create canvas root entity
     EntityHandle const uiCanvasEntity = uiEntityManager.create();

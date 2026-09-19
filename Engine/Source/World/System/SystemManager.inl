@@ -46,6 +46,38 @@ void Minty::SystemManager::register_system(StringView const name, Int const prio
         manager.m_systems.add(typeid(T), system);
 
         // Add to hooks
+        if constexpr (HasOnLoad<T>)
+        {
+            manager.m_loadHooks.add({system, [](Pointer const system)
+                             {
+                                 static_cast<T *>(system)->on_load();
+                             }},
+                            priority);
+        }
+        if constexpr (HasOnUnload<T>)
+        {
+            manager.m_unloadHooks.add({system, [](Pointer const system)
+                               {
+                                   static_cast<T *>(system)->on_unload();
+                               }},
+                              priority);
+        }
+        if constexpr (HasOnEnable<T>)
+        {
+            manager.m_enableHooks.add({system, [](Pointer const system)
+                             {
+                                 static_cast<T *>(system)->on_enable();
+                             }},
+                            priority);
+        }
+        if constexpr (HasOnDisable<T>)
+        {
+            manager.m_disableHooks.add({system, [](Pointer const system)
+                             {
+                                 static_cast<T *>(system)->on_disable();
+                             }},
+                            priority);
+        }
         if constexpr (HasOnFrameUpdate<T>)
         {
             manager.m_frameUpdateHooks.add({system, [](Pointer const system, Timestep const &timestep)
@@ -86,22 +118,6 @@ void Minty::SystemManager::register_system(StringView const name, Int const prio
                               }},
                              priority);
         }
-        if constexpr (HasOnLoad<T>)
-        {
-            manager.m_loadHooks.add({system, [](Pointer const system)
-                             {
-                                 static_cast<T *>(system)->on_load();
-                             }},
-                            priority);
-        }
-        if constexpr (HasOnUnload<T>)
-        {
-            manager.m_unloadHooks.add({system, [](Pointer const system)
-                               {
-                                   static_cast<T *>(system)->on_unload();
-                               }},
-                              priority);
-        }
     };
     data.remove = [](Pointer const system, SystemManager &manager)
     {
@@ -109,6 +125,50 @@ void Minty::SystemManager::register_system(StringView const name, Int const prio
         manager.m_systems.remove(typeid(T));
 
         // Remove from hooks
+        if constexpr (HasOnLoad<T>)
+        {
+            for (Size i = 0; i < manager.m_loadHooks.get_size(); ++i)
+            {
+                if (manager.m_loadHooks[i].system == system)
+                {
+                    manager.m_loadHooks.remove(i);
+                    break;
+                }
+            }
+        }
+        if constexpr (HasOnUnload<T>)
+        {
+            for (Size i = 0; i < manager.m_unloadHooks.get_size(); ++i)
+            {
+                if (manager.m_unloadHooks[i].system == system)
+                {
+                    manager.m_unloadHooks.remove(i);
+                    break;
+                }
+            }
+        }
+        if constexpr (HasOnEnable<T>)
+        {
+            for (Size i = 0; i < manager.m_enableHooks.get_size(); ++i)
+            {
+                if (manager.m_enableHooks[i].system == system)
+                {
+                    manager.m_enableHooks.remove(i);
+                    break;
+                }
+            }
+        }
+        if constexpr (HasOnDisable<T>)
+        {
+            for (Size i = 0; i < manager.m_disableHooks.get_size(); ++i)
+            {
+                if (manager.m_disableHooks[i].system == system)
+                {
+                    manager.m_disableHooks.remove(i);
+                    break;
+                }
+            }
+        }
         if constexpr (HasOnFrameUpdate<T>)
         {
             for (Size i = 0; i < manager.m_frameUpdateHooks.get_size(); ++i)
@@ -160,28 +220,6 @@ void Minty::SystemManager::register_system(StringView const name, Int const prio
                 if (manager.m_eventHooks[i].system == system)
                 {
                     manager.m_eventHooks.remove(i);
-                    break;
-                }
-            }
-        }
-        if constexpr (HasOnLoad<T>)
-        {
-            for (Size i = 0; i < manager.m_loadHooks.get_size(); ++i)
-            {
-                if (manager.m_loadHooks[i].system == system)
-                {
-                    manager.m_loadHooks.remove(i);
-                    break;
-                }
-            }
-        }
-        if constexpr (HasOnUnload<T>)
-        {
-            for (Size i = 0; i < manager.m_unloadHooks.get_size(); ++i)
-            {
-                if (manager.m_unloadHooks[i].system == system)
-                {
-                    manager.m_unloadHooks.remove(i);
                     break;
                 }
             }

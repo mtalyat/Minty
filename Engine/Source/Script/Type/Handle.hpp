@@ -4,6 +4,6 @@
 
 namespace Minty
 {
-    class Script;
+    struct Script;
     using ScriptHandle = Handle<Script>;
 }
