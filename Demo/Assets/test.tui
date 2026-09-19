@@ -21,7 +21,7 @@ OnDisable = function()
 
 OnFrameUpdate = function()
 {
-    print("OnUpdate")
+    print("OnFrameUpdate")
 }
 
 OnFixedUpdate = function()
