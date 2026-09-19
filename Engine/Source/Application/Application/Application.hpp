@@ -12,6 +12,7 @@ namespace Minty
     class AudioManager;
     class RenderManager;
     class InputManager;
+    class ScriptManager;
     class TimeController;
     class Event;
 
@@ -46,6 +47,7 @@ namespace Minty
         inline AudioManager &get_audio_manager() { return *mp_audioManager; }
         inline RenderManager &get_render_manager() { return *mp_renderManager; }
         inline InputManager &get_input_manager() { return *mp_inputManager; }
+        inline ScriptManager &get_script_manager() { return *mp_scriptManager; }
         inline TimeController &get_time_controller() { return *mp_timeController; }
 
 #pragma endregion
@@ -69,6 +71,7 @@ namespace Minty
         AudioManager *mp_audioManager;
         RenderManager *mp_renderManager;
         InputManager *mp_inputManager;
+        ScriptManager *mp_scriptManager;
         TimeController *mp_timeController;
         Bool m_running;
 

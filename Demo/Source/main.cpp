@@ -57,6 +57,14 @@ int main()
     FontResourceHandle const defaultFontResourceHandle = resourceManager.load<FontResource>("Data/Default/Font/default.fnt.minty");
     SpriteResourceHandle const spriteResourceHandle1 = resourceManager.load<SpriteResource>("Demo/Assets/test.spr.minty");
     SpriteResourceHandle const spriteResourceHandle2 = resourceManager.load<SpriteResource>("Demo/Assets/test2.spr.minty");
+    ScriptResourceHandle const scriptResourceHandle = resourceManager.load<ScriptResource>("Demo/Assets/test.scr.minty");
+
+    // Create script data
+    ScriptManager& scriptManager = app.get_script_manager();
+    ScriptHandle const scriptHandle = scriptManager.create(scriptResourceHandle);
+
+    // Test
+    scriptManager.call_load(scriptHandle);
 
     // Create render data
     RenderManager& renderManager = app.get_render_manager();
@@ -209,7 +217,7 @@ int main()
 
     uiEntityManager.add<VisibleTag>(uiTextEntity);
 
-    // Enable scene
+    // Enable scene(s)
     sceneManager.enable(worldSceneHandle);
     sceneManager.enable(uiSceneHandle);
 

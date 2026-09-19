@@ -23,6 +23,10 @@ file(GLOB MINTY_SOLOUD_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/SoLoud/Include/stb_vorbis.cpp"
 )
 
+file(GLOB MINTY_TUI_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/Tui/Source/*.cpp"
+)
+
 add_library(minty_zlib STATIC ${MINTY_ZLIB_SOURCES})
 target_include_directories(minty_zlib PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -52,6 +56,7 @@ minty_add_layer(
     LAYER Library
     SOURCES
         ${MINTY_SOLOUD_SOURCES}
+        ${MINTY_TUI_SOURCES}
         "${MINTY_LIBRARY_STUB_SOURCE}"
     PUBLIC_INCLUDE_DIRS
         "${MINTY_SOURCE_ROOT}"

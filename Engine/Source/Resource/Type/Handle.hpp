@@ -44,6 +44,9 @@ namespace Minty
     struct RenderTargetResource;
     using RenderTargetResourceHandle = Handle<RenderTargetResource>;
 
+    struct ScriptResource;
+    using ScriptResourceHandle = Handle<ScriptResource>;
+
     struct ShaderResource;
     using ShaderResourceHandle = Handle<ShaderResource>;
 

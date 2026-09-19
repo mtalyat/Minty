@@ -7,6 +7,7 @@
 #include "Audio/Manager/AudioManager.hpp"
 #include "Render/Manager/RenderManager.hpp"
 #include "Input/Manager/InputManager.hpp"
+#include "Script/Manager/ScriptManager.hpp"
 #include "Core/Time/TimeController.hpp"
 #include "Event/Event/Event.hpp"
 #include "Window/Window/Window.hpp"
@@ -22,6 +23,7 @@ Minty::Application::Application(ApplicationInfo const &info)
       mp_audioManager(nullptr),
       mp_renderManager(nullptr),
       mp_inputManager(nullptr),
+      mp_scriptManager(nullptr),
       mp_timeController(nullptr),
       m_running(false)
 {
@@ -37,6 +39,7 @@ Minty::Application::Application(ApplicationInfo const &info)
     mp_audioManager = new AudioManager(info.audioManagerInfo);
     mp_renderManager = new RenderManager(info.renderManagerInfo);
     mp_inputManager = new InputManager(info.inputManagerInfo);
+    mp_scriptManager = new ScriptManager(info.scriptManagerInfo);
     mp_timeController = new TimeController(info.timeControllerInfo);
 }
 
@@ -48,6 +51,7 @@ Minty::Application::~Application()
     delete mp_audioManager;
     delete mp_renderManager;
     delete mp_inputManager;
+    delete mp_scriptManager;
     delete mp_timeController;
 
     // Delete the window
@@ -63,6 +67,7 @@ Minty::Application::Application(Application &&app)
       mp_audioManager(app.mp_audioManager),
       mp_renderManager(app.mp_renderManager),
       mp_inputManager(app.mp_inputManager),
+      mp_scriptManager(app.mp_scriptManager),
       mp_timeController(app.mp_timeController),
       m_running(app.m_running)
 {
@@ -71,6 +76,7 @@ Minty::Application::Application(Application &&app)
     app.mp_audioManager = nullptr;
     app.mp_renderManager = nullptr;
     app.mp_inputManager = nullptr;
+    app.mp_scriptManager = nullptr;
     app.mp_timeController = nullptr;
     app.m_running = false;
 }
@@ -84,6 +90,7 @@ Minty::Application &Minty::Application::operator=(Application &&app)
         delete mp_audioManager;
         delete mp_renderManager;
         delete mp_inputManager;
+        delete mp_scriptManager;
         delete mp_timeController;
 
         mp_sceneManager = app.mp_sceneManager;
@@ -91,6 +98,7 @@ Minty::Application &Minty::Application::operator=(Application &&app)
         mp_audioManager = app.mp_audioManager;
         mp_renderManager = app.mp_renderManager;
         mp_inputManager = app.mp_inputManager;
+        mp_scriptManager = app.mp_scriptManager;
         mp_timeController = app.mp_timeController;
         m_running = app.m_running;
 
@@ -99,6 +107,7 @@ Minty::Application &Minty::Application::operator=(Application &&app)
         app.mp_audioManager = nullptr;
         app.mp_renderManager = nullptr;
         app.mp_inputManager = nullptr;
+        app.mp_scriptManager = nullptr;
         app.mp_timeController = nullptr;
         app.m_running = false;
     }

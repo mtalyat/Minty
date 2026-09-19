@@ -1,0 +1,694 @@
+#ifndef TuiNumber_h
+#define TuiNumber_h
+
+#include <stdio.h>
+#include <string>
+#include <cstring>
+// #include "glm.hpp"
+#include "Library/GLM/GLM.hpp"
+#include "TuiLog.h"
+
+#include "TuiRef.h"
+
+using namespace glm;
+
+class TuiNumber8;
+class TuiNumber16;
+class TuiNumber32;
+class TuiNumber64;
+
+
+class TuiNumber : public TuiRef {
+public: //members
+    double value;
+
+public://functions
+    TuiNumber(double value_) : TuiRef() {value = value_;}
+    virtual ~TuiNumber() {};
+    
+    virtual TuiRef* copy()
+    {
+        return new TuiNumber(value);
+    }
+    virtual void assign(TuiRef* other) {
+        value = ((TuiNumber*)other)->value;
+    };
+    
+    
+    virtual uint8_t type() { return Tui_ref_type_NUMBER; }
+    virtual std::string getTypeName() {return "number";}
+    virtual std::string getStringValue() {
+        if(value == floor(value))
+        {
+            return Tui::string_format("%.0f", value);
+        }
+        return Tui::string_format("%s", Tui::doubleToString(value).c_str());
+    }
+    virtual bool boolValue() {return true;}
+    virtual double getNumberValue() {return value;}
+    virtual bool isEqual(TuiRef* other) {return other && other->type() == Tui_ref_type_NUMBER && ((TuiNumber*)other)->value == value;}
+    
+    
+    virtual void serializeBinaryToBuffer(std::string& buffer, int* currentOffset)
+    {
+        resizeBufferIfNeeded(buffer, currentOffset, 9);
+        buffer[(*currentOffset)++] = Tui_binary_type_NUMBER;
+        memcpy(&buffer[(*currentOffset)], &value, 8);
+        *currentOffset += 8;
+    }
+};
+
+
+//these integer types are only added for binary serializaton so far, they cannot yet be used from within tui scripts
+
+class TuiNumber8 : public TuiRef {
+public: //members
+    uint8_t value;
+
+public://functions
+    TuiNumber8(uint8_t value_) : TuiRef() {value = value_;}
+    virtual ~TuiNumber8() {};
+    
+    virtual TuiRef* copy()
+    {
+        return new TuiNumber8(value);
+    }
+    virtual void assign(TuiRef* other) {
+        value = ((TuiNumber8*)other)->value;
+    };
+    
+    
+    virtual uint8_t type() { return Tui_ref_type_NUMBER_8; }
+    virtual std::string getTypeName() {return "number8";}
+    virtual std::string getStringValue() {
+        return Tui::string_format("%u", value);
+    }
+    virtual bool boolValue() {return true;}
+    virtual double getNumberValue() {return value;}
+    virtual bool isEqual(TuiRef* other) {return other && (
+      (other->type() == Tui_ref_type_NUMBER_8 && ((TuiNumber8*)other)->value == value))
+        ;}
+    
+    
+    virtual void serializeBinaryToBuffer(std::string& buffer, int* currentOffset)
+    {
+        resizeBufferIfNeeded(buffer, currentOffset, 2);
+        buffer[(*currentOffset)++] = Tui_binary_type_NUMBER_8;
+        memcpy(&buffer[(*currentOffset)], &value, 1);
+        *currentOffset += 1;
+    }
+};
+
+class TuiNumber16 : public TuiRef {
+public: //members
+    uint16_t value;
+
+public://functions
+    TuiNumber16(uint16_t value_) : TuiRef() {value = value_;}
+    virtual ~TuiNumber16() {};
+    
+    virtual TuiRef* copy()
+    {
+        return new TuiNumber16(value);
+    }
+    virtual void assign(TuiRef* other) {
+        value = ((TuiNumber16*)other)->value;
+    };
+    
+    
+    virtual uint8_t type() { return Tui_ref_type_NUMBER_16; }
+    virtual std::string getTypeName() {return "number16";}
+    virtual std::string getStringValue() {
+        return Tui::string_format("%lu", value);
+    }
+    virtual bool boolValue() {return true;}
+    virtual double getNumberValue() {return value;}
+    virtual bool isEqual(TuiRef* other) {return other && (
+      (other->type() == Tui_ref_type_NUMBER_16 && ((TuiNumber16*)other)->value == value))
+        ;}
+    
+    
+    virtual void serializeBinaryToBuffer(std::string& buffer, int* currentOffset)
+    {
+        resizeBufferIfNeeded(buffer, currentOffset, 3);
+        buffer[(*currentOffset)++] = Tui_binary_type_NUMBER_16;
+        memcpy(&buffer[(*currentOffset)], &value, 2);
+        *currentOffset += 2;
+    }
+};
+
+
+class TuiNumber32 : public TuiRef {
+public: //members
+    uint32_t value;
+
+public://functions
+    TuiNumber32(uint32_t value_) : TuiRef() {value = value_;}
+    virtual ~TuiNumber32() {};
+    
+    virtual TuiRef* copy()
+    {
+        return new TuiNumber32(value);
+    }
+    virtual void assign(TuiRef* other) {
+        value = ((TuiNumber32*)other)->value;
+    };
+    
+    
+    virtual uint8_t type() { return Tui_ref_type_NUMBER_32; }
+    virtual std::string getTypeName() {return "number32";}
+    virtual std::string getStringValue() {
+        return Tui::string_format("%lu", value);
+    }
+    virtual bool boolValue() {return true;}
+    virtual double getNumberValue() {return value;}
+    virtual bool isEqual(TuiRef* other) {return other && (
+      (other->type() == Tui_ref_type_NUMBER_32 && ((TuiNumber32*)other)->value == value))
+        ;}
+    
+    
+    virtual void serializeBinaryToBuffer(std::string& buffer, int* currentOffset)
+    {
+        resizeBufferIfNeeded(buffer, currentOffset, 5);
+        buffer[(*currentOffset)++] = Tui_binary_type_NUMBER_32;
+        memcpy(&buffer[(*currentOffset)], &value, 4);
+        *currentOffset += 4;
+    }
+};
+
+
+class TuiNumber64 : public TuiRef {
+public: //members
+    uint64_t value;
+
+public://functions
+    TuiNumber64(uint64_t value_) : TuiRef() {value = value_;}
+    virtual ~TuiNumber64() {};
+    
+    virtual TuiRef* copy()
+    {
+        return new TuiNumber64(value);
+    }
+    virtual void assign(TuiRef* other) {
+        value = ((TuiNumber64*)other)->value;
+    };
+    
+    virtual uint8_t type() { return Tui_ref_type_NUMBER_64; }
+    virtual std::string getTypeName() {return "number64";}
+    virtual std::string getStringValue() {
+        return Tui::string_format("%llu", value);
+    }
+    virtual bool boolValue() {return true;}
+    virtual double getNumberValue() {return value;}
+    virtual bool isEqual(TuiRef* other) {return other && (
+      (other->type() == Tui_ref_type_NUMBER_64 && ((TuiNumber64*)other)->value == value))
+        ;}
+    
+    virtual void serializeBinaryToBuffer(std::string& buffer, int* currentOffset)
+    {
+        resizeBufferIfNeeded(buffer, currentOffset, 9);
+        buffer[(*currentOffset)++] = Tui_binary_type_NUMBER_64;
+        memcpy(&buffer[(*currentOffset)], &value, 8);
+        *currentOffset += 8;
+    }
+};
+
+class TuiBool;
+extern TuiBool* TUI_TRUE;
+extern TuiBool* TUI_FALSE;
+
+#define TUI_BOOL(__boolValue__) ((__boolValue__) ? TUI_TRUE : TUI_FALSE)
+
+class TuiBool : public TuiRef {
+public: //members
+    bool value;
+
+public://functions
+    TuiBool(bool value_) : TuiRef() {value = value_;} //do not use TuiBool directly, use TUI_TRUE and TUI_FALSE
+    
+    virtual ~TuiBool() {};
+    
+    virtual TuiRef* copy()
+    {
+        return this;
+    }
+    virtual void assign(TuiRef* other) {
+        TuiError("assign not supported for bool type");
+    };
+    virtual void release() {}
+    virtual TuiRef* retain() { return this;}
+    
+    static TuiBool* initWithHumanReadableString(const char* str, char** endptr, TuiTable* parent, TuiDebugInfo* debugInfo) {
+        const char* s = tuiSkipToNextChar(str, debugInfo);
+        
+        if(*s == 't' && *(s + 1) == 'r' && *(s + 2) == 'u' && *(s + 3) == 'e' && checkSymbolNameComplete(s + 4))
+        {
+            *endptr = (char*)(s + 4);
+            return TUI_TRUE;
+        }
+        if(*s == 'f' && *(s + 1) == 'a' && *(s + 2) == 'l' && *(s + 3) == 's' && *(s + 4) == 'e' && checkSymbolNameComplete(s + 5))
+        {
+            *endptr = (char*)(s + 5);
+            return TUI_FALSE;
+        }
+        
+        return nullptr;
+    }
+    
+    virtual uint8_t type() { return Tui_ref_type_BOOL; }
+    virtual std::string getTypeName() {return "bool";}
+    virtual std::string getStringValue() {
+        return (value ? "true" : "false");
+    }
+    virtual bool boolValue() {return value;}
+    virtual double getNumberValue() {return value;}
+    virtual bool isEqual(TuiRef* other)
+    {
+        if(!other)
+        {
+            return !value;
+        }
+        return other == this;
+    }
+    
+    virtual void serializeBinaryToBuffer(std::string& buffer, int* currentOffset)
+    {
+        resizeBufferIfNeeded(buffer, currentOffset, 1);
+        if(value)
+        {
+            buffer[(*currentOffset)++] = Tui_binary_type_BOOL_TRUE;
+        }
+        else
+        {
+            buffer[(*currentOffset)++] = Tui_binary_type_BOOL_FALSE;
+        }
+    }
+
+private:
+    
+private:
+};
+
+
+class TuiVec2 : public TuiRef {
+public: //members
+    dvec2 value;
+
+public://functions
+    TuiVec2(dvec2 value_) : TuiRef() {value = value_;}
+    virtual ~TuiVec2() {};
+    virtual TuiRef* copy()
+    {
+        return new TuiVec2(value);
+    }
+    virtual void assign(TuiRef* other) {
+        value = ((TuiVec2*)other)->value;
+    };
+    
+    static TuiVec2* initWithHumanReadableString(const char* str, char** endptr, TuiTable* parent, TuiDebugInfo* debugInfo) {
+        const char* s = tuiSkipToNextChar(str, debugInfo);
+        
+        if(*s == 'v' && *(s + 1) == 'e' && *(s + 2) == 'c' && *(s + 3) == '2' && *(s + 4) == '(')
+        {
+            s+= 5;
+            s = tuiSkipToNextChar(s, debugInfo);
+            
+            double values[2] = {0.0,0.0};
+            for(int i = 0; i < 2; i++)
+            {
+                TuiRef* loadedValue = TuiRef::loadExpression(s, endptr, nullptr, nullptr, (TuiTable*)parent, debugInfo);
+                s = tuiSkipToNextChar(*endptr, debugInfo);
+                
+                if(!loadedValue || loadedValue->type() != Tui_ref_type_NUMBER)
+                {
+                    TuiParseError(debugInfo, "uninitialized or non-number value in vec2 constructor:%c", *s);
+                    if(loadedValue)
+                    {
+                        loadedValue->release();
+                    }
+                    return nullptr;
+                }
+                
+                values[i] = ((TuiNumber*)loadedValue)->value;
+                loadedValue->release();
+                
+                if(*s == ',')
+                {
+                    s++;
+                    s = tuiSkipToNextChar(s, debugInfo);
+                }
+                else if(*s == ')' || *s == '\0')
+                {
+                    s++;
+                    break;
+                }
+                else
+                {
+                    TuiParseError(debugInfo, "found bad char when expecting ',' within vec2:%c", *s);
+                    return nullptr;
+                }
+            }
+            
+            s = tuiSkipToNextChar(s, debugInfo, true);
+            *endptr = (char*)s;
+            
+            return new TuiVec2(dvec2(values[0], values[1]));
+        }
+        
+        return nullptr;
+    }
+    
+    virtual uint8_t type() { return Tui_ref_type_VEC2; }
+    virtual std::string getTypeName() {return "vec2";}
+    virtual std::string getStringValue() {
+        return Tui::string_format("vec2(%s,%s)", Tui::doubleToString(value.x).c_str(), Tui::doubleToString(value.y).c_str());
+    }
+    virtual bool boolValue() {return true;}
+    virtual bool isEqual(TuiRef* other) {return other && other->type() == Tui_ref_type_VEC2 && ((TuiVec2*)other)->value == value;}
+
+    
+    virtual void serializeBinaryToBuffer(std::string& buffer, int* currentOffset)
+    {
+        resizeBufferIfNeeded(buffer, currentOffset, 17);
+        buffer[(*currentOffset)++] = Tui_binary_type_VEC2;
+        memcpy(&buffer[(*currentOffset)], &value.x, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value.y, 8);
+        *currentOffset += 8;
+    }
+    
+private:
+    
+private:
+};
+
+
+class TuiVec3 : public TuiRef {
+public: //members
+    dvec3 value;
+
+public://functions
+    TuiVec3(dvec3 value_) : TuiRef() {value = value_;}
+    virtual ~TuiVec3() {};
+    virtual TuiRef* copy()
+    {
+        return new TuiVec3(value);
+    }
+    virtual void assign(TuiRef* other) {
+        value = ((TuiVec3*)other)->value;
+    };
+    
+    static TuiVec3* initWithHumanReadableString(const char* str, char** endptr, TuiTable* parent, TuiDebugInfo* debugInfo) {
+        const char* s = tuiSkipToNextChar(str, debugInfo);
+        
+        if(*s == 'v' && *(s + 1) == 'e' && *(s + 2) == 'c' && *(s + 3) == '3' && *(s + 4) == '(')
+        {
+            s+= 5;
+            s = tuiSkipToNextChar(s, debugInfo);
+            
+            double values[3] = {0.0,0.0,0.0};
+            for(int i = 0; i < 3; i++)
+            {
+                TuiRef* loadedValue = TuiRef::loadExpression(s, endptr, nullptr, nullptr, (TuiTable*)parent, debugInfo);
+                s = tuiSkipToNextChar(*endptr, debugInfo);
+                
+                if(!loadedValue || loadedValue->type() != Tui_ref_type_NUMBER)
+                {
+                    TuiParseError(debugInfo, "uninitialized or non-number value in vec3 constructor:%c", *s);
+                    if(loadedValue)
+                    {
+                        loadedValue->release();
+                    }
+                    return nullptr;
+                }
+                
+                values[i] = ((TuiNumber*)loadedValue)->value;
+                loadedValue->release();
+                
+                if(*s == ',')
+                {
+                    s++;
+                    s = tuiSkipToNextChar(s, debugInfo);
+                }
+                else if(*s == ')' || *s == '\0')
+                {
+                    s++;
+                    s = tuiSkipToNextChar(s, debugInfo, true);
+                    break;
+                }
+                else
+                {
+                    TuiParseError(debugInfo, "found bad char when expecting ',' within vec3:%c", *s);
+                    return nullptr;
+                }
+            }
+            
+            *endptr = (char*)s;
+            
+            return new TuiVec3(dvec3(values[0], values[1], values[2]));
+        }
+        
+        return nullptr;
+    }
+    
+    virtual uint8_t type() { return Tui_ref_type_VEC3; }
+    virtual std::string getTypeName() {return "vec3";}
+    virtual std::string getStringValue() {
+        return Tui::string_format("vec3(%s,%s,%s)", Tui::doubleToString(value.x).c_str(), Tui::doubleToString(value.y).c_str(), Tui::doubleToString(value.z).c_str());
+    }
+    virtual bool boolValue() {return true;}
+    virtual bool isEqual(TuiRef* other) {return other && other->type() == Tui_ref_type_VEC3 && ((TuiVec3*)other)->value == value;}
+
+    virtual void serializeBinaryToBuffer(std::string& buffer, int* currentOffset)
+    {
+        resizeBufferIfNeeded(buffer, currentOffset, 25);
+        buffer[(*currentOffset)++] = Tui_binary_type_VEC3;
+        memcpy(&buffer[(*currentOffset)], &value.x, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value.y, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value.z, 8);
+        *currentOffset += 8;
+    }
+    
+private:
+    
+private:
+};
+
+
+class TuiVec4 : public TuiRef {
+public: //members
+    dvec4 value;
+
+public://functions
+    TuiVec4(dvec4 value_) : TuiRef() {value = value_;}
+    virtual ~TuiVec4() {};
+    virtual TuiRef* copy()
+    {
+        return new TuiVec4(value);
+    }
+    virtual void assign(TuiRef* other) {
+        value = ((TuiVec4*)other)->value;
+    };
+    
+    static TuiVec4* initWithHumanReadableString(const char* str, char** endptr, TuiTable* parent, TuiDebugInfo* debugInfo) {
+        const char* s = tuiSkipToNextChar(str, debugInfo);
+        
+        if(*s == 'v' && *(s + 1) == 'e' && *(s + 2) == 'c' && *(s + 3) == '4' && *(s + 4) == '(')
+        {
+            s+= 5;
+            s = tuiSkipToNextChar(s, debugInfo);
+            
+            double values[4] = {0.0,0.0,0.0,0.0};
+            for(int i = 0; i < 4; i++)
+            {
+                TuiRef* loadedValue = TuiRef::loadExpression(s, endptr, nullptr, nullptr, (TuiTable*)parent, debugInfo);
+                s = tuiSkipToNextChar(*endptr, debugInfo);
+                
+                if(!loadedValue || loadedValue->type() != Tui_ref_type_NUMBER)
+                {
+                    TuiParseError(debugInfo, "uninitialized or non-number value in vec4 constructor:%c", *s);
+                    if(loadedValue)
+                    {
+                        loadedValue->release();
+                    }
+                    return nullptr;
+                }
+                
+                values[i] = ((TuiNumber*)loadedValue)->value;
+                loadedValue->release();
+                
+                if(*s == ',')
+                {
+                    s++;
+                    s = tuiSkipToNextChar(s, debugInfo);
+                }
+                else if(*s == ')' || *s == '\0')
+                {
+                    s++;
+                    break;
+                }
+                else
+                {
+                    TuiParseError(debugInfo, "found bad char when expecting ',' within vec4:%c", *s);
+                    return nullptr;
+                }
+            }
+            
+            s = tuiSkipToNextChar(s, debugInfo, true);
+            *endptr = (char*)s;
+            
+            return new TuiVec4(dvec4(values[0], values[1], values[2],  values[3]));
+        }
+        
+        return nullptr;
+    }
+    
+    virtual uint8_t type() { return Tui_ref_type_VEC4; }
+    virtual std::string getTypeName() {return "vec4";}
+    virtual std::string getStringValue() {
+        return Tui::string_format("vec4(%s,%s,%s,%s)", Tui::doubleToString(value.x).c_str(), Tui::doubleToString(value.y).c_str(), Tui::doubleToString(value.z).c_str(), Tui::doubleToString(value.w).c_str());
+    }
+    virtual bool boolValue() {return true;}
+    virtual bool isEqual(TuiRef* other) {return other && other->type() == Tui_ref_type_VEC4 && ((TuiVec4*)other)->value == value;}
+
+    virtual void serializeBinaryToBuffer(std::string& buffer, int* currentOffset)
+    {
+        resizeBufferIfNeeded(buffer, currentOffset, 33);
+        buffer[(*currentOffset)++] = Tui_binary_type_VEC4;
+        memcpy(&buffer[(*currentOffset)], &value.x, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value.y, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value.z, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value.w, 8);
+        *currentOffset += 8;
+    }
+    
+private:
+};
+
+
+class TuiMat3 : public TuiRef {
+public: //members
+    dmat3 value;
+
+public://functions
+    TuiMat3(dmat3 value_) : TuiRef() {value = value_;}
+    virtual ~TuiMat3() {};
+    virtual TuiRef* copy()
+    {
+        return new TuiMat3(value);
+    }
+    virtual void assign(TuiRef* other) {
+        value = ((TuiMat3*)other)->value;
+    };
+    
+    static TuiMat3* initWithHumanReadableString(const char* str, char** endptr, TuiTable* parent, TuiDebugInfo* debugInfo) {
+        const char* s = tuiSkipToNextChar(str, debugInfo);
+        
+        if(*s == 'm' && *(s + 1) == 'a' && *(s + 2) == 't' && *(s + 3) == '3' && *(s + 4) == '(')
+        {
+            s+= 5;
+            s = tuiSkipToNextChar(s, debugInfo);
+            
+            double values[9] = {0,0,0,0,0,0,0,0,0};
+            for(int i = 0; i < 9; i++)
+            {
+                TuiRef* loadedValue = TuiRef::loadExpression(s, endptr, nullptr, nullptr, (TuiTable*)parent, debugInfo);
+                s = tuiSkipToNextChar(*endptr, debugInfo);
+                
+                if(!loadedValue || loadedValue->type() != Tui_ref_type_NUMBER)
+                {
+                    TuiParseError(debugInfo, "uninitialized or non-number value in mat3 constructor:%c", *s);
+                    if(loadedValue)
+                    {
+                        loadedValue->release();
+                    }
+                    return nullptr;
+                }
+                
+                values[i] = ((TuiNumber*)loadedValue)->value;
+                loadedValue->release();
+                
+                if(*s == ',')
+                {
+                    s++;
+                    s = tuiSkipToNextChar(s, debugInfo);
+                }
+                else if(*s == ')' || *s == '\0')
+                {
+                    s++;
+                    break;
+                }
+                else
+                {
+                    TuiParseError(debugInfo, "found bad char when expecting ',' within mat3:%c", *s);
+                    return nullptr;
+                }
+            }
+            
+            s = tuiSkipToNextChar(s, debugInfo, true);
+            *endptr = (char*)s;
+            
+            return new TuiMat3(dmat3(values[0],
+                                     values[1],
+                                     values[2],
+                                     values[3],
+                                     values[4],
+                                     values[5],
+                                     values[6],
+                                     values[7],
+                                     values[8]));
+        }
+        
+        return nullptr;
+    }
+    
+    virtual uint8_t type() { return Tui_ref_type_MAT3; }
+    virtual std::string getTypeName() {return "mat3";}
+    virtual std::string getStringValue() {
+        return Tui::string_format("mat3((%s,%s,%s), (%s,%s,%s), (%s,%s,%s))",
+                                  Tui::doubleToString(value[0].x).c_str(),
+                                  Tui::doubleToString(value[0].y).c_str(),
+                                  Tui::doubleToString(value[0].z).c_str(),
+                                  Tui::doubleToString(value[1].x).c_str(),
+                                  Tui::doubleToString(value[1].y).c_str(),
+                                  Tui::doubleToString(value[1].z).c_str(),
+                                  Tui::doubleToString(value[2].x).c_str(),
+                                  Tui::doubleToString(value[2].y).c_str(),
+                                  Tui::doubleToString(value[2].z).c_str());
+    }
+    virtual bool boolValue() {return true;}
+    virtual bool isEqual(TuiRef* other) {return other && other->type() == Tui_ref_type_MAT3 && ((TuiMat3*)other)->value == value;}
+
+    virtual void serializeBinaryToBuffer(std::string& buffer, int* currentOffset)
+    {
+        resizeBufferIfNeeded(buffer, currentOffset, 73);
+        buffer[(*currentOffset)++] = Tui_binary_type_MAT3;
+        memcpy(&buffer[(*currentOffset)], &value[0].x, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value[0].y, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value[0].z, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value[1].x, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value[1].y, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value[1].z, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value[2].x, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value[2].y, 8);
+        *currentOffset += 8;
+        memcpy(&buffer[(*currentOffset)], &value[2].z, 8);
+        *currentOffset += 8;
+    }
+    
+private:
+};
+
+#endif

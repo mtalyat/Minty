@@ -1,0 +1,32 @@
+
+OnLoad = function()
+{
+    print("OnLoad")
+}
+
+OnUnload = function()
+{
+    print("OnUnload")
+}
+
+OnEnable = function()
+{
+    print("OnEnable")
+}
+
+OnDisable = function()
+{
+    print("OnDisable")
+}
+
+OnFrameUpdate = function()
+{
+    print("OnUpdate")
+}
+
+OnFixedUpdate = function()
+{
+    print("OnFixedUpdate")
+}
+
+
