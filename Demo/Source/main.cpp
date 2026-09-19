@@ -58,9 +58,6 @@ int main()
     SpriteResourceHandle const spriteResourceHandle1 = resourceManager.load<SpriteResource>("Demo/Assets/test.spr.minty");
     SpriteResourceHandle const spriteResourceHandle2 = resourceManager.load<SpriteResource>("Demo/Assets/test2.spr.minty");
 
-    (void)defaultFontImageResourceHandle;
-    (void)defaultFontTextureResourceHandle;
-
     // Create render data
     RenderManager& renderManager = app.get_render_manager();
     TextureHandle const textureHandle = renderManager.create(textureResourceHandle);
