@@ -5,6 +5,12 @@
 
 namespace Minty
 {
+    struct ScriptComponentData
+    {
+        ScriptHandle handle = INVALID_HANDLE;
+        Bool enabled = true;
+    };
+
     /**
      * @brief Component that holds a list of script handles attached to an entity.
      * @note One script component per entity, but multiple scripts per entity are allowed.
@@ -14,6 +20,6 @@ namespace Minty
         /**
          * @brief List of script handles attached to this component.
          */
-        Vector<ScriptHandle> scripts;
+        Vector<ScriptComponentData> scripts;
     };
 }

@@ -20,8 +20,22 @@ Minty::SystemManager::SystemManager(SystemManagerInfo const &info, Scene &scene)
       m_finalizeHooks(),
       m_renderHooks(),
       m_eventHooks(),
-      m_status(StatusEnum::Created)
+      m_status()
 {
+    m_status.value = StatusEnum::Created;
+    m_status.parent = StatusEnum::Created;
+    on_promotion();
+}
+
+Minty::SystemManager::~SystemManager()
+{
+    while (m_status.value != StatusEnum::Destroyed)
+    {
+        if (m_status.demote())
+        {
+            on_demotion();
+        }
+    }
 }
 
 void Minty::SystemManager::on_frame_update(Timestep const &timestep)
@@ -90,6 +104,9 @@ void Minty::SystemManager::on_promotion()
 {
     switch (m_status)
     {
+    case StatusEnum::Created:
+        on_create();
+        break;
     case StatusEnum::Loaded:
         on_load();
         break;
@@ -112,9 +129,28 @@ void Minty::SystemManager::on_demotion()
     case StatusEnum::Disabled:
         on_disable();
         break;
+    case StatusEnum::Destroyed:
+        on_destroy();
+        break;
     default:
         MINTY_NOT_IMPLEMENTED();
         break;
+    }
+}
+
+void Minty::SystemManager::on_create()
+{
+    for (EventHook const &hook : m_createHooks)
+    {
+        hook.func(hook.system);
+    }
+}
+
+void Minty::SystemManager::on_destroy()
+{
+    for (EventHook const &hook : m_destroyHooks)
+    {
+        hook.func(hook.system);
     }
 }
 

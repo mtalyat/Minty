@@ -12,6 +12,7 @@
 #include "Event/Event/Event.hpp"
 #include "Window/Window/Window.hpp"
 #include "Window/Window/WindowInfo.hpp"
+#include "Script/Script/ScriptGlobalContext.hpp"
 
 using namespace Minty;
 
@@ -33,8 +34,6 @@ Minty::Application::Application(ApplicationInfo const &info)
       mouseScrollListener(nullptr),
       resizeListener(nullptr)
 {
-    m_status.promote_to(StatusEnum::Created);
-
     // Initialize the platform
     Platform::initialize();
 
@@ -50,11 +49,15 @@ Minty::Application::Application(ApplicationInfo const &info)
     mp_scriptManager = new ScriptManager(info.scriptManagerInfo);
     mp_timeController = new TimeController(info.timeControllerInfo);
 
-    m_status.promote_to(StatusEnum::Loaded);
+    // Promote to Created status
+    trigger_promotion(StatusEnum::Created);
 }
 
 Minty::Application::~Application()
 {
+    // Promote to Destroyed status
+    trigger_demotion(StatusEnum::Destroyed);
+
     // Delete the managers
     delete mp_sceneManager;
     delete mp_resourceManager;
@@ -144,10 +147,13 @@ Minty::Application &Minty::Application::operator=(Application &&app)
 
 Int Minty::Application::run()
 {
-    Int fixedUpdates, i;
-
     load();
     enable();
+    
+    Int fixedUpdates, i;
+    ScriptGlobalContext globalContext{};
+    Timestep frameTimestep{};
+    Timestep fixedTimestep{};
 
     m_running = true;
     while (m_running && mp_window->is_open())
@@ -159,6 +165,14 @@ Int Minty::Application::run()
 
         // Update time controller
         fixedUpdates = mp_timeController->update();
+        fixedTimestep = mp_timeController->get_fixed_timestep();
+        frameTimestep = mp_timeController->get_frame_timestep();
+
+        // Update the global context for all scripts
+        globalContext.frameDeltaTime = frameTimestep.deltaTime;
+        globalContext.fixedDeltaTime = fixedTimestep.deltaTime;
+        globalContext.totalTime = frameTimestep.totalTime;
+        mp_scriptManager->update_global_context(globalContext);
 
         // Perform fixed updates, if any
         for (i = 0; i < fixedUpdates; ++i)

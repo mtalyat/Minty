@@ -6,12 +6,17 @@
 #include "Resource/Type/Handle.hpp"
 #include "Script/Script/Script.hpp"
 #include "Script/Type/Handle.hpp"
+#include "Core/Type/Status.hpp"
 
 namespace Minty
 {
     struct ScriptManagerInfo;
     struct ScriptInfo;
     struct ScriptResourceInfo;
+    struct ScriptLocalContext;
+    struct ScriptGlobalContext;
+    class Event;
+    struct Timestep;
 
     class ScriptManager
     {
@@ -38,19 +43,23 @@ namespace Minty
 #pragma region Method
 
     public:
+        // Script
         ScriptHandle create(ScriptInfo const &info);
         ScriptHandle create(ScriptResourceHandle const handle);
         void destroy(ScriptHandle handle);
         Bool contains(ScriptHandle handle);
-        void call_load(ScriptHandle handle);
-        void call_unload(ScriptHandle handle);
-        void call_enable(ScriptHandle handle);
-        void call_disable(ScriptHandle handle);
-        void call_frame_update(ScriptHandle handle);
-        void call_fixed_update(ScriptHandle handle);
-        void call_finalize(ScriptHandle handle);
-        void call_render(ScriptHandle handle);
-        void call_event(ScriptHandle handle);
+        void update_global_context(ScriptGlobalContext const &context);
+        void call_create(ScriptHandle handle, ScriptLocalContext const &context);
+        void call_destroy(ScriptHandle handle, ScriptLocalContext const &context);
+        void call_load(ScriptHandle handle, ScriptLocalContext const &context);
+        void call_unload(ScriptHandle handle, ScriptLocalContext const &context);
+        void call_enable(ScriptHandle handle, ScriptLocalContext const &context);
+        void call_disable(ScriptHandle handle, ScriptLocalContext const &context);
+        void call_frame_update(ScriptHandle handle, ScriptLocalContext const &context);
+        void call_fixed_update(ScriptHandle handle, ScriptLocalContext const &context);
+        void call_finalize(ScriptHandle handle, ScriptLocalContext const &context);
+        void call_render(ScriptHandle handle, ScriptLocalContext const &context);
+        void call_event(ScriptHandle handle, ScriptLocalContext const &context, Event &event);
 
 #pragma endregion
 
@@ -59,6 +68,7 @@ namespace Minty
     private:
         HandlePool<Script> m_scriptPool;
         Map<ScriptResourceHandle, ScriptHandle> m_scriptCache;
+        Status m_status;
 
         static ScriptManager* s_instance;
 

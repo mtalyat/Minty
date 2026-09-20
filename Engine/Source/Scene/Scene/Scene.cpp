@@ -123,7 +123,7 @@ void Minty::Scene::on_enable()
 {
     if(m_status.promote_to(StatusEnum::Enabled))
     {
-        mp_systemManager->on_enable();
+        mp_systemManager->trigger_promotion(StatusEnum::Enabled);
     }
 }
 
@@ -131,6 +131,6 @@ void Minty::Scene::on_disable()
 {
     if(m_status.demote_to(StatusEnum::Disabled))
     {
-        mp_systemManager->on_disable();
+        mp_systemManager->trigger_demotion(StatusEnum::Disabled);
     }
 }

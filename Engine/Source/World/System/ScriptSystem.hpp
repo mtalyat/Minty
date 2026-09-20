@@ -13,33 +13,33 @@ namespace Minty
     {
 #pragma region Constructor
 
-	public:
-		/**
-		 * @brief Creates a ScriptSystem using the given Scene.
-		 */
-		ScriptSystem(Scene& scene);
+    public:
+        /**
+         * @brief Creates a ScriptSystem using the given Scene.
+         */
+        ScriptSystem(Scene &scene);
 
 #pragma endregion
 
 #pragma region Method
 
-public:
-    void on_load();
-    void on_unload();
-    void on_enable();
-    void on_disable();
-    void on_frame_update(Timestep const &timestep);
-    void on_fixed_update(Timestep const &timestep);
-    void on_finalize();
-    void on_render();
-    void on_event(Event &event);
+    public:
+        void on_load();
+        void on_unload();
+        void on_enable();
+        void on_disable();
+        void on_frame_update(Timestep const &timestep);
+        void on_fixed_update(Timestep const &timestep);
+        void on_finalize();
+        void on_render();
+        void on_event(Event &event);
 
 #pragma endregion
 
 #pragma region Variable
 
-	private:
-		Scene* mp_scene;
+    private:
+        Scene *mp_scene;
 
 #pragma endregion
     };

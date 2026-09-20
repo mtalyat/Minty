@@ -4,6 +4,7 @@
 #include "World/Entity/EntityManager.hpp"
 #include "World/Component/ScriptComponent.hpp"
 #include "Script/Manager/ScriptManager.hpp"
+#include "Script/Script/ScriptLocalContext.hpp"
 
 using namespace Minty;
 
@@ -15,13 +16,21 @@ Minty::ScriptSystem::ScriptSystem(Scene &scene)
 void Minty::ScriptSystem::on_load()
 {
     // Call all scripts attached to entities with the on_load method
-    EntityManager& entityManager = mp_scene->get_entity_manager();
+    EntityManager &entityManager = mp_scene->get_entity_manager();
     ScriptManager &scriptManager = ScriptManager::get_instance();
-    for(auto&& [entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
+    ScriptLocalContext localContext{};
+    for (auto &&[entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
     {
-        for(ScriptHandle const handle : scriptComp.scripts)
+        // Update context for the current entity
+        localContext.entity = entity;
+
+        // Call all attached scripts for the current entity
+        for (ScriptComponentData const& data : scriptComp.scripts)
         {
-            scriptManager.call_load(handle);
+            if (data.enabled)
+            {
+                scriptManager.call_load(data.handle, localContext);
+            }
         }
     }
 }
@@ -29,13 +38,21 @@ void Minty::ScriptSystem::on_load()
 void Minty::ScriptSystem::on_unload()
 {
     // Call all scripts attached to entities with the on_unload method
-    EntityManager& entityManager = mp_scene->get_entity_manager();
+    EntityManager &entityManager = mp_scene->get_entity_manager();
     ScriptManager &scriptManager = ScriptManager::get_instance();
-    for(auto&& [entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
+    ScriptLocalContext localContext{};
+    for (auto &&[entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
     {
-        for(ScriptHandle const handle : scriptComp.scripts)
+        // Update context for the current entity
+        localContext.entity = entity;
+
+        // Call all attached scripts for the current entity
+        for (ScriptComponentData const& data : scriptComp.scripts)
         {
-            scriptManager.call_unload(handle);
+            if (data.enabled)
+            {
+                scriptManager.call_unload(data.handle, localContext);
+            }
         }
     }
 }
@@ -43,13 +60,21 @@ void Minty::ScriptSystem::on_unload()
 void Minty::ScriptSystem::on_enable()
 {
     // Call all scripts attached to entities with the on_enable method
-    EntityManager& entityManager = mp_scene->get_entity_manager();
+    EntityManager &entityManager = mp_scene->get_entity_manager();
     ScriptManager &scriptManager = ScriptManager::get_instance();
-    for(auto&& [entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
+    ScriptLocalContext localContext{};
+    for (auto &&[entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
     {
-        for(ScriptHandle const handle : scriptComp.scripts)
+        // Update context for the current entity
+        localContext.entity = entity;
+
+        // Call all attached scripts for the current entity
+        for (ScriptComponentData const& data : scriptComp.scripts)
         {
-            scriptManager.call_enable(handle);
+            if (data.enabled)
+            {
+                scriptManager.call_enable(data.handle, localContext);
+            }
         }
     }
 }
@@ -57,13 +82,21 @@ void Minty::ScriptSystem::on_enable()
 void Minty::ScriptSystem::on_disable()
 {
     // Call all scripts attached to entities with the on_disable method
-    EntityManager& entityManager = mp_scene->get_entity_manager();
+    EntityManager &entityManager = mp_scene->get_entity_manager();
     ScriptManager &scriptManager = ScriptManager::get_instance();
-    for(auto&& [entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
+    ScriptLocalContext localContext{};
+    for (auto &&[entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
     {
-        for(ScriptHandle const handle : scriptComp.scripts)
+        // Update context for the current entity
+        localContext.entity = entity;
+
+        // Call all attached scripts for the current entity
+        for (ScriptComponentData const& data : scriptComp.scripts)
         {
-            scriptManager.call_disable(handle);
+            if (data.enabled)
+            {
+                scriptManager.call_disable(data.handle, localContext);
+            }
         }
     }
 }
@@ -71,13 +104,21 @@ void Minty::ScriptSystem::on_disable()
 void Minty::ScriptSystem::on_frame_update(Timestep const &timestep)
 {
     // Call all scripts attached to entities with the on_frame_update method
-    EntityManager& entityManager = mp_scene->get_entity_manager();
+    EntityManager &entityManager = mp_scene->get_entity_manager();
     ScriptManager &scriptManager = ScriptManager::get_instance();
-    for(auto&& [entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
+    ScriptLocalContext localContext{};
+    for (auto &&[entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
     {
-        for(ScriptHandle const handle : scriptComp.scripts)
+        // Update context for the current entity
+        localContext.entity = entity;
+
+        // Call all attached scripts for the current entity
+        for (ScriptComponentData const& data : scriptComp.scripts)
         {
-            scriptManager.call_frame_update(handle);
+            if (data.enabled)
+            {
+                scriptManager.call_frame_update(data.handle, localContext);
+            }
         }
     }
 }
@@ -85,13 +126,21 @@ void Minty::ScriptSystem::on_frame_update(Timestep const &timestep)
 void Minty::ScriptSystem::on_fixed_update(Timestep const &timestep)
 {
     // Call all scripts attached to entities with the on_fixed_update method
-    EntityManager& entityManager = mp_scene->get_entity_manager();
+    EntityManager &entityManager = mp_scene->get_entity_manager();
     ScriptManager &scriptManager = ScriptManager::get_instance();
-    for(auto&& [entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
+    ScriptLocalContext localContext{};
+    for (auto &&[entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
     {
-        for(ScriptHandle const handle : scriptComp.scripts)
+        // Update context for the current entity
+        localContext.entity = entity;
+
+        // Call all attached scripts for the current entity
+        for (ScriptComponentData const& data : scriptComp.scripts)
         {
-            scriptManager.call_fixed_update(handle);
+            if (data.enabled)
+            {
+                scriptManager.call_fixed_update(data.handle, localContext);
+            }
         }
     }
 }
@@ -99,13 +148,21 @@ void Minty::ScriptSystem::on_fixed_update(Timestep const &timestep)
 void Minty::ScriptSystem::on_finalize()
 {
     // Call all scripts attached to entities with the on_finalize method
-    EntityManager& entityManager = mp_scene->get_entity_manager();
+    EntityManager &entityManager = mp_scene->get_entity_manager();
     ScriptManager &scriptManager = ScriptManager::get_instance();
-    for(auto&& [entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
+    ScriptLocalContext localContext{};
+    for (auto &&[entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
     {
-        for(ScriptHandle const handle : scriptComp.scripts)
+        // Update context for the current entity
+        localContext.entity = entity;
+
+        // Call all attached scripts for the current entity
+        for (ScriptComponentData const& data : scriptComp.scripts)
         {
-            scriptManager.call_finalize(handle);
+            if (data.enabled)
+            {
+                scriptManager.call_finalize(data.handle, localContext);
+            }
         }
     }
 }
@@ -113,13 +170,21 @@ void Minty::ScriptSystem::on_finalize()
 void Minty::ScriptSystem::on_render()
 {
     // Call all scripts attached to entities with the on_render method
-    EntityManager& entityManager = mp_scene->get_entity_manager();
+    EntityManager &entityManager = mp_scene->get_entity_manager();
     ScriptManager &scriptManager = ScriptManager::get_instance();
-    for(auto&& [entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
+    ScriptLocalContext localContext{};
+    for (auto &&[entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
     {
-        for(ScriptHandle const handle : scriptComp.scripts)
+        // Update context for the current entity
+        localContext.entity = entity;
+
+        // Call all attached scripts for the current entity
+        for (ScriptComponentData const& data : scriptComp.scripts)
         {
-            scriptManager.call_render(handle);
+            if (data.enabled)
+            {
+                scriptManager.call_render(data.handle, localContext);
+            }
         }
     }
 }
@@ -127,13 +192,21 @@ void Minty::ScriptSystem::on_render()
 void Minty::ScriptSystem::on_event(Event &event)
 {
     // Call all scripts attached to entities with the on_event method
-    EntityManager& entityManager = mp_scene->get_entity_manager();
+    EntityManager &entityManager = mp_scene->get_entity_manager();
     ScriptManager &scriptManager = ScriptManager::get_instance();
-    for(auto&& [entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
+    ScriptLocalContext localContext{};
+    for (auto &&[entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
     {
-        for(ScriptHandle const handle : scriptComp.scripts)
+        // Update context for the current entity
+        localContext.entity = entity;
+
+        // Call all attached scripts
+        for (ScriptComponentData const& data : scriptComp.scripts)
         {
-            scriptManager.call_event(handle);
+            if (data.enabled)
+            {
+                scriptManager.call_event(data.handle, localContext, event);
+            }
         }
     }
 }

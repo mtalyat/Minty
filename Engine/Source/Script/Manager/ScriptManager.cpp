@@ -2,7 +2,6 @@
 #include "ScriptManager.hpp"
 #include "ScriptManagerInfo.hpp"
 #include "Script/Script/ScriptInfo.hpp"
-#include "Script/Script/Script.hpp"
 #include "Resource/Manager/ResourceManager.hpp"
 #include "Resource/Script/ScriptResource.hpp"
 
@@ -13,7 +12,9 @@ using namespace Minty;
 ScriptManager* Minty::ScriptManager::s_instance = nullptr;
 
 Minty::ScriptManager::ScriptManager(ScriptManagerInfo const &info)
-    : m_scriptPool(), m_scriptCache()
+    : m_scriptPool(), 
+    m_scriptCache(),
+    m_status()
 {
     MINTY_ASSERT(s_instance == nullptr, ErrorCodeEnum::Singleton_AlreadyExists);
     s_instance = this;
@@ -54,12 +55,6 @@ ScriptHandle Minty::ScriptManager::create(ScriptInfo const &info)
         return ScriptHandle{};
     }
 
-    // Call the create function on the script, if it exists
-    if (script.create)
-    {
-        script.create();
-    }
-
     // Add the script to the pool and return its handle
     ScriptHandle handle = m_scriptPool.add(std::move(script));
     return handle;
@@ -89,15 +84,11 @@ ScriptHandle Minty::ScriptManager::create(ScriptResourceHandle const handle)
 void Minty::ScriptManager::destroy(ScriptHandle handle)
 {
     MINTY_ASSERT(m_scriptPool.contains(handle), ErrorCodeEnum::Argument_ExpectedDefined);
-    
-    // Call the destroy function on the script, if it exists
-    Script& script = m_scriptPool.at(handle);
-    if (script.destroy)
-    {
-        script.destroy();
-    }
 
-    // Destroy the script and remove it from the cache
+    // Get the script from the pool
+    Script& script = m_scriptPool.at(handle);
+
+    // Remove it from the cache and pool
     for (auto it = m_scriptCache.begin(); it != m_scriptCache.end(); ++it)
     {
         if (it->get_second() == handle)
@@ -115,103 +106,208 @@ Bool Minty::ScriptManager::contains(ScriptHandle handle)
     return m_scriptPool.contains(handle);
 }
 
-void Minty::ScriptManager::call_load(ScriptHandle handle)
+void Minty::ScriptManager::update_global_context(ScriptGlobalContext const &context)
 {
-    // Ensure the script exists in the pool before calling load
+    // Set global context for all script managers
+    Tui_ScriptManager::set_global_context(context);
+}
+
+void Minty::ScriptManager::call_create(ScriptHandle handle, ScriptLocalContext const &context)
+{
+    // Ensure the script exists in the pool
     MINTY_ASSERT(m_scriptPool.contains(handle), ErrorCodeEnum::Argument_ExpectedDefined);
 
-    // Call the load function on the script, if it exists
+    // Get the script from the pool
     Script& script = m_scriptPool.at(handle);
+
+    // Call the create function for the script if it exists
+    if (script.create)
+    {
+        // Set the context for the script before calling the create function
+        script.setContext(script, context);
+
+        // Call the create function for the script
+        script.create();
+    }
+}
+
+void Minty::ScriptManager::call_destroy(ScriptHandle handle, ScriptLocalContext const &context)
+{
+    // Ensure the script exists in the pool
+    MINTY_ASSERT(m_scriptPool.contains(handle), ErrorCodeEnum::Argument_ExpectedDefined);
+
+    // Get the script from the pool
+    Script& script = m_scriptPool.at(handle);
+
+    // Call the destroy function for the script if it exists
+    if (script.destroy)
+    {
+        // Set the context for the script before calling the destroy function
+        script.setContext(script, context);
+
+        // Call the destroy function for the script
+        script.destroy();
+    }
+}
+
+void Minty::ScriptManager::call_load(ScriptHandle handle, ScriptLocalContext const &context)
+{
+    // Ensure the script exists in the pool
+    MINTY_ASSERT(m_scriptPool.contains(handle), ErrorCodeEnum::Argument_ExpectedDefined);
+
+    // Get the script from the pool
+    Script& script = m_scriptPool.at(handle);
+
+    // Call the load function for the script if it exists
     if (script.load)
     {
+        // Set the context for the script before calling the load function
+        script.setContext(script, context);
+
+        // Call the load function for the script
         script.load();
     }
 }
 
-void Minty::ScriptManager::call_unload(ScriptHandle handle)
+void Minty::ScriptManager::call_unload(ScriptHandle handle, ScriptLocalContext const &context)
 {
+    // Ensure the script exists in the pool
     MINTY_ASSERT(m_scriptPool.contains(handle), ErrorCodeEnum::Argument_ExpectedDefined);
 
+    // Get the script from the pool
     Script& script = m_scriptPool.at(handle);
+
+    // Call the unload function for the script if it exists
     if (script.unload)
     {
+        // Set the context for the script before calling the unload function
+        script.setContext(script, context);
+
+        // Call the unload function for the script
         script.unload();
     }
 }
 
-void Minty::ScriptManager::call_enable(ScriptHandle handle)
+void Minty::ScriptManager::call_enable(ScriptHandle handle, ScriptLocalContext const &context)
 {
+    // Ensure the script exists in the pool
     MINTY_ASSERT(m_scriptPool.contains(handle), ErrorCodeEnum::Argument_ExpectedDefined);
 
+    // Get the script from the pool
     Script& script = m_scriptPool.at(handle);
+
+    // Call the enable function for the script if it exists
     if (script.enable)
     {
+        // Set the context for the script before calling the enable function
+        script.setContext(script, context);
+
+        // Call the enable function for the script
         script.enable();
     }
 }
 
-void Minty::ScriptManager::call_disable(ScriptHandle handle)
+void Minty::ScriptManager::call_disable(ScriptHandle handle, ScriptLocalContext const &context)
 {
+    // Ensure the script exists in the pool
     MINTY_ASSERT(m_scriptPool.contains(handle), ErrorCodeEnum::Argument_ExpectedDefined);
 
+    // Get the script from the pool
     Script& script = m_scriptPool.at(handle);
+
+    // Call the disable function for the script if it exists
     if (script.disable)
     {
+        // Set the context for the script before calling the disable function
+        script.setContext(script, context);
+
+        // Call the disable function for the script
         script.disable();
     }
 }
 
-void Minty::ScriptManager::call_frame_update(ScriptHandle handle)
+void Minty::ScriptManager::call_frame_update(ScriptHandle handle, ScriptLocalContext const &context)
 {
+    // Ensure the script exists in the pool
     MINTY_ASSERT(m_scriptPool.contains(handle), ErrorCodeEnum::Argument_ExpectedDefined);
 
+    // Get the script from the pool
     Script& script = m_scriptPool.at(handle);
     if (script.frameUpdate)
     {
+        // Set the context for the script before calling the frame update
+        script.setContext(script, context);
+
+        // Call the frame update function for the script
         script.frameUpdate();
     }
 }
 
-void Minty::ScriptManager::call_fixed_update(ScriptHandle handle)
+void Minty::ScriptManager::call_fixed_update(ScriptHandle handle, ScriptLocalContext const &context)
 {
+    // Ensure the script exists in the pool
     MINTY_ASSERT(m_scriptPool.contains(handle), ErrorCodeEnum::Argument_ExpectedDefined);
 
+    // Get the script from the pool
     Script& script = m_scriptPool.at(handle);
     if (script.fixedUpdate)
     {
+        // Set the context for the script before calling the fixed update
+        script.setContext(script, context);
+
+        // Call the fixed update function for the script
         script.fixedUpdate();
     }
 }
 
-void Minty::ScriptManager::call_finalize(ScriptHandle handle)
+void Minty::ScriptManager::call_finalize(ScriptHandle handle, ScriptLocalContext const &context)
 {
+    // Ensure the script exists in the pool
     MINTY_ASSERT(m_scriptPool.contains(handle), ErrorCodeEnum::Argument_ExpectedDefined);
 
+    // Get the script from the pool
     Script& script = m_scriptPool.at(handle);
     if (script.finalize)
     {
+        // Set the context for the script before calling the finalize function
+        script.setContext(script, context);
+
+        // Call the finalize function for the script
         script.finalize();
     }
 }
 
-void Minty::ScriptManager::call_render(ScriptHandle handle)
+void Minty::ScriptManager::call_render(ScriptHandle handle, ScriptLocalContext const &context)
 {
+    // Ensure the script exists in the pool
     MINTY_ASSERT(m_scriptPool.contains(handle), ErrorCodeEnum::Argument_ExpectedDefined);
 
+    // Get the script from the pool
     Script& script = m_scriptPool.at(handle);
     if (script.render)
     {
+        // Set the context for the script before calling the render function
+        script.setContext(script, context);
+
+        // Call the render function for the script
         script.render();
     }
 }
 
-void Minty::ScriptManager::call_event(ScriptHandle handle)
+void Minty::ScriptManager::call_event(ScriptHandle handle, ScriptLocalContext const &context, Event &event)
 {
+    // Ensure the script exists in the pool
     MINTY_ASSERT(m_scriptPool.contains(handle), ErrorCodeEnum::Argument_ExpectedDefined);
 
+    // Get the script from the pool
     Script& script = m_scriptPool.at(handle);
     if (script.event)
     {
+        // Set the context for the script before calling the event function
+        script.setContext(script, context);
+
+        // Call the event function for the script
+        // TODO: Call the respective event handling function within the script
         script.event();
     }
 }

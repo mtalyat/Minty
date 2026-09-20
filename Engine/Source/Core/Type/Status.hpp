@@ -32,6 +32,7 @@ namespace Minty
         Count,
 
         // Aliases
+        Destroyed = Undefined,
         Unloaded = Created,
         Disabled = Loaded,
     };
@@ -41,8 +42,8 @@ namespace Minty
         StatusEnum parent;
         StatusEnum value;
 
-        constexpr Status() : parent(StatusEnum::Created), value(StatusEnum::Undefined) {}
-        constexpr Status(StatusEnum initialValue) : parent(StatusEnum::Created), value(initialValue) {}
+        constexpr Status() : parent(StatusEnum::Undefined), value(StatusEnum::Undefined) {}
+        constexpr Status(StatusEnum initialValue) : parent(StatusEnum::Undefined), value(initialValue) {}
         constexpr operator StatusEnum() const { return (static_cast<Int>(value) < static_cast<Int>(parent)) ? value : parent; }
 
         constexpr Bool operator==(StatusEnum other) const { return value == other; }
@@ -52,6 +53,11 @@ namespace Minty
         constexpr Bool operator>(StatusEnum other) const { return value > other; }
         constexpr Bool operator>=(StatusEnum other) const { return value >= other; }
 
+        static StatusEnum next(StatusEnum current);
+        static StatusEnum previous(StatusEnum current);
+
+        Bool promote();
+        Bool demote();
         Bool promote_to(StatusEnum target);
         Bool demote_to(StatusEnum target);
         Bool promote_parent_to(StatusEnum target);

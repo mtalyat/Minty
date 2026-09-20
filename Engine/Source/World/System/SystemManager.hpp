@@ -51,6 +51,8 @@ namespace Minty
     public:
         SystemManager(SystemManagerInfo const &info, Scene& scene);
 
+        ~SystemManager();
+
         SystemManager(SystemManager &&) = delete;
 
 #pragma endregion
@@ -81,10 +83,6 @@ namespace Minty
         void destroy_system();
 
         // Events
-        void on_load();
-        void on_unload();
-        void on_enable();
-        void on_disable();
         void on_frame_update(Timestep const &timestep);
         void on_fixed_update(Timestep const &timestep);
         void on_finalize();
@@ -101,6 +99,13 @@ namespace Minty
     private:
         void on_promotion();
         void on_demotion();
+        
+        void on_create();
+        void on_destroy();
+        void on_load();
+        void on_unload();
+        void on_enable();
+        void on_disable();
 
 #pragma endregion
 

@@ -168,7 +168,9 @@ int main()
     // Create script entity
     EntityHandle const scriptEntity = worldEntityManager.create();
     worldEntityManager.add<ScriptComponent>(scriptEntity, ScriptComponent{
-        { scriptHandle }
+        {
+            { scriptHandle, true }
+        }
     });
 
     // Create canvas root entity

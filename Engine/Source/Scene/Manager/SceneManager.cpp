@@ -10,12 +10,14 @@ using namespace Minty;
 Minty::SceneManager::SceneManager(SceneManagerInfo const &info)
     : m_scenes(),
       m_activeScenes(),
-      m_status(StatusEnum::Created)
+      m_status()
 {
+    trigger_promotion(StatusEnum::Created);
 }
 
 Minty::SceneManager::~SceneManager()
 {
+    trigger_demotion(StatusEnum::Destroyed);
 }
 
 SceneHandle Minty::SceneManager::create(SceneInfo const &info)

@@ -6,10 +6,13 @@
 
 namespace Minty
 {
+    struct ScriptLocalContext;
+
     struct Script
     {
         Pointer data = nullptr;
-        Status status = {};
+
+        void (*setContext)(Script &script, ScriptLocalContext const &context) = nullptr;
 
         ScriptFunction create = nullptr;
         ScriptFunction destroy = nullptr;
