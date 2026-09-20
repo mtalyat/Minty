@@ -3,6 +3,7 @@
 #include "Source/TuiBuiltInFunctions.h"
 #include "Source/TuiFileUtils.h"
 #include "Source/TuiFunction.h"
+#include "Source/TuiLocal.h"
 #include "Source/TuiLog.h"
 #include "Source/TuiNumber.h"
 #include "Source/TuiScript.h"
