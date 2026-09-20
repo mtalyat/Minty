@@ -57,10 +57,11 @@ namespace Minty
         private:
             Vector<T>::Iterator m_iter;
             Vector<UInt32>::Iterator m_genIter;
+            Vector<UInt32>::Iterator m_genEndIter;
 
-        private:
-            inline explicit Iterator(Vector<T>::Iterator const &iter, Vector<UInt32>::Iterator const &genIter)
-                : m_iter(iter), m_genIter(genIter)
+        public:
+            inline explicit Iterator(Vector<T>::Iterator const &iter, Vector<UInt32>::Iterator const &genIter, Vector<UInt32>::Iterator const &genEndIter)
+                : m_iter(iter), m_genIter(genIter), m_genEndIter(genEndIter)
             {
             }
 
@@ -81,7 +82,7 @@ namespace Minty
                 {
                     ++m_iter;
                     ++m_genIter;
-                } while (m_genIter != m_generations.end() && *m_genIter == INVALID_GENERATION);
+                } while (m_genIter != m_genEndIter && *m_genIter == INVALID_GENERATION);
 
                 return *this;
             }
@@ -93,13 +94,13 @@ namespace Minty
                 {
                     ++m_iter;
                     ++m_genIter;
-                } while (m_genIter != m_generations.end() && *m_genIter == INVALID_GENERATION);
+                } while (m_genIter != m_genEndIter && *m_genIter == INVALID_GENERATION);
                 return temp;
             }
 
             inline Iterator operator+(Size const value)
             {
-                return Iterator(m_iter + value, m_genIter + value);
+                return Iterator(m_iter + value, m_genIter + value, m_genEndIter);
             }
 
             inline Bool operator==(Iterator const &other) const { return m_iter == other.m_iter; }
@@ -118,10 +119,11 @@ namespace Minty
         private:
             Vector<T>::ConstIterator m_iter;
             Vector<UInt32>::ConstIterator m_genIter;
+            Vector<UInt32>::ConstIterator m_genEndIter;
 
-        private:
-            inline explicit ConstIterator(Vector<T>::ConstIterator const &iter, Vector<UInt32>::ConstIterator const &genIter)
-                : m_iter(iter), m_genIter(genIter)
+        public:
+            inline explicit ConstIterator(Vector<T>::ConstIterator const &iter, Vector<UInt32>::ConstIterator const &genIter, Vector<UInt32>::ConstIterator const &genEndIter)
+                : m_iter(iter), m_genIter(genIter), m_genEndIter(genEndIter)
             {
             }
 
@@ -142,7 +144,7 @@ namespace Minty
                 {
                     ++m_iter;
                     ++m_genIter;
-                } while (m_genIter != m_generations.end() && *m_genIter == INVALID_GENERATION);
+                } while (m_genIter != m_genEndIter && *m_genIter == INVALID_GENERATION);
                 return *this;
             }
 
@@ -153,26 +155,26 @@ namespace Minty
                 {
                     ++m_iter;
                     ++m_genIter;
-                } while (m_genIter != m_generations.end() && *m_genIter == INVALID_GENERATION);
+                } while (m_genIter != m_genEndIter && *m_genIter == INVALID_GENERATION);
                 return temp;
             }
 
             inline ConstIterator operator+(Size const value)
             {
-                return ConstIterator(m_iter + value, m_genIter + value);
+                return ConstIterator(m_iter + value, m_genIter + value, m_genEndIter);
             }
 
             inline Bool operator==(ConstIterator const &other) const { return m_iter == other.m_iter; }
             inline Bool operator!=(ConstIterator const &other) const { return m_iter != other.m_iter; }
         };
 
-        Iterator begin() { return Iterator(m_data.begin(), m_generations.begin()); }
+        Iterator begin() { return Iterator(m_data.begin(), m_generations.begin(), m_generations.end()); }
 
-        Iterator end() { return Iterator(m_data.end(), m_generations.end()); }
+        Iterator end() { return Iterator(m_data.end(), m_generations.end(), m_generations.end()); }
 
-        ConstIterator begin() const { return ConstIterator(m_data.begin(), m_generations.begin()); }
+        ConstIterator begin() const { return ConstIterator(m_data.begin(), m_generations.begin(), m_generations.end()); }
 
-        ConstIterator end() const { return ConstIterator(m_data.end(), m_generations.end()); }
+        ConstIterator end() const { return ConstIterator(m_data.end(), m_generations.end(), m_generations.end()); }
 
 #pragma endregion
 
@@ -305,7 +307,7 @@ namespace Minty
             MINTY_ASSERT(handle.index < m_data.get_size(), ErrorCodeEnum::Argument_OutOfRange);
             Generation const generation = m_generations.at(handle.index);
             MINTY_ASSERT(generation == handle.generation, ErrorCodeEnum::Argument_KeyNotFound);
-            m_data.at(handle.index).~T();
+            m_data.at(handle.index) = T();
             m_generations.at(handle.index) = INVALID_GENERATION;
             m_free.push(handle.index);
         }

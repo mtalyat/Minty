@@ -1,0 +1,1810 @@
+#include "TuiBuiltInFunctions.h"
+#include "TuiTable.h"
+#include <algorithm>
+#include <random>
+#include <thread>
+#include <chrono>
+#include <cstdio>
+#include <iostream>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <array>
+
+#define GLM_ENABLE_EXPERIMENTAL
+#include "gtx/transform.hpp"
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+thread_local std::default_random_engine rng = std::default_random_engine { std::random_device{}() };
+thread_local std::default_random_engine seedRng;
+std::uniform_real_distribution<double> randDistribution(0.0, 1.0);
+
+namespace Tui {
+
+static std::function tui_system = [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+#if TARGET_OS_IPHONE
+    TuiError("system() is not supported on iOS");
+#else
+    if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+    {
+        int result = system(((TuiString*)args->arrayObjects[0])->value.c_str());
+        return new TuiNumber(result);
+    }
+#endif
+    return TUI_NIL;
+};
+
+static std::function tui_exec = [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+#if TARGET_OS_IPHONE
+    TuiError("exec() is not supported on iOS");
+#else
+    if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+    {
+        std::array<char, 128> buffer;
+        std::string result;
+#if defined _WIN32
+        std::unique_ptr<FILE, decltype(&_pclose)> pipe(_popen(((TuiString*)args->arrayObjects[0])->value.c_str(), "r"), _pclose);
+#else
+        std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(((TuiString*)args->arrayObjects[0])->value.c_str(), "r"), pclose);
+#endif
+        if (!pipe) {
+            TuiError("popen() failed!");
+            return TUI_NIL;
+        }
+        while (fgets(buffer.data(), static_cast<int>(buffer.size()), pipe.get()) != nullptr) {
+            result += buffer.data();
+        }
+
+        return new TuiString(result);
+    }
+#endif
+    return TUI_NIL;
+};
+
+static std::function tui_print = [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+    if(args && args->arrayObjects.size() > 0)
+    {
+        std::string printString = "";
+        for(TuiRef* arg : args->arrayObjects)
+        {
+            printString += arg->getDebugStringValue();
+        }
+        TuiLog("%s", printString.c_str());
+    }
+    return TUI_NIL;
+};
+
+
+TuiTable* initSafeRootTable(TuiFunction* permissionCallbackFunction, const std::string& sandBoxDir)
+{
+    TuiTable* rootTable = new TuiTable(nullptr);
+    
+    addBaseFunctions(rootTable, permissionCallbackFunction);
+    addStringTable(rootTable);
+    addTimeTable(rootTable);
+    addTableTable(rootTable);
+    addMathTable(rootTable);
+    addFileTable(rootTable, sandBoxDir);
+    addDebugTable(rootTable);
+    
+    return rootTable;
+}
+
+TuiTable* initRootTable()
+{
+    TuiTable* rootTable = new TuiTable(nullptr);
+    
+    addBaseFunctions(rootTable);
+    addStringTable(rootTable);
+    addTimeTable(rootTable);
+    addTableTable(rootTable);
+    addMathTable(rootTable);
+    addFileTable(rootTable);
+    addDebugTable(rootTable);
+    
+    return rootTable;
+}
+
+//todo permissionCallbackFunction for error, exit, sleep, require, and sandBoxDir for require
+void addBaseFunctions(TuiTable* rootTable, TuiFunction* permissionCallbackFunction)
+{
+    //system(string) calls out to a system function eg. system("ls -la")
+    if(permissionCallbackFunction)
+    {
+        rootTable->setFunction("system", [permissionCallbackFunction](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+            TuiFunction* resultCallbackFunction = nullptr;
+            if(args)
+            {
+                if(args->arrayObjects.size() > 1 && args->arrayObjects[args->arrayObjects.size() - 1]->type() == Tui_ref_type_FUNCTION)
+                {
+                    resultCallbackFunction = (TuiFunction*)args->arrayObjects[args->arrayObjects.size() - 1];
+                }
+                args->retain();
+            }
+            
+            
+            TuiFunction* gotPermissionResultFunction = new TuiFunction([resultCallbackFunction, args](TuiTable* permissionResultArgs, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+                if(permissionResultArgs && permissionResultArgs->arrayObjects.size() > 0 && permissionResultArgs->arrayObjects[0]->boolValue())
+                {
+                    TuiRef* callResult = tui_system(args, existingResult, incomingCallData, callingDebugInfo);
+                    if(callResult && resultCallbackFunction)
+                    {
+                        resultCallbackFunction->call("system result callback", callResult);
+                    }
+                }
+                if(args)
+                {
+                    args->release();
+                }
+                return TUI_NIL;
+            });
+            
+            if(permissionCallbackFunction)
+            {
+                TuiRef* functionNameRef = new TuiString("system");
+                permissionCallbackFunction->call("permissionCallbackFunction", functionNameRef, args, gotPermissionResultFunction);
+                functionNameRef->release();
+            }
+            else
+            {
+                TuiWarn("disallowing unpermitted function call to system()");
+                if(args)
+                {
+                    args->release();
+                }
+            }
+            return TUI_NIL;
+        });
+    }
+    else
+    {
+        rootTable->setFunction("system", tui_system);
+
+        rootTable->setFunction("exec", tui_exec);
+    }
+    
+    // print(msg1, msg2, msg3, ...) print values, args are concatenated together
+    rootTable->setFunction("print", tui_print);
+    
+    // error(msg1, msg2, msg3, ...) print values, args are concatenated together, prints a backtrace, calls abort() to exit the program
+    rootTable->setFunction("error", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0)
+        {
+            std::string printString = "";
+            for(TuiRef* arg : args->arrayObjects)
+            {
+                printString += arg->getDebugStringValue();
+            }
+            TuiParseError(callingDebugInfo, "%s", printString.c_str());
+        }
+        return TUI_NIL;
+    });
+    
+    // exit(code)
+    rootTable->setFunction("exit", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        int code = 0;
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            code = ((TuiNumber*)args->arrayObjects[0])->value;
+        }
+        exit(code);
+    });
+    
+    //require(path) loads the given tui file NOTE! Unlike lua, this currently reloads every time. You will need to save the result yourself in the root table if you wish to reuse it
+    //you can also provide your own file.getResourcePath function in the root table
+    rootTable->setFunction("require", [rootTable](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0)
+        {
+            TuiDebugInfo debugInfo;
+            TuiDebugInfoCopy(callingDebugInfo, &debugInfo);
+            
+            TuiRef* getResourcePathFunc = ((TuiTable*)rootTable->get("file"))->get("getResourcePath");
+            if(getResourcePathFunc)
+            {
+                TuiRef* pathResult = ((TuiFunction*)getResourcePathFunc)->call("getResourcePathFunc", args->arrayObjects[0]);
+                if(pathResult)
+                {
+                    
+                    TuiRef* loadedRef = TuiRef::runScriptFile(pathResult->getStringValue(), rootTable, &debugInfo);
+                    pathResult->release();
+                    return loadedRef;
+                }
+                return TUI_NIL;
+            }
+            return TuiRef::runScriptFile(Tui::getResourcePath(args->arrayObjects[0]->getStringValue(), callingDebugInfo->currentLine->fileName), rootTable, &debugInfo);
+        }
+        return TUI_NIL;
+    });
+    
+    //load(string) loads the given tui string
+    rootTable->setFunction("load", [rootTable](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            TuiTable* parentTable = nullptr;
+            if(args->arrayObjects.size() > 1 && args->arrayObjects[1]->type() == Tui_ref_type_TABLE)
+            {
+                parentTable = (TuiTable*)args->arrayObjects[1];
+            }
+            TuiDebugInfo debugInfo;
+            TuiDebugInfoCopy(callingDebugInfo, &debugInfo);
+            TuiRef* loadedRef = TuiRef::loadString(((TuiString*)args->arrayObjects[0])->value, parentTable, callingDebugInfo);
+            return loadedRef;
+        }
+        TuiParseError(callingDebugInfo, "load expected string");
+        return TUI_NIL;
+    });
+    
+    //readValue() reads input from the command line, serializing just the first value, will call functions and load variables
+    rootTable->setFunction("readValue",
+                           [rootTable](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        std::string stringValue;
+        std::getline(std::cin, stringValue);
+        
+        const char* cString = stringValue.c_str();
+        char* endPtr;
+        
+        TuiRef* enclosingRef = nullptr;
+        std::string finalKey = "";
+        int finalIndex = -1;
+        
+        TuiRef* result = TuiRef::loadValue(cString,
+                                           &endPtr,
+                                           nullptr,
+                                           rootTable,
+                                           callingDebugInfo,
+                                           &enclosingRef,
+                                           &finalKey,
+                                           &finalIndex);
+        if(!result && !finalKey.empty())
+        {
+            result = new TuiString(finalKey);
+        }
+        
+        return result;
+    });
+    
+    //clear() clears the console
+    rootTable->setFunction("clear", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+#if defined _WIN32
+        system("cls");
+    //clrscr(); // including header file : conio.h
+#elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+        system("clear");
+    //std::cout<< u8"\033[2J\033[1;1H"; //Using ANSI Escape Sequences
+#elif (__APPLE__ && (!TARGET_OS_IPHONE))
+        system("clear");
+#endif
+        return TUI_NIL;
+    });
+    
+    //type() returns the type name of the given object, eg. 'table', 'string', 'number', 'vec4', 'bool'
+    rootTable->setFunction("type", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0)
+        {
+            return new TuiString(args->arrayObjects[0]->getTypeName());
+        }
+        return new TuiString("nil");
+    });
+    
+    //sleep(seconds) puts the current thread to sleep for the duration given in seconds
+    rootTable->setFunction("sleep", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0)
+        {
+            std::this_thread::sleep_for(std::chrono::duration<double>(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        return TUI_NIL;
+    });
+    
+    //platform() returns a string representing the current running platform, currently one of: ios, macos, windows, linux
+    rootTable->setFunction("platform", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+#if defined _WIN32
+        return new TuiString("windows");
+#elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+        return new TuiString("linux");
+#elif TARGET_OS_IPHONE
+        return new TuiString("ios");
+#elif (__APPLE__)
+        return new TuiString("macos");
+#endif
+    });
+}
+
+void addStringTable(TuiTable* rootTable)
+{
+    //************
+    //string
+    //************
+    TuiTable* stringTable = new TuiTable(rootTable);
+    rootTable->set("string", stringTable);
+    stringTable->release();
+    static const std::set<int> integerChars = {
+        'd','i','o','u','x','X','D','O','U','c','C'
+    };
+    static const std::set<int> floatingPointChars = {
+        'e','E','f','F','g','G','a','A',
+    };
+    
+    stringTable->setFunction("format", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            const char* s = ((TuiString*)args->arrayObjects[0])->value.c_str();
+            //char* endPtr;
+            
+            std::string result = "";
+            int argIndex = 1;
+            
+            std::string currentString = "";
+            bool percentFound = false;
+            bool typeFound = false;
+            
+            bool interpretAsInteger = false;
+            bool interpretAsFloatingPoint = false;
+            bool interpretAsPointer = false;
+            
+            for(;; s++)
+            {
+                if(*s == '\0' || *s == '%')
+                {
+                    if(*s == '%' && *(s + 1) == '%')
+                    {
+                        currentString += *s;
+                        s++;
+                    }
+                    else
+                    {
+                        if(percentFound)
+                        {
+                            if(argIndex >= args->arrayObjects.size())
+                            {
+                                TuiParseError(callingDebugInfo, "string.format expected at least %d args", argIndex + 1);
+                                break;
+                            }
+                            TuiRef* arg = args->arrayObjects[argIndex++];
+                            if(interpretAsInteger)
+                            {
+                                result += Tui::string_format(currentString, (int)arg->getNumberValue());
+                            }
+                            else if(interpretAsFloatingPoint)
+                            {
+                                result += Tui::string_format(currentString, arg->getNumberValue());
+                            }
+                            else if(interpretAsPointer)
+                            {
+                                result += Tui::string_format(currentString, (arg->type() == Tui_ref_type_USERDATA ? ((void*)((TuiUserData*)arg)->value): (void*)arg));
+                            }
+                            else
+                            {
+                                result += Tui::string_format(currentString, arg->getStringValue().c_str());
+                            }
+                            currentString = "";
+                        }
+                        
+                        if(*s == '%')
+                        {
+                            percentFound = true;
+                            typeFound = false;
+                            interpretAsInteger = false;
+                            interpretAsFloatingPoint = false;
+                            interpretAsPointer = false;
+                            currentString += *s;
+                        }
+                        else
+                        {
+                            result += currentString;
+                            break;
+                        }
+                    }
+                }
+                else if(*s == '\0')
+                {
+                    break;
+                }
+                else
+                {
+                    if(percentFound && !typeFound)
+                    {
+                        if(integerChars.count(*s) != 0)
+                        {
+                            interpretAsInteger = true;
+                            typeFound = true;
+                        }
+                        else if(floatingPointChars.count(*s) != 0)
+                        {
+                            interpretAsFloatingPoint = true;
+                            typeFound = true;
+                        }
+                        else if(*s == 'p')
+                        {
+                            interpretAsPointer = true;
+                            typeFound = true;
+                        }
+                        else if(*s == 'S' || *s == 's')
+                        {
+                            typeFound = true;
+                        }
+                    }
+                    currentString += *s;
+                }
+            }
+            
+            return new TuiString(result);
+        }
+        TuiParseError(callingDebugInfo, "string.format expected string, args");
+        return TUI_NIL;
+    });
+    
+    stringTable->setFunction("length", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            return new TuiNumber((((TuiString*)args->arrayObjects[0])->value).length());
+        }
+        TuiParseError(callingDebugInfo, "string.length expected string");
+        return TUI_NIL;
+    });
+    
+    stringTable->setFunction("subString", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING && args->arrayObjects[1]->type() == Tui_ref_type_NUMBER)
+        {
+            int length = -1;
+            if(args->arrayObjects.size() > 2 && args->arrayObjects[2]->type() == Tui_ref_type_NUMBER)
+            {
+                length = ((TuiNumber*)args->arrayObjects[2])->value;
+            }
+            int32_t pos = ((TuiNumber*)args->arrayObjects[1])->value;
+            TuiString* tuiString = (TuiString*)args->arrayObjects[0];
+            if(pos < 0 || pos >= tuiString->value.length())
+            {
+                TuiParseError(callingDebugInfo, "string.subString pos:%d invalid for string length:%d", pos, (int)(tuiString->value.length()));
+                return TUI_NIL;
+            }
+            return new TuiString(tuiString->value.substr(pos, length));
+        }
+        TuiParseError(callingDebugInfo, "string.subString expected string, start index, optional length");
+        return TUI_NIL;
+    });
+    
+    stringTable->setFunction("sha1", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            return new TuiString(TuiSHA1::sha1(((TuiString*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "string.sha1 expected string");
+        return TUI_NIL;
+    });
+    
+    //returns nil if not found
+    stringTable->setFunction("find", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING && args->arrayObjects[1]->type() == Tui_ref_type_STRING)
+        {
+            int startIndex = 0;
+            if(args->arrayObjects.size() > 2 && args->arrayObjects[2]->type() == Tui_ref_type_NUMBER)
+            {
+                startIndex = ((TuiNumber*)args->arrayObjects[2])->value;
+            }
+            
+            int location = (int)(((TuiString*)args->arrayObjects[0])->value).find(((TuiString*)args->arrayObjects[1])->value, startIndex);
+            if(location == std::string::npos)
+            {
+                return TUI_NIL;
+            }
+            return new TuiNumber(location);
+        }
+        TuiParseError(callingDebugInfo, "string.find expected string");
+        return TUI_NIL;
+    });
+    
+    // returns an array of substrings split by the given splitChar. eg. string.split("path/file.txt", "/") -> {"path", "file.txt"}
+    stringTable->setFunction("split", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING && args->arrayObjects[1]->type() == Tui_ref_type_STRING)
+        {
+            std::string foundString;
+            std::istringstream inputStringStream(((TuiString*)args->arrayObjects[0])->value);
+            
+            std::string& delimString = ((TuiString*)args->arrayObjects[1])->value;
+            if(delimString.length() != 1)
+            {
+                TuiParseError(callingDebugInfo, "string.split: single split character expected, but got string of length:%d", (int)delimString.length());
+                return TUI_NIL;
+            }
+            char delim = delimString[0];
+            
+            TuiTable* result = new TuiTable(nullptr);
+            
+            while (std::getline(inputStringStream, foundString, delim)) {
+                result->arrayObjects.push_back(new TuiString(foundString));
+            }
+            
+            return result;
+        }
+        TuiParseError(callingDebugInfo, "string.split expected string and split character");
+        return TUI_NIL;
+    });
+    
+    // string.replace(string, searchString, replacementString) replaces all occurrences of searchSting within string with replacementString
+    stringTable->setFunction("replace", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 2 &&
+        args->arrayObjects[0]->type() == Tui_ref_type_STRING &&
+        args->arrayObjects[1]->type() == Tui_ref_type_STRING &&
+        args->arrayObjects[2]->type() == Tui_ref_type_STRING)
+        {
+            return new TuiString(Tui::stringByReplacingString(((TuiString*)args->arrayObjects[0])->value, ((TuiString*)args->arrayObjects[1])->value, ((TuiString*)args->arrayObjects[2])->value));
+        }
+        
+        TuiParseError(callingDebugInfo, "string.replace expected string, search string, and replace string");
+        return TUI_NIL;
+    });
+    
+    
+    // string.lower(string) returns the lower case transformation of string
+    stringTable->setFunction("lower", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            TuiString* result = (TuiString*)args->arrayObjects[0]->copy();
+            std::transform(result->value.begin(), result->value.end(), result->value.begin(),
+                [](unsigned char c){ return std::tolower(c); });
+            return result;
+        }
+        TuiParseError(callingDebugInfo, "string.lower expected string");
+        return TUI_NIL;
+    });
+    
+    
+    // string.upper(string) returns the upper case transformation of string
+    stringTable->setFunction("upper", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            TuiString* result = (TuiString*)args->arrayObjects[0]->copy();
+            std::transform(result->value.begin(), result->value.end(), result->value.begin(),
+                [](unsigned char c){ return std::toupper(c); });
+            return result;
+        }
+        TuiParseError(callingDebugInfo, "string.upper expected string");
+        return TUI_NIL;
+    });
+    
+    // string.eachChar(string, charFunction) loops over each character, calling charFunction(charString, charIndex) for each
+    stringTable->setFunction("eachChar", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING && args->arrayObjects[1]->type() == Tui_ref_type_FUNCTION)
+        {
+            TuiString* inputString = (TuiString*)args->arrayObjects[0];
+            TuiFunction* charFunction = (TuiFunction*)args->arrayObjects[1];
+            
+            TuiString* charString = new TuiString("");
+            TuiNumber* indexNumber = new TuiNumber(0);
+            for(indexNumber->value = 0; indexNumber->value < inputString->value.length(); indexNumber->value++)
+            {
+                charString->value = inputString->value[(int)indexNumber->value];
+                TuiRef* result = charFunction->call(incomingCallData, callingDebugInfo, charString, indexNumber);
+                if(result && result->boolValue())
+                {
+                    break;
+                }
+            }
+            
+            indexNumber->release();
+            charString->release();
+            
+            return TUI_NIL;
+        }
+        TuiParseError(callingDebugInfo, "string.eachChar expected string, charFunction");
+        return TUI_NIL;
+    });
+    
+    // string.eachLine(string, lineFunction) loops over each line, calling lineFunction(lineString, lineIndex) for each
+    stringTable->setFunction("eachLine", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING && args->arrayObjects[1]->type() == Tui_ref_type_FUNCTION)
+        {
+            TuiFunction* lineFunction = (TuiFunction*)args->arrayObjects[1];
+            
+            TuiString* lineString = new TuiString("");
+            TuiNumber* indexNumber = new TuiNumber(0);
+            
+            std::istringstream inputStringStream(((TuiString*)args->arrayObjects[0])->value);
+            
+            while (std::getline(inputStringStream, lineString->value)) {
+                TuiRef* result = lineFunction->call(incomingCallData, callingDebugInfo, lineString, indexNumber);
+                if(result && result->boolValue())
+                {
+                    break;
+                }
+                indexNumber->value++;
+            }
+            
+            indexNumber->release();
+            lineString->release();
+            
+            return TUI_NIL;
+        }
+        TuiParseError(callingDebugInfo, "string.eachLine expected string, lineFunction");
+        return TUI_NIL;
+    });
+    
+}
+
+void addTimeTable(TuiTable* rootTable)
+{
+    //************
+    //time
+    //************
+    
+    TuiTable* timeTable = new TuiTable(rootTable);
+    rootTable->set("time", timeTable);
+    timeTable->release();
+    
+    //time.now() current time in seconds since epoch
+    timeTable->setFunction("now", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        return new TuiNumber(Tui::nowTime());
+    });
+}
+
+void addTableTable(TuiTable* rootTable)
+{
+    //************
+    //table
+    //************
+    
+    TuiTable* tableTable = new TuiTable(rootTable);
+    rootTable->set("table", tableTable);
+    tableTable->release();
+    
+    //table.insert(table, index, value) to specify the index or table.insert(table,value) to add to the end
+    tableTable->setFunction("insert", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.insert expected table for first argument. got:%s", tableRef->getTypeName().c_str());
+                return TUI_NIL;
+            }
+            
+            if(args->arrayObjects.size() >= 3)
+            {
+                TuiRef* indexObject = args->arrayObjects[1];
+                if(indexObject->type() != Tui_ref_type_NUMBER)
+                {
+                    TuiParseError(callingDebugInfo, "table.insert expected index for second argument. (object to add is third)");
+                    return TUI_NIL;
+                }
+                int addIndex = ((TuiNumber*)indexObject)->value;
+                TuiRef* addObject = args->arrayObjects[2];
+                
+                ((TuiTable*)tableRef)->insert(addIndex, addObject);
+                
+            }
+            else
+            {
+                TuiRef* addObject = args->arrayObjects[1];
+                ((TuiTable*)tableRef)->arrayObjects.push_back(addObject->copy());
+            }
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "table.insert expected 2-3 args.");
+        }
+        return TUI_NIL;
+    });
+    
+    //table.remove(table, index) removes an object from an array, shuffling the rest down. Will exit with an error if index is beyond the bounds of the array
+    tableTable->setFunction("remove", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.remove expected table for first argument");
+                return TUI_NIL;
+            }
+            
+            TuiRef* indexObject = args->arrayObjects[1];
+            if(indexObject->type() != Tui_ref_type_NUMBER)
+            {
+                TuiParseError(callingDebugInfo, "table.remove expected index for second argument.");
+                return TUI_NIL;
+            }
+            int removeIndex = ((TuiNumber*)indexObject)->value;
+            
+            if(!((TuiTable*)tableRef)->remove(removeIndex))
+            {
+                TuiParseError(callingDebugInfo, "table.remove index beyond bounds. index:%d array object count:%d", removeIndex, (int)((TuiTable*)tableRef)->arrayObjects.size());
+            }
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "table.remove expected table and index.");
+        }
+        return TUI_NIL;
+    });
+    
+    tableTable->setFunction("set8Add", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.set8Add expected table for first argument. got:%s", tableRef->getTypeName().c_str());
+                return TUI_NIL;
+            }
+            
+            TuiRef* addObject = args->arrayObjects[1];
+            if(addObject->type() != Tui_ref_type_NUMBER)
+            {
+                TuiParseError(callingDebugInfo, "table.set8Add expected number for second argument. got:%s", tableRef->getTypeName().c_str());
+            }
+            ((TuiTable*)tableRef)->set8.insert(((TuiNumber*)addObject)->value);
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "table.set8Add expected 2 args.");
+        }
+        return TUI_NIL;
+    });
+    
+    tableTable->setFunction("set8Remove", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.set8Remove expected table for first argument. got:%s", tableRef->getTypeName().c_str());
+                return TUI_NIL;
+            }
+            
+            TuiRef* addObject = args->arrayObjects[1];
+            if(addObject->type() != Tui_ref_type_NUMBER)
+            {
+                TuiParseError(callingDebugInfo, "table.set8Remove expected number for second argument. got:%s", tableRef->getTypeName().c_str());
+            }
+            ((TuiTable*)tableRef)->set8.erase(((TuiNumber*)addObject)->value);
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "table.set8Remove expected 2 args.");
+        }
+        return TUI_NIL;
+    });
+    
+    tableTable->setFunction("set16Add", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.set16Add expected table for first argument. got:%s", tableRef->getTypeName().c_str());
+                return TUI_NIL;
+            }
+            
+            TuiRef* addObject = args->arrayObjects[1];
+            if(addObject->type() != Tui_ref_type_NUMBER)
+            {
+                TuiParseError(callingDebugInfo, "table.set16Add expected number for second argument. got:%s", tableRef->getTypeName().c_str());
+            }
+            ((TuiTable*)tableRef)->set16.insert(((TuiNumber*)addObject)->value);
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "table.set16Add expected 2 args.");
+        }
+        return TUI_NIL;
+    });
+    
+    tableTable->setFunction("set16Remove", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.set16Remove expected table for first argument. got:%s", tableRef->getTypeName().c_str());
+                return TUI_NIL;
+            }
+            
+            TuiRef* addObject = args->arrayObjects[1];
+            if(addObject->type() != Tui_ref_type_NUMBER)
+            {
+                TuiParseError(callingDebugInfo, "table.set16Remove expected number for second argument. got:%s", tableRef->getTypeName().c_str());
+            }
+            ((TuiTable*)tableRef)->set16.erase(((TuiNumber*)addObject)->value);
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "table.set16Remove expected 2 args.");
+        }
+        return TUI_NIL;
+    });
+    
+    
+    tableTable->setFunction("set32Add", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.set32Add expected table for first argument. got:%s", tableRef->getTypeName().c_str());
+                return TUI_NIL;
+            }
+            
+            TuiRef* addObject = args->arrayObjects[1];
+            if(addObject->type() != Tui_ref_type_NUMBER)
+            {
+                TuiParseError(callingDebugInfo, "table.set32Add expected number for second argument. got:%s", tableRef->getTypeName().c_str());
+            }
+            ((TuiTable*)tableRef)->set32.insert(((TuiNumber*)addObject)->value);
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "table.set32Add expected 2 args.");
+        }
+        return TUI_NIL;
+    });
+    
+    tableTable->setFunction("set32Remove", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.set32Remove expected table for first argument. got:%s", tableRef->getTypeName().c_str());
+                return TUI_NIL;
+            }
+            
+            TuiRef* addObject = args->arrayObjects[1];
+            if(addObject->type() != Tui_ref_type_NUMBER)
+            {
+                TuiParseError(callingDebugInfo, "table.set32Remove expected number for second argument. got:%s", tableRef->getTypeName().c_str());
+            }
+            ((TuiTable*)tableRef)->set32.erase(((TuiNumber*)addObject)->value);
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "table.set32Remove expected 2 args.");
+        }
+        return TUI_NIL;
+    });
+    
+    
+    //todo the number is interpreted as a TuiNumber/double, there is no way to specify a 64 bit integer constant in tui yet
+    tableTable->setFunction("set64Add", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.set64Add expected table for first argument. got:%s", tableRef->getTypeName().c_str());
+                return TUI_NIL;
+            }
+            
+            TuiRef* addObject = args->arrayObjects[1];
+            if(addObject->type() != Tui_ref_type_NUMBER)
+            {
+                TuiParseError(callingDebugInfo, "table.set64Add expected number for second argument. got:%s", tableRef->getTypeName().c_str());
+            }
+            ((TuiTable*)tableRef)->set64.insert(((TuiNumber*)addObject)->value);
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "table.set64Add expected 2 args.");
+        }
+        return TUI_NIL;
+    });
+    
+    tableTable->setFunction("set64Remove", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.set64Remove expected table for first argument. got:%s", tableRef->getTypeName().c_str());
+                return TUI_NIL;
+            }
+            
+            TuiRef* addObject = args->arrayObjects[1];
+            if(addObject->type() != Tui_ref_type_NUMBER)
+            {
+                TuiParseError(callingDebugInfo, "table.set64Remove expected number for second argument. got:%s", tableRef->getTypeName().c_str());
+            }
+            ((TuiTable*)tableRef)->set64.erase(((TuiNumber*)addObject)->value);
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "table.set64Remove expected 2 args.");
+        }
+        return TUI_NIL;
+    });
+    
+    //table.count(table) count of array objects
+    tableTable->setFunction("count", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.count expected table for first argument");
+                return TUI_NIL;
+            }
+            
+            return new TuiNumber(((TuiTable*)tableRef)->arrayObjects.size());
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "table.count expected table argument");
+        }
+        return TUI_NIL;
+    });
+    
+    //table.shuffle(table) randomize order of array objects. Shuffles the table in-place.
+    tableTable->setFunction("shuffle", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.shuffle expected table for first argument");
+                return TUI_NIL;
+            }
+            auto& arrayObjects = ((TuiTable*)tableRef)->arrayObjects;
+            std::shuffle(std::begin(arrayObjects), std::end(arrayObjects), rng);
+        }
+        return TUI_NIL;
+    });
+    
+    //table.clone(table) does a shallow copy of the table, returning a new table with the same contents.
+    tableTable->setFunction("clone", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.clone expected table for first argument");
+                return TUI_NIL;
+            }
+            return ((TuiTable*)tableRef)->trueCopy();
+        }
+        return TUI_NIL;
+    });
+    
+    //table.sort(table, compareFunctionOrNil) sorts table in place, using optional compareFunction to compare objects. default compareFunction is function(a,b) { return a < b }
+    tableTable->setFunction("sort", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1)
+        {
+            TuiRef* tableRef = args->arrayObjects[0];
+            if(tableRef->type() != Tui_ref_type_TABLE)
+            {
+                TuiParseError(callingDebugInfo, "table.sort expected table for first argument");
+                return TUI_NIL;
+            }
+            auto& arrayObjects = ((TuiTable*)tableRef)->arrayObjects;
+            if(!arrayObjects.empty())
+            {
+                
+                if(args->arrayObjects.size() >= 2 && args->arrayObjects[1]->type() == Tui_ref_type_FUNCTION)
+                {
+                    TuiFunction* compareFunction = (TuiFunction*)args->arrayObjects[1];
+                    
+                    std::sort(arrayObjects.begin(), arrayObjects.end(), [compareFunction](TuiRef* a, TuiRef* b) {
+                          return compareFunction->call("compare", a, b)->boolValue();
+                    });
+                }
+                else
+                {
+                    std::sort(arrayObjects.begin(), arrayObjects.end(), [](TuiRef* a, TuiRef* b) {
+                        if(a->type() != b->type())
+                        {
+                            return false;
+                        }
+                        switch (a->type()) {
+                            case Tui_ref_type_NUMBER:
+                                return ((TuiNumber*)a)->value < ((TuiNumber*)b)->value;
+                                break;
+                            case Tui_ref_type_STRING:
+                                return ((TuiString*)a)->value < ((TuiString*)b)->value;
+                                break;
+                                
+                            default:
+                                return false;
+                                break;
+                        }
+                    });
+                }
+            }
+        }
+        return TUI_NIL;
+    });
+    
+    
+}
+
+void addMathTable(TuiTable* rootTable)
+{
+    //************
+    //math
+    //************
+    TuiTable* mathTable = new TuiTable(rootTable);
+    rootTable->set("math", mathTable);
+    mathTable->release();
+    
+    //math.random(max, seedOrNil) provides a floating point value between 0 and max (default 1.0). Uses a random seed unless seedOrNil is provided
+    mathTable->setFunction("random", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0)
+        {
+            TuiRef* arg = args->arrayObjects[0];
+            double result = 0.0;
+            
+            if(args->arrayObjects.size() > 1)
+            {
+                TuiRef* arg2 = args->arrayObjects[1];
+                if(arg2->type() == Tui_ref_type_NUMBER)
+                {
+                    seedRng.seed(((TuiNumber*)(arg2))->value);
+                    result = randDistribution(seedRng);
+                }
+                else if(arg2->type() == Tui_ref_type_STRING)
+                {
+                    std::string sha1 = TuiSHA1::sha1(((TuiString*)arg2)->value);
+                    uint32_t randValue;
+                    memcpy(&randValue, &sha1[0], sizeof(randValue));
+                    seedRng.seed(randValue);
+                    result = randDistribution(seedRng);
+                }
+                else
+                {
+                    TuiParseError(callingDebugInfo, "math.random(max, optionalSeed) expected number or string for seed argument");
+                }
+            }
+            else
+            {
+                result = randDistribution(rng);
+            }
+            
+            if(arg->type() == Tui_ref_type_NUMBER)
+            {
+                return new TuiNumber(result * ((TuiNumber*)(arg))->value);
+            }
+            
+            return new TuiNumber(result);
+        }
+        
+        return new TuiNumber(randDistribution(rng));
+    });
+    
+    
+    //math.randomInt(max, seedOrNil) provides an integer from 0 to (max - 1) with a default of 2. Uses a random seed unless seedOrNil is provided
+    mathTable->setFunction("randomInt", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0)
+        {
+            TuiRef* arg = args->arrayObjects[0];
+            double result = 0.0;
+            
+            if(args->arrayObjects.size() > 1)
+            {
+                TuiRef* arg2 = args->arrayObjects[1];
+                if(arg2->type() == Tui_ref_type_NUMBER)
+                {
+                    seedRng.seed(((TuiNumber*)(arg2))->value);
+                    result = randDistribution(seedRng);
+                }
+                else if(arg2->type() == Tui_ref_type_STRING)
+                {
+                    std::string sha1 = TuiSHA1::sha1(((TuiString*)arg2)->value);
+                    uint32_t randValue;
+                    memcpy(&randValue, &sha1[0], sizeof(randValue));
+                    seedRng.seed(randValue);
+                    result = randDistribution(seedRng);
+                }
+                else
+                {
+                    TuiParseError(callingDebugInfo, "math.random(max, optionalSeed) expected number or string for seed argument");
+                }
+            }
+            else
+            {
+                result = randDistribution(rng);
+            }
+            
+            if(arg->type() == Tui_ref_type_NUMBER)
+            {
+                double flooredValue = floor(((TuiNumber*)(arg))->value);
+                return new TuiNumber(min(flooredValue - 1.0, floor(result * flooredValue)));
+            }
+            
+            return new TuiNumber(floor(result));
+        }
+        return new TuiNumber(min(1.0, floor(randDistribution(rng) * 2)));
+    });
+    
+    mathTable->setFunction("pow", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 1 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER && args->arrayObjects[1]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(pow(((TuiNumber*)args->arrayObjects[0])->value, ((TuiNumber*)args->arrayObjects[1])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.pow expected 2 numbers");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("sin", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(sin(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.sin expected number");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("cos", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(cos(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.cos expected number");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("tan", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(tan(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.tan expected number");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("asin", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(asin(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.asin expected number");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("acos", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(acos(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.acos expected number");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("atan", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(atan(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.atan expected number");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("atan2", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 1 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER && args->arrayObjects[1]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(atan2(((TuiNumber*)args->arrayObjects[0])->value, ((TuiNumber*)args->arrayObjects[1])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.atan2 expected 2 numbers");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("sqrt", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(sqrt(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.sqrt expected number");
+        return TUI_NIL;
+    });
+    
+    
+    mathTable->setFunction("exp", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(exp(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.exp expected number");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("log", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(log(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.log expected number");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("log10", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(log10(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.log10 expected number");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("floor", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(floor(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.floor expected number");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("ceil", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(ceil(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.ceil expected number");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("abs", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(abs(((TuiNumber*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.abs expected number");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("fmod", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 1 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER && args->arrayObjects[1]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(fmod(((TuiNumber*)args->arrayObjects[0])->value, ((TuiNumber*)args->arrayObjects[1])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.fmod expected 2 numbers");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("max", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 1 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER && args->arrayObjects[1]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(max(((TuiNumber*)args->arrayObjects[0])->value, ((TuiNumber*)args->arrayObjects[1])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.max expected 2 numbers");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("min", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 1 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER && args->arrayObjects[1]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(min(((TuiNumber*)args->arrayObjects[0])->value, ((TuiNumber*)args->arrayObjects[1])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.min expected 2 numbers");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("clamp", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 2 && args->arrayObjects[0]->type() == Tui_ref_type_NUMBER && args->arrayObjects[1]->type() == Tui_ref_type_NUMBER && args->arrayObjects[2]->type() == Tui_ref_type_NUMBER)
+        {
+            return new TuiNumber(clamp(((TuiNumber*)args->arrayObjects[0])->value, ((TuiNumber*)args->arrayObjects[1])->value, ((TuiNumber*)args->arrayObjects[2])->value));
+        }
+        TuiParseError(callingDebugInfo, "math.clamp expected 3 numbers");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("mix", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 2 && args->arrayObjects[0]->type() == args->arrayObjects[1]->type() && args->arrayObjects[2]->type() == Tui_ref_type_NUMBER)
+        {
+            if(args->arrayObjects[0]->type() == Tui_ref_type_NUMBER)
+            {
+                return new TuiNumber(mix(((TuiNumber*)args->arrayObjects[0])->value, ((TuiNumber*)args->arrayObjects[1])->value, ((TuiNumber*)args->arrayObjects[2])->value));
+            }
+            else if(args->arrayObjects[0]->type() == Tui_ref_type_VEC2)
+            {
+                return new TuiVec2(mix(((TuiVec2*)args->arrayObjects[0])->value, ((TuiVec2*)args->arrayObjects[1])->value, ((TuiNumber*)args->arrayObjects[2])->value));
+            }
+            else if(args->arrayObjects[0]->type() == Tui_ref_type_VEC3)
+            {
+                return new TuiVec3(mix(((TuiVec3*)args->arrayObjects[0])->value, ((TuiVec3*)args->arrayObjects[1])->value, ((TuiNumber*)args->arrayObjects[2])->value));
+            }
+            else if(args->arrayObjects[0]->type() == Tui_ref_type_VEC4)
+            {
+                return new TuiVec4(mix(((TuiVec4*)args->arrayObjects[0])->value, ((TuiVec4*)args->arrayObjects[1])->value, ((TuiNumber*)args->arrayObjects[2])->value));
+            }
+        }
+        TuiParseError(callingDebugInfo, "math.mix expected 2 numbers or vectors and a number");
+        return TUI_NIL;
+    });
+    
+    mathTable->setDouble("pi", M_PI);
+    
+    mathTable->setFunction("normalize", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0)
+        {
+            if(args->arrayObjects[0]->type() == Tui_ref_type_VEC2)
+            {
+                return new TuiVec2(normalize(((TuiVec2*)args->arrayObjects[0])->value));
+            }
+            else if(args->arrayObjects[0]->type() == Tui_ref_type_VEC3)
+            {
+                return new TuiVec3(normalize(((TuiVec3*)args->arrayObjects[0])->value));
+            }
+        }
+        TuiParseError(callingDebugInfo, "math.normalize expected vec2 or vec3");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("length", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0)
+        {
+            if(args->arrayObjects[0]->type() == Tui_ref_type_VEC2)
+            {
+                return new TuiNumber(length(((TuiVec2*)args->arrayObjects[0])->value));
+            }
+            else if(args->arrayObjects[0]->type() == Tui_ref_type_VEC3)
+            {
+                return new TuiNumber(length(((TuiVec3*)args->arrayObjects[0])->value));
+            }
+        }
+        TuiParseError(callingDebugInfo, "math.length expected vec2 or vec3");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("length2", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0)
+        {
+            if(args->arrayObjects[0]->type() == Tui_ref_type_VEC2)
+            {
+                return new TuiNumber(dot(((TuiVec2*)args->arrayObjects[0])->value, ((TuiVec2*)args->arrayObjects[0])->value));
+            }
+            else if(args->arrayObjects[0]->type() == Tui_ref_type_VEC3)
+            {
+                return new TuiNumber(dot(((TuiVec3*)args->arrayObjects[0])->value, ((TuiVec3*)args->arrayObjects[0])->value));
+            }
+        }
+        TuiParseError(callingDebugInfo, "math.length2 expected vec2 or vec3");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("dot", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 1)
+        {
+            if(args->arrayObjects[0]->type() == Tui_ref_type_VEC2 && args->arrayObjects[1]->type() == Tui_ref_type_VEC2)
+            {
+                return new TuiNumber(dot(((TuiVec2*)args->arrayObjects[0])->value, ((TuiVec2*)args->arrayObjects[1])->value));
+            }
+            else if(args->arrayObjects[0]->type() == Tui_ref_type_VEC3 && args->arrayObjects[1]->type() == Tui_ref_type_VEC3)
+            {
+                return new TuiNumber(dot(((TuiVec3*)args->arrayObjects[0])->value, ((TuiVec3*)args->arrayObjects[1])->value));
+            }
+        }
+        TuiParseError(callingDebugInfo, "math.dot expected two vec2 or vec3s");
+        return TUI_NIL;
+    });
+    
+    mathTable->setFunction("cross", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 1)
+        {
+            if(args->arrayObjects[0]->type() == Tui_ref_type_VEC3 && args->arrayObjects[1]->type() == Tui_ref_type_VEC3)
+            {
+                return new TuiVec3(cross(((TuiVec3*)args->arrayObjects[0])->value, ((TuiVec3*)args->arrayObjects[1])->value));
+            }
+        }
+        TuiParseError(callingDebugInfo, "math.cross expected two vec3s");
+        return TUI_NIL;
+    });
+    
+    
+    //math.rotate(angleDegrees, axisVec3) returns a mat3 rotation matrix
+    mathTable->setFunction("rotate", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 1)
+        {
+            if(args->arrayObjects[0]->type() == Tui_ref_type_MAT3 && args->arrayObjects[1]->type() == Tui_ref_type_NUMBER && args->arrayObjects[2]->type() == Tui_ref_type_VEC3)
+            {
+                return new TuiMat3(((TuiMat3*)args->arrayObjects[0])->value * dmat3(rotate(((TuiNumber*)args->arrayObjects[1])->value, ((TuiVec3*)args->arrayObjects[2])->value)));
+            }
+            else if(args->arrayObjects[0]->type() == Tui_ref_type_NUMBER && args->arrayObjects[1]->type() == Tui_ref_type_VEC3)
+            {
+                return new TuiMat3(rotate(((TuiNumber*)args->arrayObjects[0])->value, ((TuiVec3*)args->arrayObjects[1])->value));
+            }
+        }
+        TuiParseError(callingDebugInfo, "math.rotate expected angleDegrees, axisVec3");
+        return TUI_NIL;
+    });
+}
+
+void addFileTable(TuiTable* rootTable, const std::string& sandBoxDir) //TODO! sandBoxDir ignored
+{
+    
+    //************
+    //file
+    //************
+    TuiTable* fileTable = new TuiTable(rootTable);
+    rootTable->set("file", fileTable);
+    fileTable->release();
+    
+    //file.directoryContents(path) returns an array of file names
+    fileTable->setFunction("directoryContents", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1)
+        {
+            TuiRef* pathRef = args->arrayObjects[0];
+            if(pathRef->type() != Tui_ref_type_STRING)
+            {
+                TuiParseError(callingDebugInfo, "file.directoryContents expected string argument");
+                return TUI_NIL;
+            }
+            
+            std::vector<std::string> directoryContents = Tui::getDirectoryContents(((TuiString*)pathRef)->value);
+            
+            TuiTable* directroyContentsTable = new TuiTable(nullptr);
+            
+            for(auto& fileName : directoryContents)
+            {
+                TuiString* fileNameRef = new TuiString(fileName);
+                directroyContentsTable->arrayObjects.push_back(fileNameRef);
+            }
+            
+            return directroyContentsTable;
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.directoryContents expected string argument");
+        }
+    });
+    
+    // file.sha1(path) returns an sha1 hash of the contents of the file at the path provided
+    fileTable->setFunction("sha1", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() > 0 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            return new TuiString(TuiSHA1::from_file(((TuiString*)args->arrayObjects[0])->value));
+        }
+        TuiParseError(callingDebugInfo, "file.sha1 expected string");
+        return TUI_NIL;
+    });
+    
+    // file.load(path) returns a TuiRef object with the contents of a human readable tui or json file
+    fileTable->setFunction("load", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            return TuiRef::runScriptFile(((TuiString*)args->arrayObjects[0])->value, nullptr, callingDebugInfo);
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.load expected string argument");
+        }
+    });
+    
+    // file.loadBinary(path) returns an object with the contents of a file that has been saved in the proprietry tui binary format
+    fileTable->setFunction("loadBinary", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            return TuiRef::loadBinary(((TuiString*)args->arrayObjects[0])->value);
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.loadBinary expected string argument");
+        }
+    });
+    
+    // file.save(path, object) saves the tui object to disk in a human readable format (unless object is a binary string)
+    fileTable->setFunction("save", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            ((TuiString*)args->arrayObjects[1])->saveToFile(((TuiString*)args->arrayObjects[0])->value);
+            return TUI_NIL;
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.save expected string argument");
+        }
+    });
+    
+    // file.saveBinary(path, object) saves the tui object to disk in a proprietry tui binary format
+    fileTable->setFunction("saveBinary", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            ((TuiString*)args->arrayObjects[1])->saveBinary(((TuiString*)args->arrayObjects[0])->value);
+            return TUI_NIL;
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.saveBinary expected string argument");
+        }
+    });
+    
+    
+    // file.loadData(path) returns a string with the contents of file
+    fileTable->setFunction("loadData", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            TuiString* result = new TuiString("");
+            bool success = Tui::getFileContents(((TuiString*)args->arrayObjects[0])->value, &(result->value));
+            if(!success)
+            {
+                result->release();
+                TuiWarn("file not found in file.loadData. path:%s", ((TuiString*)args->arrayObjects[0])->value.c_str());
+                return TUI_NIL;
+            }
+            return result;
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.loadData expected string argument");
+        }
+    });
+    
+    // file.saveData(path, string) saves the string to disk directly
+    fileTable->setFunction("saveData", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2 && args->arrayObjects[0]->type() == Tui_ref_type_STRING  && args->arrayObjects[1]->type() == Tui_ref_type_STRING)
+        {
+            Tui::writeToFile(((TuiString*)args->arrayObjects[0])->value, (((TuiString*)args->arrayObjects[1])->value));
+            return TUI_NIL;
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.saveData expected 2 string arguments");
+        }
+    });
+    
+    //file.isDirectory(path) returns true if path is a directory
+    fileTable->setFunction("isDirectory", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1)
+        {
+            TuiRef* pathRef = args->arrayObjects[0];
+            if(pathRef->type() != Tui_ref_type_STRING)
+            {
+                TuiParseError(callingDebugInfo, "file.isDirectory expected string argument");
+                return TUI_NIL;
+            }
+            
+            if(Tui::isDirectoryAtPath(((TuiString*)pathRef)->value))
+            {
+                return TUI_TRUE;
+            }
+            
+            return TUI_FALSE;
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.isDirectory expected string argument");
+        }
+    });
+    
+    fileTable->setFunction("fileName", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            return new TuiString(Tui::fileNameFromPath(((TuiString*)args->arrayObjects[0])->value));
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.fileNameFromPath expected string argument");
+        }
+    });
+    //file.extension(path) returns the extension including the '.' eg. "image.jpg" returns ".jpg"
+    fileTable->setFunction("extension", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            return new TuiString(Tui::fileExtensionFromPath(((TuiString*)args->arrayObjects[0])->value));
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.fileExtensionFromPath expected string argument");
+        }
+    });
+    fileTable->setFunction("changeExtension", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING && args->arrayObjects[1]->type() == Tui_ref_type_STRING)
+        {
+            return new TuiString(Tui::changeExtensionForPath(((TuiString*)args->arrayObjects[0])->value, ((TuiString*)args->arrayObjects[1])->value));
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.changeExtensionForPath expected string argument");
+        }
+    });
+    fileTable->setFunction("removeExtension", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            return new TuiString(Tui::removeExtensionForPath(((TuiString*)args->arrayObjects[0])->value));
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.removeExtensionForPath expected string argument");
+        }
+    });
+    fileTable->setFunction("removeLastPathComponent", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            return new TuiString(Tui::pathByRemovingLastPathComponent(((TuiString*)args->arrayObjects[0])->value));
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.pathByRemovingLastPathComponent expected string argument");
+        }
+    });
+    
+    //file.fileSizeAtPath(path) returns size in bytes
+    fileTable->setFunction("fileSize", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            return new TuiNumber(Tui::fileSizeAtPath(((TuiString*)args->arrayObjects[0])->value));
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.fileSizeAtPath expected string argument");
+        }
+    });
+    
+    //file.fileExists(path) returns true if file exists, false otherwise
+    fileTable->setFunction("fileExists", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            return TUI_BOOL(Tui::fileExistsAtPath(((TuiString*)args->arrayObjects[0])->value));
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.fileExistsAtPath expected string argument");
+        }
+    });
+    
+    //file.isSymLink(path) returns true if file is a symlink, false otherwise
+    fileTable->setFunction("isSymLink", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            return TUI_BOOL(Tui::isSymLinkAtPath(((TuiString*)args->arrayObjects[0])->value));
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.isSymLinkAtPath expected string argument");
+        }
+    });
+    
+    //file.createDirectoriesIfNeededForDirPath(path) equivalent to mkdir -p
+    fileTable->setFunction("createDirectoriesIfNeededForDirPath", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            Tui::createDirectoriesIfNeededForDirPath(((TuiString*)args->arrayObjects[0])->value);
+            return TUI_NIL;
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.createDirectoriesIfNeededForDirPath expected string argument");
+        }
+    });
+    
+    //file.createDirectoriesIfNeededForFilePath(path) equivalent to mkdir -p
+    fileTable->setFunction("createDirectoriesIfNeededForFilePath", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            Tui::createDirectoriesIfNeededForFilePath(((TuiString*)args->arrayObjects[0])->value);
+            return TUI_NIL;
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.createDirectoriesIfNeededForFilePath expected string argument");
+        }
+    });
+    
+    //file.getAbsolutePath(path) returns the full path for a given relative path
+    fileTable->setFunction("getAbsolutePath", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            return new TuiString(Tui::getAbsolutePath(((TuiString*)args->arrayObjects[0])->value));
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.getAbsolutePath expected string argument");
+        }
+    });
+    
+    //file.isSubPath(path, basePath) returns true if path is a subPath of (is contained within) basePath, false otherwise. basePath is optional, defaults to current working directory
+    fileTable->setFunction("isSubPath", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            if(args->arrayObjects.size() >= 2 && args->arrayObjects[1]->type() == Tui_ref_type_STRING)
+            {
+                return TUI_BOOL(Tui::isSubPath(((TuiString*)args->arrayObjects[0])->value, ((TuiString*)args->arrayObjects[1])->value));
+            }
+            return TUI_BOOL(Tui::isSubPath(((TuiString*)args->arrayObjects[0])->value));
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.isSubPath expected string argument");
+        }
+    });
+    
+    //file.move(fromPath, toPath) // overwrites if toPath already exists
+    fileTable->setFunction("move", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2 && args->arrayObjects[0]->type() == Tui_ref_type_STRING && args->arrayObjects[1]->type() == Tui_ref_type_STRING)
+        {
+            return TUI_BOOL(Tui::moveFile(((TuiString*)args->arrayObjects[0])->value, ((TuiString*)args->arrayObjects[1])->value));
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.move expected 2 string arguments");
+        }
+        return TUI_FALSE;
+    });
+    
+    //file.remove(path)
+    fileTable->setFunction("remove", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            const std::string path = ((TuiString*)args->arrayObjects[0])->value;
+            if(isDirectoryAtPath(path) && !isSymLinkAtPath(path))
+            {
+                return TUI_BOOL(removeDirectory(path));
+            }
+            else
+            {
+                return TUI_BOOL(removeFile(path));
+            }
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.remove expected string argument");
+        }
+        return TUI_FALSE;
+    });
+    
+    
+    //file.copy(sourcePath, destinationPath) // overwritoverwrites if toPath already exists
+    fileTable->setFunction("copy", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 2 && args->arrayObjects[0]->type() == Tui_ref_type_STRING && args->arrayObjects[1]->type() == Tui_ref_type_STRING)
+        {
+            return TUI_BOOL(Tui::copyFileOrDir(((TuiString*)args->arrayObjects[0])->value, ((TuiString*)args->arrayObjects[1])->value));
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.copy expected 2 string arguments");
+        }
+        return TUI_FALSE;
+    });
+    
+    //file.mkdir(path) //makes all enclosing/intermediate directories too, equivalent to mkdir -p
+    fileTable->setFunction("mkdir", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        if(args && args->arrayObjects.size() >= 1 && args->arrayObjects[0]->type() == Tui_ref_type_STRING)
+        {
+            const std::string path = ((TuiString*)args->arrayObjects[0])->value;
+            return TUI_BOOL(Tui::createDirectoriesIfNeededForDirPath(path));
+        }
+        else
+        {
+            TuiParseError(callingDebugInfo, "file.mkdir expected string argument");
+        }
+        return TUI_FALSE;
+    });
+    
+    
+}
+
+void addDebugTable(TuiTable* rootTable)
+{
+    //************
+    //debug
+    //************
+    TuiTable* debugTable = new TuiTable(rootTable);
+    rootTable->set("debug", debugTable);
+    debugTable->release();
+    
+    
+    //debug.getFileName() returns the current script file name or debug identifier string
+    debugTable->setFunction("getFileName", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        return new TuiString(callingDebugInfo->currentLine->fileName);
+    });
+    
+    //debug.getLineNumber() returns the line number in the current script file
+    debugTable->setFunction("getLineNumber", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        return new TuiNumber(callingDebugInfo->currentLine->lineNumber);
+    });
+    
+    
+    //debug.break() breaks, but only if you set a breakpoint in this function :)
+    debugTable->setFunction("break", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        return TUI_NIL;
+    });
+    
+    //debug.backtrace() prints a backtrace
+    debugTable->setFunction("backtrace", [](TuiTable* args, TuiRef* existingResult, TuiFunctionCallData* incomingCallData, TuiDebugInfo* callingDebugInfo) -> TuiRef* {
+        TuiLog("debug.backtrace:");
+        TuiPrintDebugBacktrace(callingDebugInfo);
+        return TUI_NIL;
+    });
+    
+}
+
+
+}

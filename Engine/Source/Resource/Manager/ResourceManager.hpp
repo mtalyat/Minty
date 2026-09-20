@@ -31,6 +31,7 @@
 #include "Resource/Prefab/PrefabResource.hpp"
 #include "Resource/RenderPass/RenderPassResource.hpp"
 #include "Resource/RenderTarget/RenderTargetResource.hpp"
+#include "Resource/Script/ScriptResource.hpp"
 #include "Resource/Shader/ShaderResource.hpp"
 #include "Resource/Sprite/SpriteResource.hpp"
 #include "Resource/Texture/TextureResource.hpp"
@@ -294,6 +295,10 @@ namespace Minty
             {
                 return m_assets_renderTargets;
             }
+            else if constexpr (std::is_same_v<T, ScriptResource>)
+            {
+                return m_assets_scripts;
+            }
             else if constexpr (std::is_same_v<T, ShaderResource>)
             {
                 return m_assets_shaders;
@@ -341,6 +346,7 @@ namespace Minty
         ResourcePool<PrefabResource> m_assets_prefabs;
         ResourcePool<RenderPassResource> m_assets_renderPasses;
         ResourcePool<RenderTargetResource> m_assets_renderTargets;
+        ResourcePool<ScriptResource> m_assets_scripts;
         ResourcePool<ShaderResource> m_assets_shaders;
         ResourcePool<SpriteResource> m_assets_sprites;
         ResourcePool<TextureResource> m_assets_textures;

@@ -20,6 +20,7 @@ int main()
 
     // TODO: move into application...
     SystemManager::register_system<RenderSystem>("Render");
+    SystemManager::register_system<ScriptSystem>("Script");
 
     // APPLICATION
     ApplicationInfo applicationInfo{};
@@ -57,6 +58,11 @@ int main()
     FontResourceHandle const defaultFontResourceHandle = resourceManager.load<FontResource>("Data/Default/Font/default.fnt.minty");
     SpriteResourceHandle const spriteResourceHandle1 = resourceManager.load<SpriteResource>("Demo/Assets/test.spr.minty");
     SpriteResourceHandle const spriteResourceHandle2 = resourceManager.load<SpriteResource>("Demo/Assets/test2.spr.minty");
+    ScriptResourceHandle const scriptResourceHandle = resourceManager.load<ScriptResource>("Demo/Assets/test.scr.minty");
+
+    // Create script data
+    ScriptManager& scriptManager = app.get_script_manager();
+    ScriptHandle const scriptHandle = scriptManager.create(scriptResourceHandle);
 
     // Create render data
     RenderManager& renderManager = app.get_render_manager();
@@ -97,6 +103,7 @@ int main()
 
     // Add the systems
     worldSystemManager.create_system<RenderSystem>();
+    worldSystemManager.create_system<ScriptSystem>();
     uiSystemManager.create_system<RenderSystem>();
 
     // Create camera entity
@@ -158,6 +165,12 @@ int main()
     });
     worldEntityManager.add<VisibleTag>(childEntity);
 
+    // Create script entities
+    EntityHandle const scriptEntity = worldEntityManager.create();
+    worldEntityManager.attach(scriptEntity, scriptHandle);
+    EntityHandle const scriptEntity2 = worldEntityManager.create();
+    worldEntityManager.attach(scriptEntity2, scriptHandle);
+
     // Create canvas root entity
     EntityHandle const uiCanvasEntity = uiEntityManager.create();
     CanvasComponent& canvasComponent = uiEntityManager.add<CanvasComponent>(uiCanvasEntity);
@@ -209,7 +222,7 @@ int main()
 
     uiEntityManager.add<VisibleTag>(uiTextEntity);
 
-    // Enable scene
+    // Enable scene(s)
     sceneManager.enable(worldSceneHandle);
     sceneManager.enable(uiSceneHandle);
 

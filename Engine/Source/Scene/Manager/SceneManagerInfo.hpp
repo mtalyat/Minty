@@ -4,5 +4,6 @@ namespace Minty
 {
     struct SceneManagerInfo
     {
+
     };
 }

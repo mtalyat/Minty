@@ -4,6 +4,7 @@ Independence
 Core
 Collision
 Resource
+Script
 Window
 Event
 Input

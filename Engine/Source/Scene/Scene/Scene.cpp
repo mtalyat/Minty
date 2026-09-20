@@ -4,11 +4,21 @@
 
 using namespace Minty;
 
+Minty::Scene::Scene()
+    : mp_entityManager(new EntityManager({}, *this)),
+      mp_systemManager(new SystemManager({}, *this)),
+      m_priority(0),
+      m_name(),
+      m_status()
+{
+}
+
 Minty::Scene::Scene(SceneInfo const &info)
     : mp_entityManager(new EntityManager(info.entityManagerInfo, *this)),
       mp_systemManager(new SystemManager(info.systemManagerInfo, *this)),
       m_priority(info.priority),
-        m_name(info.name)
+      m_name(info.name),
+      m_status()
 {
 }
 
@@ -16,7 +26,8 @@ Minty::Scene::Scene(Scene &&scene)
     : mp_entityManager(scene.mp_entityManager),
       mp_systemManager(scene.mp_systemManager),
       m_priority(scene.m_priority),
-      m_name(scene.m_name)
+      m_name(scene.m_name),
+      m_status(scene.m_status)
 {
     if (mp_entityManager)
     {
@@ -41,7 +52,8 @@ Scene &Minty::Scene::operator=(Scene &&scene)
         mp_entityManager = scene.mp_entityManager;
         mp_systemManager = scene.mp_systemManager;
         m_priority = scene.m_priority;
-        m_name = scene.m_name;
+        m_name = scene.m_name,
+        m_status = scene.m_status;
 
         if (mp_entityManager)
         {
@@ -84,22 +96,66 @@ void Minty::Scene::on_event(Event &event)
     mp_systemManager->on_event(event);
 }
 
+void Minty::Scene::trigger_promotion(StatusEnum const status)
+{
+    if (m_status.promote_parent_to(status))
+    {
+        mp_systemManager->trigger_promotion(m_status);
+    }
+}
+
+void Minty::Scene::trigger_demotion(StatusEnum const status)
+{
+    if (m_status.demote_parent_to(status))
+    {
+        mp_systemManager->trigger_demotion(m_status);
+    }
+}
+
+void Minty::Scene::on_create()
+{
+    if(m_status.promote_to(StatusEnum::Created))
+    {
+        mp_systemManager->trigger_promotion(StatusEnum::Created);
+    }
+}
+
+void Minty::Scene::on_destroy()
+{
+    if(m_status.demote_to(StatusEnum::Destroyed))
+    {
+        mp_systemManager->trigger_demotion(StatusEnum::Destroyed);
+    }
+}
+
 void Minty::Scene::on_load()
 {
-    mp_systemManager->on_load();
+    if(m_status.promote_to(StatusEnum::Loaded))
+    {
+        mp_systemManager->trigger_promotion(StatusEnum::Loaded);
+    }
 }
 
 void Minty::Scene::on_unload()
 {
-    mp_systemManager->on_unload();
+    if(m_status.demote_to(StatusEnum::Unloaded))
+    {
+        mp_systemManager->trigger_demotion(StatusEnum::Unloaded);
+    }
 }
 
 void Minty::Scene::on_enable()
 {
-    mp_systemManager->on_enable();
+    if(m_status.promote_to(StatusEnum::Enabled))
+    {
+        mp_systemManager->trigger_promotion(StatusEnum::Enabled);
+    }
 }
 
 void Minty::Scene::on_disable()
 {
-    mp_systemManager->on_disable();
+    if(m_status.demote_to(StatusEnum::Disabled))
+    {
+        mp_systemManager->trigger_demotion(StatusEnum::Disabled);
+    }
 }

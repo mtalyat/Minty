@@ -6,6 +6,7 @@
 #include "Core/Data/UUID.hpp"
 #include "Core/Data/StringView.hpp"
 #include "World/Entity/EntityView.hpp"
+#include "Script/Type/Handle.hpp"
 
 namespace Minty
 {
@@ -37,6 +38,9 @@ namespace Minty
         inline Bool is_valid(EntityHandle const entity) const { return m_registry.valid(minty_to_entt(entity)); }
 
         inline void set_scene(Scene &scene) { mp_scene = &scene; }
+        
+        inline entt::registry &get_registry() { return m_registry; }
+        inline entt::registry const &get_registry() const { return m_registry; }
 
 #pragma endregion
 
@@ -68,13 +72,11 @@ namespace Minty
 
         template <typename Component>
         decltype(auto) get(EntityHandle const entity);
-
         template <typename Component>
         decltype(auto) get(EntityHandle const entity) const;
 
         template <typename Component>
         Component *try_get(EntityHandle const entity);
-
         template <typename Component>
         Component const *try_get(EntityHandle const entity) const;
 
@@ -93,19 +95,16 @@ namespace Minty
         template <typename Component>
         void register_component(StringView const name);
 
-        inline entt::registry &get_registry() { return m_registry; }
-
-        inline entt::registry const &get_registry() const { return m_registry; }
-
         template <typename... Components>
         auto view();
-
         template <typename... Components>
         auto view() const;
 
         void set_parent(EntityHandle const entity, EntityHandle const parent);
-
         EntityHandle get_parent(EntityHandle const entity) const;
+
+        void attach(EntityHandle const entity, ScriptHandle const script, Bool const enabled = true);
+        void detach(EntityHandle const entity, ScriptHandle const script);
 
         void on_finalize();
 

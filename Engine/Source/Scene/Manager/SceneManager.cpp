@@ -8,17 +8,35 @@
 using namespace Minty;
 
 Minty::SceneManager::SceneManager(SceneManagerInfo const &info)
+    : m_scenes(),
+      m_activeScenes(),
+      m_parentStatus()
 {
 }
 
 Minty::SceneManager::~SceneManager()
 {
+    // Destroy all scenes
+    Vector<SceneHandle> const handles = m_scenes.get_handles();
+    for (SceneHandle const handle : handles)
+    {
+        destroy(handle);
+    }
 }
 
 SceneHandle Minty::SceneManager::create(SceneInfo const &info)
 {
     // Create a Scene
     Scene scene(info);
+
+    // Trigger the scene's create event
+    scene.on_create();
+
+    // Trigger the scene's load event
+    scene.on_load();
+
+    // Elevate to this manager's status
+    scene.trigger_promotion(m_parentStatus);
 
     // Add the Scene to the HandlePool
     SceneHandle const handle = m_scenes.add(std::move(scene));
@@ -33,6 +51,12 @@ void Minty::SceneManager::destroy(SceneHandle const handle)
 
     // If the scene is active, remove it from the active scenes list
     disable(handle);
+
+    // Trigger the scene's unload event
+    m_scenes.at(handle).on_unload();
+
+    // Trigger the scene's destroy event
+    m_scenes.at(handle).on_destroy();
 
     // Remove the Scene from the HandlePool
     m_scenes.remove(handle);
@@ -189,5 +213,27 @@ void Minty::SceneManager::on_event(Event &event)
         // Send the event to the scene
         Scene &scene = at(handle);
         scene.on_event(event);
+    }
+}
+
+void Minty::SceneManager::trigger_promotion(StatusEnum const status)
+{
+    // Trigger scenes if they are affected by the status change
+    m_parentStatus = status;
+    for (SceneHandle const handle : m_activeScenes)
+    {
+        Scene &scene = at(handle);
+        scene.trigger_promotion(status);
+    }
+}
+
+void Minty::SceneManager::trigger_demotion(StatusEnum const status)
+{
+    // Trigger scenes if they are affected by the status change
+    m_parentStatus = status;
+    for (SceneHandle const handle : m_activeScenes)
+    {
+        Scene &scene = at(handle);
+        scene.trigger_demotion(status);
     }
 }

@@ -1,0 +1,174 @@
+#ifndef TuiStatement_h
+#define TuiStatement_h
+
+#include <vector>
+#include <string>
+
+class TuiString;
+class TuiRef;
+
+enum {
+    Tui_token_nil = 0,
+    Tui_token_functionCall,
+    Tui_token_end,
+    Tui_token_add,
+    Tui_token_subtract,
+    Tui_token_divide,
+    Tui_token_multiply,
+    Tui_token_modulo,
+    
+    Tui_token_equalTo, //8
+    Tui_token_notEqualTo,
+    Tui_token_lessThan,
+    Tui_token_greaterThan,
+    Tui_token_greaterEqualTo,
+    Tui_token_lessEqualTo,
+    Tui_token_not,
+    Tui_token_increment,
+    
+    Tui_token_decrement, //16
+    Tui_token_addInPlace,
+    Tui_token_subtractInPlace,
+    Tui_token_multiplyInPlace,
+    Tui_token_divideInPlace,
+    Tui_token_or,
+    Tui_token_and,
+    Tui_token_tableConstruct,
+    
+    Tui_token_varChain, //24
+    Tui_token_childByString,
+    Tui_token_childByExpression,
+    Tui_token_parentCaptureVarChain,
+    Tui_token_varName,
+    Tui_token_true,
+    Tui_token_false,
+    Tui_token_forCollectionLoopKeyValue,
+    
+    Tui_token_forCollectionLoopValues, //32
+    Tui_token_functionDeclaration,
+    Tui_token_vec2,
+    Tui_token_vec3,
+    Tui_token_vec4,
+    Tui_token_mat3,
+    Tui_token_negate,
+    Tui_token_this,
+    
+    Tui_token_VAR_START_INDEX
+};
+
+enum {
+    Tui_statement_type_return = 0,
+    Tui_statement_type_returnExpression,
+    Tui_statement_type_varAssign, // x = expression assignment
+    Tui_statement_type_value, // expression result will be added to arrayObjects
+    Tui_statement_type_varModify, // += ++ etc
+    Tui_statement_type_functionCall,
+    Tui_statement_type_if,
+    Tui_statement_type_forExpressions, // for(i = 0, i < 5, i++), while(i < 5)
+    Tui_statement_type_forKeyedValues, // for(indexOrKey, object in table)
+    Tui_statement_type_forValues, // for(object in table)
+    Tui_statement_type_break,
+};
+
+struct TuiExpression {
+    std::vector<uint32_t> tokens;
+};
+
+struct TuiTokenMap {
+    uint32_t tokenIndex = Tui_token_VAR_START_INDEX;
+    std::map<uint32_t, TuiRef*> refsByToken; //var names and constants. Captures may also be stored here when a function constructor is called
+    std::map<std::string, uint32_t> capturedTokensByVarName;
+    std::map<std::string, uint32_t> localTokensByVarName;
+};
+
+struct TuiDebugInfoLine {
+    std::string fileName;
+    int lineNumber = 1;
+};
+
+struct TuiDebugInfo {
+    TuiDebugInfoLine* currentLine = nullptr;
+    std::vector<TuiDebugInfoLine> lines;
+};
+
+inline void TuiDebugInfoPush(TuiDebugInfo* debugInfo, const std::string& fileName, int lineNumber)
+{
+    debugInfo->lines.resize(debugInfo->lines.size() + 1);
+    debugInfo->currentLine = &(debugInfo->lines[debugInfo->lines.size() - 1]);
+    debugInfo->currentLine->fileName = fileName;
+    debugInfo->currentLine->lineNumber = lineNumber;
+}
+
+inline void TuiDebugInfoPop(TuiDebugInfo* debugInfo)
+{
+    debugInfo->lines.resize(debugInfo->lines.size() - 1);
+    if(debugInfo->lines.empty())
+    {
+        debugInfo->currentLine = nullptr;
+    }
+    else
+    {
+        debugInfo->currentLine = &(debugInfo->lines[debugInfo->lines.size() - 1]);
+    }
+}
+
+inline void TuiDebugInfoCopy(TuiDebugInfo* src, TuiDebugInfo* dst)
+{
+    dst->lines = src->lines;
+    dst->currentLine = &(dst->lines[dst->lines.size() - 1]);
+}
+
+class TuiStatement {
+public: //members
+    int refCount = 1;
+    TuiDebugInfoLine debugInfoLine;
+    uint32_t type;
+    std::string varName; //only stored for var assign statements
+    TuiExpression* expression = nullptr;
+    
+public://functions
+    TuiStatement(uint8_t type_) {type = type_;}
+    virtual ~TuiStatement() { if(expression) { delete expression;}}
+};
+
+class TuiIfStatement : public TuiStatement {
+public://functions
+    std::vector<TuiStatement*> statements;
+    TuiIfStatement* elseIfStatement = nullptr;
+    TuiIfStatement() : TuiStatement(Tui_statement_type_if) {}
+};
+
+
+class TuiForExpressionsStatement : public TuiStatement { // for(i = 0, i < 5, i++)
+public://functions
+    std::string keyOrIndexName;
+    std::vector<TuiStatement*> statements;
+    TuiStatement* initialStatement = nullptr; //todo cleanup
+    TuiExpression* continueExpression = nullptr; //todo cleanup
+    TuiStatement* incrementStatement = nullptr; //todo cleanup
+    
+    TuiTokenMap outerTokenMap;
+    TuiTokenMap innerTokenMap;
+    
+    
+    TuiForExpressionsStatement() : TuiStatement(Tui_statement_type_forExpressions) {}
+};
+
+
+class TuiForContainerLoopStatement : public TuiStatement { // for(object in table)
+public://functions
+    std::string keyOrIndexName;
+    std::string objectName;
+    std::vector<TuiStatement*> statements;
+    
+    uint32_t indexInnerToken = 0;
+    uint32_t objectInnerToken = 0;
+    
+    TuiTokenMap outerTokenMap;
+    TuiTokenMap innerTokenMap;
+    
+    TuiForContainerLoopStatement(uint32_t type_) : TuiStatement(type_) {}
+};
+
+
+#endif

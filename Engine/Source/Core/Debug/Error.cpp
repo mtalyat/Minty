@@ -425,6 +425,13 @@ Char const *Minty::get_error_message(ErrorCodeEnum const code)
     case ErrorCodeEnum::Wrap_UncompressionFailed:
         return "Wrap error. Uncompression failed.";
 
+    case ErrorCodeEnum::Status:
+        return "Status error.";
+    case ErrorCodeEnum::Status_PromoteFailed:
+        return "Status error. Failed to promote status.";
+    case ErrorCodeEnum::Status_DemoteFailed:
+        return "Status error. Failed to demote status.";
+
     default:
         return "Unknown error.";
     }

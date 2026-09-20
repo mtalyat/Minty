@@ -409,8 +409,9 @@ namespace Minty
 				}
 			}
 
-			// move data
-			for (Size i = get_size(); i > index; --i)
+			// initialize the new tail slot, then shift existing initialized elements right
+			new (&mp_data[get_size()]) T(std::move(mp_data[get_size() - 1]));
+			for (Size i = get_size() - 1; i > index; --i)
 			{
 				mp_data[i] = std::move(mp_data[i - 1]);
 			}
@@ -449,9 +450,16 @@ namespace Minty
 			}
 
 			// move data
-			for (Size i = get_size(); i > index; --i)
+			if (get_size() > index)
 			{
-				mp_data[i] = std::move(mp_data[i - 1]);
+				// last element needs initialized directly, not moved from previous memory location
+				new (&mp_data[get_size()]) T(std::move(mp_data[get_size() - 1]));
+
+				// other elements can be moved
+				for (Size i = get_size() - 1; i > index; --i)
+				{
+					mp_data[i] = std::move(mp_data[i - 1]);
+				}
 			}
 
 			// add value

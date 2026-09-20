@@ -5,10 +5,15 @@
 #include "Core/Tool/Format.hpp"
 #include "Core/Debug/DebugF.hpp"
 #include "Core/Data/Stack.hpp"
+#include "Scene/Scene/Scene.hpp"
+
+#include "Script/Manager/ScriptManager.hpp"
+#include "Script/Script/ScriptLocalContext.hpp"
 
 #include "World/Component/NameComponent.hpp"
 #include "World/Component/UUIDComponent.hpp"
 #include "World/Component/RelationshipComponent.hpp"
+#include "World/Component/ScriptComponent.hpp"
 #include "World/Component/TransformComponent.hpp"
 
 using namespace Minty;
@@ -251,6 +256,68 @@ EntityHandle Minty::EntityManager::get_parent(EntityHandle const entity) const
 		return INVALID_ENTITY;
 	}
 	return relationship->parent;
+}
+
+void Minty::EntityManager::attach(EntityHandle const entity, ScriptHandle const script, Bool const enabled)
+{
+	// Ensure the entity exists
+	MINTY_ASSERT(is_valid(entity), ErrorCodeEnum::Argument_KeyNotFound);
+
+	// Add script to the entity's script component
+	ScriptComponent &scriptComp = m_registry.get_or_emplace<ScriptComponent>(minty_to_entt(entity));
+	scriptComp.scripts.add({script, enabled});
+
+	// Trigger any necessary events or callbacks related to attaching the script
+	// based on the status of the script and Scene
+	if (!enabled)
+	{
+		// Script is not enabled, so do nothing
+		return;
+	}
+
+	StatusEnum sceneStatus = mp_scene->get_status();
+	if (sceneStatus >= StatusEnum::Created)
+	{
+		ScriptManager &scriptManager = ScriptManager::get_instance();
+
+		ScriptLocalContext localContext{};
+		localContext.entity = entity;
+
+		scriptManager.call_create(script, localContext);
+
+		if (sceneStatus >= StatusEnum::Loaded)
+		{
+			scriptManager.call_load(script, localContext);
+
+			if (sceneStatus >= StatusEnum::Enabled)
+			{
+				scriptManager.call_enable(script, localContext);
+			}
+		}
+	}
+}
+
+void Minty::EntityManager::detach(EntityHandle const entity, ScriptHandle const script)
+{
+	// Ensure the entity exists
+	MINTY_ASSERT(is_valid(entity), ErrorCodeEnum::Argument_KeyNotFound);
+
+	// Ensure the entity has a script component
+	MINTY_ASSERT(m_registry.all_of<ScriptComponent>(minty_to_entt(entity)), ErrorCodeEnum::Argument_KeyNotFound);
+
+	// Ensure the entity has the script attached, and remove it if so
+	ScriptComponent &scriptComp = m_registry.get<ScriptComponent>(minty_to_entt(entity));
+	Bool scriptFound = false;
+	for (int i = 0; i < scriptComp.scripts.get_size(); ++i)
+	{
+		if (scriptComp.scripts[i].handle == script)
+		{
+			scriptFound = true;
+			scriptComp.scripts.remove(i);
+			break;
+		}
+	}
+	MINTY_ASSERT(scriptFound, ErrorCodeEnum::Argument_KeyNotFound);
 }
 
 void Minty::EntityManager::on_finalize()

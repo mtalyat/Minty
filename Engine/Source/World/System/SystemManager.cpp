@@ -4,20 +4,22 @@
 
 using namespace Minty;
 
-Registry<Pointer, SystemManager&> Minty::SystemManager::s_registeredSystems = {};
+Registry<Pointer, SystemManager &> Minty::SystemManager::s_registeredSystems = {};
 
-Minty::SystemManager::SystemManager(SystemManagerInfo const &info, Scene& scene)
+Minty::SystemManager::SystemManager(SystemManagerInfo const &info, Scene &scene)
     : mp_scene(&scene),
       m_systems(),
+      m_createHooks(),
+      m_destroyHooks(),
+      m_loadHooks(),
+      m_unloadHooks(),
+      m_enableHooks(),
+      m_disableHooks(),
       m_frameUpdateHooks(),
       m_fixedUpdateHooks(),
       m_finalizeHooks(),
       m_renderHooks(),
-      m_eventHooks(),
-      m_loadHooks(),
-      m_unloadHooks(),
-      m_enableHooks(),
-      m_disableHooks()
+      m_eventHooks()
 {
 }
 
@@ -64,6 +66,60 @@ void Minty::SystemManager::on_event(Event &event)
         }
 
         hook.func(hook.system, event);
+    }
+}
+
+void Minty::SystemManager::trigger_promotion(StatusEnum const status)
+{
+    switch (status)
+    {
+    case StatusEnum::Created:
+        on_create();
+        break;
+    case StatusEnum::Loaded:
+        on_load();
+        break;
+    case StatusEnum::Enabled:
+        on_enable();
+        break;
+    default:
+        MINTY_NOT_IMPLEMENTED();
+        break;
+    }
+}
+
+void Minty::SystemManager::trigger_demotion(StatusEnum const status)
+{
+    switch (status)
+    {
+    case StatusEnum::Unloaded:
+        on_unload();
+        break;
+    case StatusEnum::Disabled:
+        on_disable();
+        break;
+    case StatusEnum::Destroyed:
+        on_destroy();
+        break;
+    default:
+        MINTY_NOT_IMPLEMENTED();
+        break;
+    }
+}
+
+void Minty::SystemManager::on_create()
+{
+    for (EventHook const &hook : m_createHooks)
+    {
+        hook.func(hook.system);
+    }
+}
+
+void Minty::SystemManager::on_destroy()
+{
+    for (EventHook const &hook : m_destroyHooks)
+    {
+        hook.func(hook.system);
     }
 }
 

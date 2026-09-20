@@ -6,6 +6,51 @@
 
 namespace Minty
 {
+    /**
+     * List of functions that systems can implement:
+     on_create
+     on_destroy
+     on_load
+     on_unload
+     on_enable
+     on_disable
+     on_frame_update
+     on_fixed_update
+     on_finalize
+     on_render
+     on_event
+     */
+
+    template <typename T>
+    concept HasOnCreate = requires(T &system) {
+        { system.on_create() } -> std::same_as<void>;
+    };
+
+    template <typename T>
+    concept HasOnDestroy = requires(T &system) {
+        { system.on_destroy() } -> std::same_as<void>;
+    };
+
+    template <typename T>
+    concept HasOnLoad = requires(T &system) {
+        { system.on_load() } -> std::same_as<void>;
+    };
+
+    template <typename T>
+    concept HasOnUnload = requires(T &system) {
+        { system.on_unload() } -> std::same_as<void>;
+    };
+
+    template <typename T>
+    concept HasOnEnable = requires(T &system) {
+        { system.on_enable() } -> std::same_as<void>;
+    };
+
+    template <typename T>
+    concept HasOnDisable = requires(T &system) {
+        { system.on_disable() } -> std::same_as<void>;
+    };
+
     template <typename T>
     concept HasOnFrameUpdate = requires(T &system, Timestep const &timestep) {
         { system.on_frame_update(timestep) } -> std::same_as<void>;
@@ -29,25 +74,5 @@ namespace Minty
     template <typename T>
     concept HasOnEvent = requires(T &system, Event &event) {
         { system.on_event(event) } -> std::same_as<void>;
-    };
-
-    template <typename T>
-    concept HasOnLoad = requires(T &system) {
-        { system.on_load() } -> std::same_as<void>;
-    };
-
-    template <typename T>
-    concept HasOnUnload = requires(T &system) {
-        { system.on_unload() } -> std::same_as<void>;
-    };
-
-    template <typename T>
-    concept HasOnEnable = requires(T &system) {
-        { system.on_enable() } -> std::same_as<void>;
-    };
-
-    template <typename T>
-    concept HasOnDisable = requires(T &system) {
-        { system.on_disable() } -> std::same_as<void>;
     };
 }

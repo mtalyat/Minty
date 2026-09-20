@@ -1,0 +1,39 @@
+OnCreate = function()
+{
+    print("OnCreate: ", this.entity)
+}
+
+OnDestroy = function()
+{
+    print("OnDestroy: ", this.entity)
+}
+
+OnLoad = function()
+{
+    print("OnLoad: ", this.entity)
+}
+
+OnUnload = function()
+{
+    print("OnUnload: ", this.entity)
+}
+
+OnEnable = function()
+{
+    print("OnEnable: ", this.entity)
+}
+
+OnDisable = function()
+{
+    print("OnDisable: ", this.entity)
+}
+
+# OnFrameUpdate = function()
+# {
+#     print("OnFrameUpdate")
+# }
+
+# OnFixedUpdate = function()
+# {
+#     print("OnFixedUpdate")
+# }
