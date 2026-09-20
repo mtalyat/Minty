@@ -1,31 +1,31 @@
 OnCreate = function()
 {
-    print("OnCreate")
+    print("OnCreate: ", this.entity)
 }
 
 OnDestroy = function()
 {
-    print("OnDestroy")
+    print("OnDestroy: ", this.entity)
 }
 
 OnLoad = function()
 {
-    print("OnLoad")
+    print("OnLoad: ", this.entity)
 }
 
 OnUnload = function()
 {
-    print("OnUnload")
+    print("OnUnload: ", this.entity)
 }
 
 OnEnable = function()
 {
-    print("OnEnable")
+    print("OnEnable: ", this.entity)
 }
 
 OnDisable = function()
 {
-    print("OnDisable")
+    print("OnDisable: ", this.entity)
 }
 
 # OnFrameUpdate = function()

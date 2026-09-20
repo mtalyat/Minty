@@ -165,9 +165,11 @@ int main()
     });
     worldEntityManager.add<VisibleTag>(childEntity);
 
-    // Create script entity
+    // Create script entities
     EntityHandle const scriptEntity = worldEntityManager.create();
     worldEntityManager.attach(scriptEntity, scriptHandle);
+    EntityHandle const scriptEntity2 = worldEntityManager.create();
+    worldEntityManager.attach(scriptEntity2, scriptHandle);
 
     // Create canvas root entity
     EntityHandle const uiCanvasEntity = uiEntityManager.create();
