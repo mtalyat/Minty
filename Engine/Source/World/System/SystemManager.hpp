@@ -51,8 +51,6 @@ namespace Minty
     public:
         SystemManager(SystemManagerInfo const &info, Scene& scene);
 
-        ~SystemManager();
-
         SystemManager(SystemManager &&) = delete;
 
 #pragma endregion
@@ -61,13 +59,6 @@ namespace Minty
 
     public:
         SystemManager &operator=(SystemManager &&) = delete;
-
-#pragma endregion
-
-#pragma region Accessor
-
-    public:
-        Status get_status() const { return m_status; }
 
 #pragma endregion
 
@@ -125,7 +116,6 @@ namespace Minty
         PriorityVector<EventHook> m_finalizeHooks;
         PriorityVector<EventHook> m_renderHooks;
         PriorityVector<EventEventHook> m_eventHooks;
-        Status m_status;
 
         static Registry<Pointer, SystemManager&> s_registeredSystems;
 

@@ -19,23 +19,8 @@ Minty::SystemManager::SystemManager(SystemManagerInfo const &info, Scene &scene)
       m_fixedUpdateHooks(),
       m_finalizeHooks(),
       m_renderHooks(),
-      m_eventHooks(),
-      m_status()
+      m_eventHooks()
 {
-    m_status.value = StatusEnum::Created;
-    m_status.parent = StatusEnum::Created;
-    on_promotion();
-}
-
-Minty::SystemManager::~SystemManager()
-{
-    while (m_status.value != StatusEnum::Destroyed)
-    {
-        if (m_status.demote())
-        {
-            on_demotion();
-        }
-    }
 }
 
 void Minty::SystemManager::on_frame_update(Timestep const &timestep)
@@ -86,23 +71,7 @@ void Minty::SystemManager::on_event(Event &event)
 
 void Minty::SystemManager::trigger_promotion(StatusEnum const status)
 {
-    if (m_status.promote_parent_to(status))
-    {
-        on_promotion();
-    }
-}
-
-void Minty::SystemManager::trigger_demotion(StatusEnum const status)
-{
-    if (m_status.demote_parent_to(status))
-    {
-        on_demotion();
-    }
-}
-
-void Minty::SystemManager::on_promotion()
-{
-    switch (m_status)
+    switch (status)
     {
     case StatusEnum::Created:
         on_create();
@@ -119,9 +88,9 @@ void Minty::SystemManager::on_promotion()
     }
 }
 
-void Minty::SystemManager::on_demotion()
+void Minty::SystemManager::trigger_demotion(StatusEnum const status)
 {
-    switch (m_status)
+    switch (status)
     {
     case StatusEnum::Unloaded:
         on_unload();

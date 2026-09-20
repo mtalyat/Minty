@@ -68,7 +68,6 @@ namespace Minty
     private:
         HandlePool<Script> m_scriptPool;
         Map<ScriptResourceHandle, ScriptHandle> m_scriptCache;
-        Status m_status;
 
         static ScriptManager* s_instance;
 

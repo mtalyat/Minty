@@ -16,6 +16,7 @@ namespace Minty
 #pragma region Constructor
 
     public:
+        Scene();
         Scene(SceneInfo const &info);
         ~Scene() = default;
 
@@ -39,12 +40,15 @@ namespace Minty
         inline SystemManager &get_system_manager() { return *mp_systemManager; }
         inline Int get_priority() const { return m_priority; }
         inline String const& get_name() const { return m_name; }
+        inline Status const& get_status() const { return m_status; }
 
 #pragma endregion
 
 #pragma region Method
 
     public:
+        void on_create();
+        void on_destroy();
         void on_load();
         void on_unload();
         void on_enable();

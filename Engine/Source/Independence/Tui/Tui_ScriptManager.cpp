@@ -24,7 +24,7 @@ Bool Minty::Tui_ScriptManager::load_script(Path const &path, Script &script)
     script.setContext = Tui_ScriptManager::set_local_context;
     if (func = table->getFunction(SCRIPT_FUNC_CREATE.get_data()))
     {
-        script.load = [func]()
+        script.create = [func]()
         {
             TuiTable *args = new TuiTable();
             func->call(args, nullptr, nullptr, nullptr);
@@ -33,7 +33,25 @@ Bool Minty::Tui_ScriptManager::load_script(Path const &path, Script &script)
     }
     if (func = table->getFunction(SCRIPT_FUNC_DESTROY.get_data()))
     {
+        script.destroy = [func]()
+        {
+            TuiTable *args = new TuiTable();
+            func->call(args, nullptr, nullptr, nullptr);
+            args->release();
+        };
+    }
+    if (func = table->getFunction(SCRIPT_FUNC_UNLOAD.get_data()))
+    {
         script.unload = [func]()
+        {
+            TuiTable *args = new TuiTable();
+            func->call(args, nullptr, nullptr, nullptr);
+            args->release();
+        };
+    }
+    if (func = table->getFunction(SCRIPT_FUNC_LOAD.get_data()))
+    {
+        script.load = [func]()
         {
             TuiTable *args = new TuiTable();
             func->call(args, nullptr, nullptr, nullptr);

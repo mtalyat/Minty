@@ -307,7 +307,7 @@ namespace Minty
             MINTY_ASSERT(handle.index < m_data.get_size(), ErrorCodeEnum::Argument_OutOfRange);
             Generation const generation = m_generations.at(handle.index);
             MINTY_ASSERT(generation == handle.generation, ErrorCodeEnum::Argument_KeyNotFound);
-            m_data.at(handle.index).~T();
+            m_data.at(handle.index) = T();
             m_generations.at(handle.index) = INVALID_GENERATION;
             m_free.push(handle.index);
         }

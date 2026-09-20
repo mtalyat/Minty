@@ -48,6 +48,22 @@ void Minty::SystemManager::register_system(StringView const name, Int const prio
         // Add to hooks
         if constexpr (HasOnCreate<T>)
         {
+            manager.m_createHooks.add({system, [](Pointer const system)
+                             {
+                                 static_cast<T *>(system)->on_create();
+                             }},
+                            priority);
+        }
+        if constexpr (HasOnDestroy<T>)
+        {
+            manager.m_destroyHooks.add({system, [](Pointer const system)
+                             {
+                                 static_cast<T *>(system)->on_destroy();
+                             }},
+                            priority);
+        }
+        if constexpr (HasOnLoad<T>)
+        {
             manager.m_loadHooks.add({system, [](Pointer const system)
                              {
                                  static_cast<T *>(system)->on_load();

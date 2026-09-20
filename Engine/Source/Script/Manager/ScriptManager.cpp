@@ -13,8 +13,7 @@ ScriptManager* Minty::ScriptManager::s_instance = nullptr;
 
 Minty::ScriptManager::ScriptManager(ScriptManagerInfo const &info)
     : m_scriptPool(), 
-    m_scriptCache(),
-    m_status()
+    m_scriptCache()
 {
     MINTY_ASSERT(s_instance == nullptr, ErrorCodeEnum::Singleton_AlreadyExists);
     s_instance = this;

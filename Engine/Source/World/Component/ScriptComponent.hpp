@@ -20,6 +20,6 @@ namespace Minty
         /**
          * @brief List of script handles attached to this component.
          */
-        Vector<ScriptComponentData> scripts;
+        Vector<ScriptComponentData> scripts{};
     };
 }

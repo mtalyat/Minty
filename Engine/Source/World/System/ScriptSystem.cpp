@@ -13,6 +13,50 @@ Minty::ScriptSystem::ScriptSystem(Scene &scene)
 {
 }
 
+void Minty::ScriptSystem::on_create()
+{
+    // Call all scripts attached to entities with the on_create method
+    EntityManager &entityManager = mp_scene->get_entity_manager();
+    ScriptManager &scriptManager = ScriptManager::get_instance();
+    ScriptLocalContext localContext{};
+    for (auto &&[entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
+    {
+        // Update context for the current entity
+        localContext.entity = entity;
+
+        // Call all attached scripts for the current entity
+        for (ScriptComponentData const& data : scriptComp.scripts)
+        {
+            if (data.enabled)
+            {
+                scriptManager.call_create(data.handle, localContext);
+            }
+        }
+    }
+}
+
+void Minty::ScriptSystem::on_destroy()
+{
+    // Call all scripts attached to entities with the on_destroy method
+    EntityManager &entityManager = mp_scene->get_entity_manager();
+    ScriptManager &scriptManager = ScriptManager::get_instance();
+    ScriptLocalContext localContext{};
+    for (auto &&[entity, scriptComp] : entityManager.view<ScriptComponent const>().each())
+    {
+        // Update context for the current entity
+        localContext.entity = entity;
+
+        // Call all attached scripts for the current entity
+        for (ScriptComponentData const& data : scriptComp.scripts)
+        {
+            if (data.enabled)
+            {
+                scriptManager.call_destroy(data.handle, localContext);
+            }
+        }
+    }
+}
+
 void Minty::ScriptSystem::on_load()
 {
     // Call all scripts attached to entities with the on_load method

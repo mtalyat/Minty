@@ -55,7 +55,7 @@ namespace Minty
     private:
         HandlePool<Scene> m_scenes;
         PriorityVector<SceneHandle> m_activeScenes;
-        Status m_status;
+        StatusEnum m_parentStatus;
 
 #pragma endregion
     };

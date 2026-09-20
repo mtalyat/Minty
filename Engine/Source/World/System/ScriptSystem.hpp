@@ -24,6 +24,8 @@ namespace Minty
 #pragma region Method
 
     public:
+        void on_create();
+        void on_destroy();
         void on_load();
         void on_unload();
         void on_enable();
