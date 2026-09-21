@@ -124,10 +124,20 @@ void Minty::Tui_ScriptManager::set_local_context(Script &script, ScriptLocalCont
     // Set the local context in the table
     if (table)
     {
-        TuiLocal<TuiTable> contextTable;
+        // Get context table if it exists, otherwise create a new one
+        TuiTable* localNamespace;
+        if (!table->hasKey(SCRIPT_NAMESPACE_LOCAL))
+        {
+            TuiLocal<TuiTable> localNamespaceLocal;
+            table->set(SCRIPT_NAMESPACE_LOCAL, localNamespaceLocal);
+        }
+        localNamespace = static_cast<TuiTable *>(table->get(SCRIPT_NAMESPACE_LOCAL));
+
+        // Create and populate each namespace
+
+        // Entity
         TuiLocal<TuiNumber> entityNumberLocal(static_cast<Int64>(context.entity));
-        contextTable->set(SCRIPT_VAR_LOCAL_ENTITY, entityNumberLocal);
-        table->set(SCRIPT_NAMESPACE_LOCAL, contextTable);
+        localNamespace->set(SCRIPT_VAR_LOCAL_ENTITY, entityNumberLocal);
     }
 }
 
@@ -143,8 +153,8 @@ void Minty::Tui_ScriptManager::set_global_context(ScriptGlobalContext const &con
         if (!rootTable->hasKey(SCRIPT_NAMESPACE_GLOBAL))
         {
             // Create a new table and release it after setting it in the root table
-            TuiLocal<TuiTable> contextTableLocal;
-            rootTable->set(SCRIPT_NAMESPACE_GLOBAL, contextTableLocal);
+            TuiLocal<TuiTable> globalNamespaceLocal;
+            rootTable->set(SCRIPT_NAMESPACE_GLOBAL, globalNamespaceLocal);
         }
 
         // No need to release this since it is reference
