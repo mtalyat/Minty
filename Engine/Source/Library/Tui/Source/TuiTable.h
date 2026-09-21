@@ -284,6 +284,55 @@ public://functions
         }
         return nullptr;
     }
+
+    TuiTable* getOrCreateTable(const std::string& key)
+    {
+        if(objectsByStringKey.count(key) != 0)
+        {
+            TuiRef* ref = objectsByStringKey[key];
+            if(ref->type() == Tui_ref_type_TABLE)
+            {
+                return ((TuiTable*)ref);
+            }
+            else
+            {
+                TuiError("Found incorrect type (%s) when loading expected table:%s", ref->getTypeName().c_str(), key.c_str());
+                return nullptr;
+            }
+        }
+        else
+        {
+            TuiTable* newTable = new TuiTable();
+            set(key, newTable);
+            newTable->release();
+            return newTable;
+        }
+    }
+
+    TuiTable* getOrCreateTable(int arrayIndex)
+    {
+        if(arrayIndex >= 0 && arrayIndex < arrayObjects.size())
+        {
+            TuiRef* ref = arrayObjects[arrayIndex];
+            if(ref->type() == Tui_ref_type_TABLE)
+            {
+                return ((TuiTable*)ref);
+            }
+            else
+            {
+                TuiError("Found incorrect type (%s) when loading expected table at array index:%d", ref->getTypeName().c_str(), arrayIndex);
+                return nullptr;
+            }
+        }
+        else if(arrayIndex == arrayObjects.size())
+        {
+            TuiTable* newTable = new TuiTable();
+            set(arrayIndex, newTable);
+            newTable->release();
+            return newTable;
+        }
+        return nullptr;
+    }
     
     TuiRef* getArray(int arrayIndex)
     {

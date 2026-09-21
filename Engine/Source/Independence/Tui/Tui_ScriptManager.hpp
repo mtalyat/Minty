@@ -15,6 +15,7 @@ namespace Minty
 
     public:
         static Bool load_script(Path const& path, Script& script);
+        static void initialize();
         static void set_local_context(Script& script, ScriptLocalContext const& context);
         static void set_global_context(ScriptGlobalContext const& context);
 

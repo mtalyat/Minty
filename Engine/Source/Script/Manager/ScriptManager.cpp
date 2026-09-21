@@ -17,6 +17,9 @@ Minty::ScriptManager::ScriptManager(ScriptManagerInfo const &info)
 {
     MINTY_ASSERT(s_instance == nullptr, ErrorCodeEnum::Singleton_AlreadyExists);
     s_instance = this;
+
+    // Initialize the script managers here if needed
+    Tui_ScriptManager::initialize();
 }
 
 Minty::ScriptManager::~ScriptManager()

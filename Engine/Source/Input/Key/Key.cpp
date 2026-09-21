@@ -7,7 +7,6 @@ using namespace Minty;
 static constexpr Size KEY_ENUM_COUNT = static_cast<Size>(KeyEnum::Count);
 static constexpr Char const* KEY_ENUM_STRINGS[KEY_ENUM_COUNT] =
 {
-    "Unknown", // -1
     "", // 0
     "", // 1
     "", // 2
@@ -70,6 +69,9 @@ static constexpr Char const* KEY_ENUM_STRINGS[KEY_ENUM_COUNT] =
 	"Semicolon", // 59
     "", // 60
 	"Equal", // 61
+    "", // 62
+    "", // 63
+    "", // 64
 	"A", // 65
 	"B", // 66
 	"C", // 67
@@ -342,6 +344,9 @@ static constexpr Char const* KEY_ENUM_STRINGS[KEY_ENUM_COUNT] =
 	"KeyPadAdd", // 334
 	"KeyPadEnter", // 335
 	"KeyPadEqual", // 336
+    "", // 337
+    "", // 338
+    "", // 339
 	"LeftShift", // 340
 	"LeftControl", // 341
 	"LeftAlt", // 342
