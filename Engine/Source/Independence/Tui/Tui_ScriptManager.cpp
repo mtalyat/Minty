@@ -3,6 +3,7 @@
 #include "Script/Constant/Function.hpp"
 #include "Script/Script/ScriptLocalContext.hpp"
 #include "Script/Script/ScriptGlobalContext.hpp"
+#include "Script/Constant/Script.hpp"
 
 using namespace Minty;
 
@@ -125,8 +126,8 @@ void Minty::Tui_ScriptManager::set_local_context(Script &script, ScriptLocalCont
     {
         TuiLocal<TuiTable> contextTable;
         TuiLocal<TuiNumber> entityNumberLocal(static_cast<Int64>(context.entity));
-        contextTable->set("entity", entityNumberLocal);
-        table->set("this", contextTable);
+        contextTable->set(SCRIPT_VAR_LOCAL_ENTITY, entityNumberLocal);
+        table->set(SCRIPT_NAMESPACE_LOCAL, contextTable);
     }
 }
 
@@ -138,23 +139,35 @@ void Minty::Tui_ScriptManager::set_global_context(ScriptGlobalContext const &con
     if (rootTable)
     {
         // Get context table if it exists, otherwise create a new one
-        TuiTable *contextTable = nullptr;
-        if (!rootTable->hasKey("context"))
+        TuiTable *globalNamespace = nullptr;
+        if (!rootTable->hasKey(SCRIPT_NAMESPACE_GLOBAL))
         {
             // Create a new table and release it after setting it in the root table
             TuiLocal<TuiTable> contextTableLocal;
-            rootTable->set("context", contextTableLocal);
+            rootTable->set(SCRIPT_NAMESPACE_GLOBAL, contextTableLocal);
         }
 
         // No need to release this since it is reference
-        contextTable = static_cast<TuiTable *>(rootTable->get("context"));
+        globalNamespace = static_cast<TuiTable *>(rootTable->get(SCRIPT_NAMESPACE_GLOBAL));
 
-        // Set the timestep values in the context table
+        // Create and populate each namespace
+
+        // Time namespace
+        if (!globalNamespace->hasKey(SCRIPT_NAMESPACE_TIME))
+        {
+            TuiLocal<TuiTable> timeNamespace;
+            globalNamespace->set(SCRIPT_NAMESPACE_TIME, timeNamespace);
+        }
+        TuiTable* timeNamespace = static_cast<TuiTable *>(globalNamespace->get(SCRIPT_NAMESPACE_TIME));
+        globalNamespace->set(SCRIPT_NAMESPACE_TIME, timeNamespace);
+        
         TuiLocal<TuiNumber> deltaTimeNumber(static_cast<Float64>(context.frameDeltaTime));
         TuiLocal<TuiNumber> fixedDeltaTimeNumber(static_cast<Float64>(context.fixedDeltaTime));
         TuiLocal<TuiNumber> totalTimeNumber(static_cast<Float64>(context.totalTime));
-        contextTable->set("frameDeltaTime", deltaTimeNumber);
-        contextTable->set("fixedDeltaTime", fixedDeltaTimeNumber);
-        contextTable->set("totalTime", totalTimeNumber);
+        TuiLocal<TuiNumber> frameNumber(static_cast<Float64>(context.frameCount));
+        timeNamespace->set(SCRIPT_VAR_TIME_FRAME_DELTA, deltaTimeNumber);
+        timeNamespace->set(SCRIPT_VAR_TIME_FRAME, frameNumber);
+        timeNamespace->set(SCRIPT_VAR_TIME_FIXED_DELTA, fixedDeltaTimeNumber);
+        timeNamespace->set(SCRIPT_VAR_TIME_TOTAL, totalTimeNumber);
     }
 }

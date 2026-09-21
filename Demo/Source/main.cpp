@@ -59,10 +59,12 @@ int main()
     SpriteResourceHandle const spriteResourceHandle1 = resourceManager.load<SpriteResource>("Demo/Assets/test.spr.minty");
     SpriteResourceHandle const spriteResourceHandle2 = resourceManager.load<SpriteResource>("Demo/Assets/test2.spr.minty");
     ScriptResourceHandle const scriptResourceHandle = resourceManager.load<ScriptResource>("Demo/Assets/test.scr.minty");
+    ScriptResourceHandle const scriptFPSResourceHandle = resourceManager.load<ScriptResource>("Demo/Assets/test_fps.scr.minty");
 
     // Create script data
     ScriptManager& scriptManager = app.get_script_manager();
     ScriptHandle const scriptHandle = scriptManager.create(scriptResourceHandle);
+    ScriptHandle const scriptFPSHandle = scriptManager.create(scriptFPSResourceHandle);
 
     // Create render data
     RenderManager& renderManager = app.get_render_manager();
@@ -170,6 +172,7 @@ int main()
     worldEntityManager.attach(scriptEntity, scriptHandle);
     EntityHandle const scriptEntity2 = worldEntityManager.create();
     worldEntityManager.attach(scriptEntity2, scriptHandle);
+    worldEntityManager.attach(scriptEntity, scriptFPSHandle);
 
     // Create canvas root entity
     EntityHandle const uiCanvasEntity = uiEntityManager.create();

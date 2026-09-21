@@ -13,5 +13,6 @@ namespace Minty
         Float frameDeltaTime;
         Float fixedDeltaTime;
         Float totalTime;
+        WUInt frameCount;
     };
 }

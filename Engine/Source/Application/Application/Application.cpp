@@ -188,6 +188,9 @@ Int Minty::Application::run()
 
         // Render the frame
         mp_sceneManager->on_render();
+
+        // Increment the frame count
+        globalContext.frameCount++;
     }
 
     // Sync the platform to ensure all events are processed before exiting
