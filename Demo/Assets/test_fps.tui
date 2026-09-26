@@ -41,7 +41,7 @@ OnFrameUpdate = function()
     {
         print("Frame FPS: ", frameCount)
         frameCount = 0
-        frameTime = 0
+        frameTime -= 1
     }
 }
 
@@ -53,6 +53,6 @@ OnFixedUpdate = function()
     {
         print("Fixed FPS: ", fixedCount)
         fixedCount = 0
-        fixedTime = 0
+        fixedTime -= 1
     }
 }
