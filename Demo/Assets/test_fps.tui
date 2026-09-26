@@ -36,7 +36,7 @@ frameTime = 0
 OnFrameUpdate = function()
 {
     frameCount++
-    frameTime += .Minty.Time.frameDelta
+    frameTime += Minty.Time.frameDelta
     if (frameTime >= 1)
     {
         print("Frame FPS: ", frameCount)
@@ -48,7 +48,7 @@ OnFrameUpdate = function()
 OnFixedUpdate = function()
 {
     fixedCount++
-    fixedTime += .Minty.Time.fixedDelta
+    fixedTime += Minty.Time.fixedDelta
     if (fixedTime >= 1)
     {
         print("Fixed FPS: ", fixedCount)
