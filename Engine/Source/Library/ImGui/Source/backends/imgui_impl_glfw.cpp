@@ -132,23 +132,24 @@
 #else
 #define GLFW_HAS_WAYLAND    0
 #endif
-#include <GLFW/glfw3.h>
+// #include <GLFW/glfw3.h>
+#include <Library/GLFW/GLFW.hpp>
 #ifdef _WIN32
 #undef APIENTRY
 #ifndef GLFW_EXPOSE_NATIVE_WIN32    // for glfwGetWin32Window()
 #define GLFW_EXPOSE_NATIVE_WIN32
 #endif
-#include <GLFW/glfw3native.h>
+#include <Library/GLFW/GLFWNative.hpp>
 #elif defined(__APPLE__)
 #ifndef GLFW_EXPOSE_NATIVE_COCOA    // for glfwGetCocoaWindow()
 #define GLFW_EXPOSE_NATIVE_COCOA
 #endif
-#include <GLFW/glfw3native.h>
+#include <Library/GLFW/GLFWNative.hpp>
 #elif GLFW_HAS_X11
 #ifndef GLFW_EXPOSE_NATIVE_X11      // for glfwGetX11Display(), glfwGetX11Window() on Freedesktop (Linux, BSD, etc.)
 #define GLFW_EXPOSE_NATIVE_X11
 #endif
-#include <GLFW/glfw3native.h>
+#include <Library/GLFW/GLFWNative.hpp>
 #endif
 #undef Status                   // X11 headers are leaking this.
 #ifndef _WIN32
@@ -160,7 +161,8 @@
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #ifdef EMSCRIPTEN_USE_PORT_CONTRIB_GLFW3
-#include <GLFW/emscripten_glfw3.h>
+// #include <Library/GLFW/emscripten_glfw3.h>
+#error Commented out
 #else
 #define EMSCRIPTEN_USE_EMBEDDED_GLFW3
 #endif

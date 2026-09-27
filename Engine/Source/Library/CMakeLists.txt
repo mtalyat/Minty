@@ -29,6 +29,8 @@ file(GLOB MINTY_TUI_SOURCES CONFIGURE_DEPENDS
 
 file(GLOB MINTY_IMGUI_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/ImGui/Source/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/ImGui/Source/backends/imgui_impl_glfw.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/ImGui/Source/backends/imgui_impl_vulkan.cpp"
 )
 
 add_library(minty_zlib STATIC ${MINTY_ZLIB_SOURCES})
@@ -67,6 +69,10 @@ minty_add_layer(
         "${MINTY_SOURCE_ROOT}"
         "${CMAKE_CURRENT_SOURCE_DIR}"
         ${MINTY_LIBRARY_INCLUDE_DIRS}
+    PRIVATE_INCLUDE_DIRS
+        "${CMAKE_CURRENT_SOURCE_DIR}/ImGui/Source"
+        "${CMAKE_CURRENT_SOURCE_DIR}/ImGui/Source/backends"
+        "${CMAKE_CURRENT_BINARY_DIR}/imgui_glfw_compat"
     PUBLIC_DEPS
         minty_zlib
         minty_stb

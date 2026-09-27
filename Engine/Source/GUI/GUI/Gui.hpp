@@ -19,9 +19,18 @@
 #include "Core/Type/UInt3.hpp"
 #include "Core/Type/UInt4.hpp"
 
+namespace Minty
+{
+    class RenderManager;
+}
+
 namespace Minty::GUI
 {
     //      Core GUI functions
+    void initialize(RenderManager& renderManager);
+    void shutdown();
+    void new_frame();
+
     Bool begin(String const& title);
     void end();
 

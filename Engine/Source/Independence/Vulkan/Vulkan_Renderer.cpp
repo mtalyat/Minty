@@ -376,9 +376,31 @@ Vulkan_SwapchainSupportDetails Minty::Vulkan_Renderer::query_swapchain_support(V
 
 VkSurfaceFormatKHR Minty::Vulkan_Renderer::select_swap_surface_format(Vector<VkSurfaceFormatKHR> const &availableFormats, VkFormat const format, VkColorSpaceKHR const colorSpace)
 {
+	// Try to find the preferred format first
 	for (auto const &availableFormat : availableFormats)
 	{
 		if (availableFormat.format == format && availableFormat.colorSpace == colorSpace)
+		{
+			return availableFormat;
+		}
+	}
+
+	// If the preferred format is not available, try to find a suitable format with the correct color space
+	for (auto const &availableFormat : availableFormats)
+	{
+		if (availableFormat.colorSpace == colorSpace &&
+			(availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB ||
+			 availableFormat.format == VK_FORMAT_R8G8B8A8_SRGB ||
+			 availableFormat.format == VK_FORMAT_A8B8G8R8_SRGB_PACK32))
+		{
+			return availableFormat;
+		}
+	}
+
+	// If no format with the correct color space is found, just return the first available format
+	for (auto const &availableFormat : availableFormats)
+	{
+		if (availableFormat.colorSpace == colorSpace)
 		{
 			return availableFormat;
 		}

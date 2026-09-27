@@ -43,6 +43,16 @@ Minty::RenderManager::~RenderManager()
     s_instance = nullptr;
 }
 
+Window& Minty::RenderManager::get_window() const
+{
+    return mp_impl->get_window();
+}
+
+Bool Minty::RenderManager::rendered_to_main() const
+{
+    return mp_impl->rendered_to_main();
+}
+
 TextureHandle Minty::RenderManager::create(TextureInfo const &info)
 {
     return mp_impl->create(info);

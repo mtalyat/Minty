@@ -34,6 +34,7 @@ namespace Minty
     struct ViewportInfo;
     struct Camera;
     class Transform;
+    class Window;
 
     class RenderManager
     {
@@ -74,6 +75,15 @@ namespace Minty
     public:
         RenderManager &operator=(RenderManager const &) = delete;
         RenderManager &operator=(RenderManager &&) = delete;
+
+#pragma endregion
+
+#pragma region Accessor
+
+    public:
+        Window& get_window() const;
+        Bool rendered_to_main() const;
+        inline Impl& get_impl() const { return *mp_impl; }
 
 #pragma endregion
 

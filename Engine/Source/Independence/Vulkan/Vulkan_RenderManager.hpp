@@ -60,6 +60,26 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Accessor
+
+    public:
+        inline Window& get_window() const { return *mp_window; }
+        inline VkInstance get_instance() const { return m_instance; }
+        inline VkPhysicalDevice get_physical_device() const { return m_physicalDevice; }
+        inline VkDevice get_device() const { return m_device; }
+        inline VkQueue get_graphics_queue() const { return m_graphicsQueue; }
+        inline VkQueue get_present_queue() const { return m_presentQueue; }
+        inline UInt32 get_graphics_queue_family_index() const { return m_graphicsQueueFamilyIndex; }
+        inline UInt32 get_present_queue_family_index() const { return m_presentQueueFamilyIndex; }
+        inline VkCommandPool get_command_pool() const { return m_commandPool; }
+        inline VkSurfaceKHR get_surface() const { return m_surfaceKHR; }
+        inline VkFormat get_target_surface_format() const { return m_targetSurfaceFormat; }
+        inline VkCommandBuffer get_current_command_buffer() const { return m_frames.at(m_currentFrameIndex).commandBuffer; }
+        inline Bool rendered_to_main() const { return m_renderedToMainSurfaceThisFrame; }
+        inline VkRenderPass get_render_pass(RenderPassHandle const handle) const { return m_renderPassDataPool.at(handle).renderPass; }
+
+#pragma endregion
+
 #pragma region Methods
 
     public:
@@ -172,6 +192,12 @@ namespace Minty
         VkQueue m_graphicsQueue;
         VkQueue m_presentQueue;
         VkCommandPool m_commandPool;
+        UInt32 m_graphicsQueueFamilyIndex;
+        UInt32 m_presentQueueFamilyIndex;
+        VkSurfaceKHR m_surfaceKHR;
+
+        // window:
+        Window* mp_window;
 
         // frame data:
         Array<Vulkan_Frame, FRAMES_PER_FLIGHT> m_frames;

@@ -1,9 +1,130 @@
 #include "GUI/GUI/Gui.hpp"
 
+#include <cmath>
+
+#include "Library/Vulkan/Vulkan.hpp"
 #include "Library/ImGui/ImGui.hpp"
+
+#include "Render/Manager/RenderManager.hpp"
+#include "Independence/Vulkan/Vulkan_RenderManager.hpp"
+#include "Window/Window/Window.hpp"
 
 namespace Minty::GUI
 {
+    static RenderManager* sp_renderManager = nullptr;
+    static Bool s_initialized = false;
+    static Bool s_showDemoWindow = true;
+    static VkFormat s_colorAttachmentFormat = VK_FORMAT_UNDEFINED;
+
+    static Float srgb_to_linear(Float value)
+    {
+        return (value <= 0.04045f) ? (value / 12.92f) : static_cast<Float>(std::pow((value + 0.055f) / 1.055f, 2.4f));
+    }
+
+    static void apply_linear_style_colors()
+    {
+        ImGuiStyle& style = ImGui::GetStyle();
+        for (Int i = 0; i < ImGuiCol_COUNT; ++i)
+        {
+            ImVec4& color = style.Colors[i];
+            color.x = srgb_to_linear(color.x);
+            color.y = srgb_to_linear(color.y);
+            color.z = srgb_to_linear(color.z);
+        }
+    }
+
+    static void initialize_impl(RenderManager& renderManager)
+    {
+        if (s_initialized)
+        {
+            return;
+        }
+
+        sp_renderManager = &renderManager;
+
+        // Create ImGui context
+        ImGui::CreateContext();
+
+        // Enable controls
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
+
+        ImGui::StyleColorsDark();
+        apply_linear_style_colors();
+
+        // Init GLFW for ImGui
+        Window& window = renderManager.get_window();
+        ImGui_ImplGlfw_InitForVulkan(static_cast<GLFWwindow*>(window.get_native()), true);
+
+        // Init Vulkan for ImGui
+        RenderManager::Impl& impl = renderManager.get_impl();
+        Vector<RenderPassHandle> const& passes = renderManager.get_passes();
+        MINTY_ASSERT(passes.get_size() > 0, ErrorCodeEnum::GUI_InitializationFailed);
+        ImGui_ImplVulkan_InitInfo init_info{};
+        init_info.Instance = impl.get_instance();
+        init_info.Device = impl.get_device();
+        init_info.PhysicalDevice = impl.get_physical_device();
+        init_info.Queue = impl.get_graphics_queue();
+        init_info.QueueFamily = impl.get_graphics_queue_family_index();
+
+        init_info.DescriptorPool = VK_NULL_HANDLE;
+        init_info.DescriptorPoolSize = 64;
+        init_info.PipelineInfoMain.RenderPass = impl.get_render_pass(passes.at(0));
+        init_info.PipelineInfoMain.Subpass = 0;
+        init_info.PipelineInfoMain.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+
+        init_info.ApiVersion = VK_API_VERSION_1_3;
+
+        init_info.Allocator = VK_NULL_HANDLE;
+        init_info.PipelineCache = VK_NULL_HANDLE;
+        init_info.CheckVkResultFn = nullptr;
+        init_info.ImageCount = FRAMES_PER_FLIGHT;
+        init_info.MinAllocationSize = 1024 * 1024;
+        init_info.MinImageCount = FRAMES_PER_FLIGHT;
+        init_info.UseDynamicRendering = VK_FALSE;
+
+        MINTY_ASSERT(ImGui_ImplVulkan_Init(&init_info), ErrorCodeEnum::GUI_InitializationFailed);
+
+        s_initialized = true;
+    }
+
+    void initialize(RenderManager& renderManager)
+    {
+        initialize_impl(renderManager);
+    }
+
+    void shutdown()
+    {
+        if (!s_initialized)
+        {
+            return;
+        }
+
+        ImGui_ImplVulkan_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+
+        s_initialized = false;
+        sp_renderManager = nullptr;
+        s_colorAttachmentFormat = VK_FORMAT_UNDEFINED;
+        s_showDemoWindow = true;
+    }
+
+    void new_frame()
+    {
+        if (!s_initialized)
+        {
+            initialize_impl(RenderManager::get_instance());
+        }
+
+        ImGui_ImplVulkan_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        ImGui::ShowDemoWindow(&s_showDemoWindow);
+    }
+
     Bool begin(String const &title)
     {
         return ImGui::Begin(title.get_data());
@@ -207,9 +328,17 @@ namespace Minty::GUI
     {
         ImGui::TableNextColumn();
     }
-    
+
     void render()
     {
+        if (!s_initialized)
+        {
+            initialize_impl(RenderManager::get_instance());
+        }
+
         ImGui::Render();
+
+        VkCommandBuffer const commandBuffer = sp_renderManager->get_impl().get_current_command_buffer();
+        ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer);
     }
 }

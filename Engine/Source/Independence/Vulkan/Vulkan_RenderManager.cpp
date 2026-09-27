@@ -28,15 +28,15 @@
 
 using namespace Minty;
 
-static Window& get_window(Window* const window)
+static Window* get_valid_window(Window* const window)
 {
 	if (window != nullptr)
 	{
-		return *window;
+		return window;
 	}
 	else
 	{
-		return Window::get_main();
+		return &Window::get_main();
 	}
 }
 
@@ -142,6 +142,10 @@ Minty::RenderManager::Impl::Impl(RenderManagerInfo const &info)
 	  m_graphicsQueue(VK_NULL_HANDLE),
 	  m_presentQueue(VK_NULL_HANDLE),
 	  m_commandPool(VK_NULL_HANDLE),
+	  m_graphicsQueueFamilyIndex(0),
+	  m_presentQueueFamilyIndex(0),
+	  m_surfaceKHR(VK_NULL_HANDLE),
+	  mp_window(nullptr),
 	  m_frames(),
 	  m_currentFrameIndex(0),
 	  m_renderedToMainSurfaceThisFrame(false),
@@ -157,17 +161,18 @@ Minty::RenderManager::Impl::Impl(RenderManagerInfo const &info)
 #endif // MINTY_DEBUG
 
 	// get the window to use
-	Window& window = get_window(info.window);
-	Pointer const windowNative = window.get_native();
+	mp_window = get_valid_window(info.window);
+	MINTY_ASSERT(mp_window != nullptr, ErrorCodeEnum::Argument_ExpectedNonNull);
+	Pointer const windowNative = mp_window->get_native();
 
 	// create surface
-	VkSurfaceKHR surface = Vulkan_Renderer::create_surface(m_instance, windowNative);
+	m_surfaceKHR = Vulkan_Renderer::create_surface(m_instance, windowNative);
 
 	// get physical device
-	m_physicalDevice = Vulkan_Renderer::select_physical_device(m_instance, surface);
+	m_physicalDevice = Vulkan_Renderer::select_physical_device(m_instance, m_surfaceKHR);
 
 	// get queue families
-	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(m_physicalDevice, surface);
+	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(m_physicalDevice, m_surfaceKHR);
 
 	// create device
 	m_device = Vulkan_Renderer::create_device(m_physicalDevice, queueFamilyIndices);
@@ -175,12 +180,13 @@ Minty::RenderManager::Impl::Impl(RenderManagerInfo const &info)
 	// create surface/swapchain object
 	SurfaceInfo surfaceInfo{};
 	surfaceInfo.format = ImageFormatEnum::Default;
-	surfaceInfo.window = &window;
 	m_surface = create(surfaceInfo);
 
 	// get queues
-	m_graphicsQueue = Vulkan_Renderer::get_device_queue(m_device, queueFamilyIndices.graphicsFamily.get_value());
-	m_presentQueue = Vulkan_Renderer::get_device_queue(m_device, queueFamilyIndices.presentFamily.get_value());
+	m_graphicsQueueFamilyIndex = queueFamilyIndices.graphicsFamily.get_value();
+	m_presentQueueFamilyIndex = queueFamilyIndices.presentFamily.get_value();
+	m_graphicsQueue = Vulkan_Renderer::get_device_queue(m_device, m_graphicsQueueFamilyIndex);
+	m_presentQueue = Vulkan_Renderer::get_device_queue(m_device, m_presentQueueFamilyIndex);
 
 	// create command pool
 	m_commandPool = Vulkan_Renderer::create_command_pool(m_device, queueFamilyIndices.graphicsFamily.get_value());
@@ -204,6 +210,7 @@ Minty::RenderManager::Impl::Impl(RenderManagerInfo const &info)
 	viewportInfo.scissorSize = { 1.0f, 1.0f };
 	m_defaultViewport = create(viewportInfo);
 
+	// default render target
 	RenderTargetInfo renderTargetInfo{};
 	renderTargetInfo.surface = m_surface;
 	m_defaultRenderTarget = create(renderTargetInfo);
@@ -377,12 +384,11 @@ UInt2 Minty::RenderManager::Impl::get_size(TextureHandle const handle) const
 SurfaceHandle Minty::RenderManager::Impl::create(SurfaceInfo const &surfaceInfo)
 {
 	// Get the window to use
-	Window& window = get_window(surfaceInfo.window);
-	Pointer const windowNative = window.get_native();
+	Pointer const windowNative = mp_window->get_native();
 
 	// Create the Vulkan data
 	Vulkan_SurfaceData surfaceData{};
-	surfaceData.window = &window;
+	surfaceData.window = mp_window;
 	surfaceData.format = Converter<ImageFormat, VkFormat>::from_minty(surfaceInfo.format);
 
 	// Create the surface

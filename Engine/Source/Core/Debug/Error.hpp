@@ -257,6 +257,9 @@ namespace Minty
         Status_PromoteFailed,
         Status_DemoteFailed,
 
+        GUI = 2700,
+        GUI_InitializationFailed,
+
         Unknown = ~0U
     };
 

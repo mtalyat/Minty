@@ -4,6 +4,7 @@
 #include "Scene/Scene/Scene.hpp"
 #include "Event/Event/Event.hpp"
 #include "Render/Manager/RenderManager.hpp"
+#include "GUI/GUI/Gui.hpp"
 
 using namespace Minty;
 
@@ -178,6 +179,8 @@ void Minty::SceneManager::on_render()
         return;
     }
 
+    GUI::new_frame();
+
     Vector<RenderPassHandle> const &passes = renderManager.get_passes();
     for (RenderPassHandle const passHandle : passes)
     {
@@ -191,6 +194,11 @@ void Minty::SceneManager::on_render()
         {
             Scene &scene = at(handle);
             scene.on_render();
+        }
+
+        if (renderManager.rendered_to_main())
+        {
+            GUI::render();
         }
 
         renderManager.end_pass();
