@@ -34,43 +34,43 @@ namespace Minty::GUI
     void end_frame();
     RenderPassHandle get_render_pass();
 
-    Bool begin(String const& title);
+    Bool begin(Str const title);
     void end();
 
-    Bool begin_child(String const& title);
+    Bool begin_child(Str const title);
     void end_child();
 
     //      Text functions
-    void text(String const& text);
+    void text(Str const text);
 
     //      Button functions
-    Bool button(String const& label);
+    Bool button(Str const label);
 
     //      Checkbox functions
-    Bool checkbox(String const& label, Bool& value);
+    Bool checkbox(Str const label, Bool& value);
 
     //      Input functions
-    Bool input_text(String const& label, Vector<Char>& value);
-    Bool input_int(String const& label, Int& value);
-    Bool input_float(String const& label, Float& value);
-    Bool input_bool(String const& label, Bool& value);
-    Bool input_float2(String const& label, Float2& value);
-    Bool input_float3(String const& label, Float3& value);
-    Bool input_float4(String const& label, Float4& value);
+    Bool input_text(Str const label, Vector<Char>& value);
+    Bool input_int(Str const label, Int& value);
+    Bool input_float(Str const label, Float& value);
+    Bool input_bool(Str const label, Bool& value);
+    Bool input_float2(Str const label, Float2& value);
+    Bool input_float3(Str const label, Float3& value);
+    Bool input_float4(Str const label, Float4& value);
 
     //      Slider functions
-    Bool slider_int(String const& label, Int& value, Int min, Int max);
-    Bool slider_float(String const& label, Float& value, Float min, Float max);
+    Bool slider_int(Str const label, Int& value, Int min, Int max);
+    Bool slider_float(Str const label, Float& value, Float min, Float max);
 
     //      Combo functions
-    Bool begin_combo(String const& label, String const& previewValue);
+    Bool begin_combo(Str const label, Str const previewValue);
     void end_combo();
 
     //      Selectable functions
-    Bool selectable(String const& label, Bool selected = false);
+    Bool selectable(Str const label, Bool selected = false);
 
     //      Tree functions
-    Bool tree_node(String const& label);
+    Bool tree_node(Str const label);
     void tree_pop();
 
     //      Layout functions
@@ -83,29 +83,29 @@ namespace Minty::GUI
     // TODO
 
     //      Popup functions
-    Bool begin_popup(String const& strId);
-    Bool begin_popup_modal(String const& strId);
+    Bool begin_popup(Str const strId);
+    Bool begin_popup_modal(Str const strId);
     void end_popup();
 
     //      Menu functions
-    Bool begin_menu(String const& label);
+    Bool begin_menu(Str const label);
     void end_menu();
     Bool begin_main_menu_bar();
     void end_main_menu_bar();
-    Bool menu_item(String const& label);
+    Bool menu_item(Str const label, Str const shortcut = nullptr, Bool selected = false);
 
     //      Tooltip functions
-    void set_tooltip(String const& text);
+    void set_tooltip(Str const text);
 
     //      Query functions
     Bool is_item_hovered();
 
     //      Color functions
-    Bool color_edit3(String const& label, Float3& value);
-    Bool color_edit4(String const& label, Float4& value);
+    Bool color_edit3(Str const label, Float3& value);
+    Bool color_edit4(Str const label, Float4& value);
 
     //      Table functions
-    Bool begin_table(String const& strId, Int columnCount);
+    Bool begin_table(Str const strId, Int columnCount);
     void end_table();
     void table_next_row();
     void table_next_column();

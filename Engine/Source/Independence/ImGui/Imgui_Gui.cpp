@@ -172,9 +172,9 @@ namespace Minty::GUI
         return s_renderPass;
     }
 
-    Bool begin(String const &title)
+    Bool begin(Str const title)
     {
-        return ImGui::Begin(title.get_data());
+        return ImGui::Begin(title);
     }
     
     void end()
@@ -182,9 +182,9 @@ namespace Minty::GUI
         ImGui::End();
     }
     
-    Bool begin_child(String const &title)
+    Bool begin_child(Str const title)
     {
-        return ImGui::BeginChild(title.get_data());
+        return ImGui::BeginChild(title);
     }
     
     void end_child()
@@ -192,69 +192,69 @@ namespace Minty::GUI
         ImGui::EndChild();
     }
     
-    void text(String const &text)
+    void text(Str const text)
     {
-        ImGui::Text(text.get_data());
+        ImGui::Text(text);
     }
     
-    Bool button(String const &label)
+    Bool button(Str const label)
     {
-        return ImGui::Button(label.get_data());
+        return ImGui::Button(label);
     }
     
-    Bool checkbox(String const &label, Bool &value)
+    Bool checkbox(Str const label, Bool &value)
     {
-        return ImGui::Checkbox(label.get_data(), &value);
+        return ImGui::Checkbox(label, &value);
     }
 
-    Bool input_text(String const &label, Vector<Char> &value)
+    Bool input_text(Str const label, Vector<Char> &value)
     {
-        return ImGui::InputText(label.get_data(), value.get_data(), value.get_capacity());
+        return ImGui::InputText(label, value.get_data(), value.get_capacity());
     }
 
-    Bool input_int(String const &label, Int &value)
+    Bool input_int(Str const label, Int &value)
     {
-        return ImGui::InputInt(label.get_data(), &value);
+        return ImGui::InputInt(label, &value);
     }
     
-    Bool input_float(String const &label, Float &value)
+    Bool input_float(Str const label, Float &value)
     {
-        return ImGui::InputFloat(label.get_data(), &value);
+        return ImGui::InputFloat(label, &value);
     }
     
-    Bool input_bool(String const &label, Bool &value)
+    Bool input_bool(Str const label, Bool &value)
     {
-        return ImGui::Checkbox(label.get_data(), &value);
+        return ImGui::Checkbox(label, &value);
     }
     
-    Bool input_float2(String const &label, Float2 &value)
+    Bool input_float2(Str const label, Float2 &value)
     {
-        return ImGui::InputFloat2(label.get_data(), &value.x);
+        return ImGui::InputFloat2(label, &value.x);
     }
     
-    Bool input_float3(String const &label, Float3 &value)
+    Bool input_float3(Str const label, Float3 &value)
     {
-        return ImGui::InputFloat3(label.get_data(), &value.x);
+        return ImGui::InputFloat3(label, &value.x);
     }
     
-    Bool input_float4(String const &label, Float4 &value)
+    Bool input_float4(Str const label, Float4 &value)
     {
-        return ImGui::InputFloat4(label.get_data(), &value.x);
+        return ImGui::InputFloat4(label, &value.x);
     }
     
-    Bool slider_int(String const &label, Int &value, Int min, Int max)
+    Bool slider_int(Str const label, Int &value, Int min, Int max)
     {
-        return ImGui::SliderInt(label.get_data(), &value, min, max);
+        return ImGui::SliderInt(label, &value, min, max);
     }
     
-    Bool slider_float(String const &label, Float &value, Float min, Float max)
+    Bool slider_float(Str const label, Float &value, Float min, Float max)
     {
-        return ImGui::SliderFloat(label.get_data(), &value, min, max);
+        return ImGui::SliderFloat(label, &value, min, max);
     }
     
-    Bool begin_combo(String const &label, String const &previewValue)
+    Bool begin_combo(Str const label, Str const previewValue)
     {
-        return ImGui::BeginCombo(label.get_data(), previewValue.get_data());
+        return ImGui::BeginCombo(label, previewValue);
     }
     
     void end_combo()
@@ -262,14 +262,14 @@ namespace Minty::GUI
         ImGui::EndCombo();
     }
     
-    Bool selectable(String const &label, Bool selected)
+    Bool selectable(Str const label, Bool selected)
     {
-        return ImGui::Selectable(label.get_data(), selected);
+        return ImGui::Selectable(label, selected);
     }
     
-    Bool tree_node(String const &label)
+    Bool tree_node(Str const label)
     {
-        return ImGui::TreeNode(label.get_data());
+        return ImGui::TreeNode(label);
     }
     
     void tree_pop()
@@ -297,23 +297,23 @@ namespace Minty::GUI
         ImGui::Spacing();
     }
     
-    Bool begin_popup(String const &strId)
+    Bool begin_popup(Str const strId)
     {
-        return ImGui::BeginPopup(strId.get_data());
+        return ImGui::BeginPopup(strId);
     }
     
-    Bool begin_popup_modal(String const &strId)
+    Bool begin_popup_modal(Str const strId)
     {
-        return ImGui::BeginPopupModal(strId.get_data());
+        return ImGui::BeginPopupModal(strId);
     }
     
     void end_popup()
     {
         ImGui::EndPopup();
     }
-    Bool begin_menu(String const &label)
+    Bool begin_menu(Str const label)
     {
-        return ImGui::BeginMenu(label.get_data());
+        return ImGui::BeginMenu(label);
     }
     
     void end_menu()
@@ -331,14 +331,14 @@ namespace Minty::GUI
         ImGui::EndMainMenuBar();
     }
     
-    Bool menu_item(String const &label)
+    Bool menu_item(Str const label, Str const shortcut, Bool selected)
     {
-        return ImGui::MenuItem(label.get_data());
+        return ImGui::MenuItem(label, shortcut, selected);
     }
     
-    void set_tooltip(String const &text)
+    void set_tooltip(Str const text)
     {
-        ImGui::SetTooltip(text.get_data());
+        ImGui::SetTooltip(text);
     }
     
     Bool is_item_hovered()
@@ -346,19 +346,19 @@ namespace Minty::GUI
         return ImGui::IsItemHovered();
     }
     
-    Bool color_edit3(String const &label, Float3 &value)
+    Bool color_edit3(Str const label, Float3 &value)
     {
-        return ImGui::ColorEdit3(label.get_data(), &value.x);
+        return ImGui::ColorEdit3(label, &value.x);
     }
     
-    Bool color_edit4(String const &label, Float4 &value)
+    Bool color_edit4(Str const label, Float4 &value)
     {
-        return ImGui::ColorEdit4(label.get_data(), &value.x);
+        return ImGui::ColorEdit4(label, &value.x);
     }
     
-    Bool begin_table(String const &strId, Int columnCount)
+    Bool begin_table(Str const strId, Int columnCount)
     {
-        return ImGui::BeginTable(strId.get_data(), columnCount);
+        return ImGui::BeginTable(strId, columnCount);
     }
     
     void end_table()

@@ -30,6 +30,9 @@ namespace Minty
     using WUInt = UInt64;
     using Float = Float32;
     using WFloat = Float64;
+    
+    // Primitive String (C-style string)
+	using Str = char const*;
 
     using Index = UInt32;
     using Generation = UInt32;
