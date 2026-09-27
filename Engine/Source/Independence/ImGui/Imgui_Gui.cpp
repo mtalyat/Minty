@@ -182,12 +182,12 @@ namespace Minty::GUI
         ImGui::End();
     }
     
-    Bool begin_child(Str const title)
+    Bool child_begin(Str const title)
     {
         return ImGui::BeginChild(title);
     }
     
-    void end_child()
+    void child_end()
     {
         ImGui::EndChild();
     }
@@ -201,7 +201,12 @@ namespace Minty::GUI
     {
         return ImGui::Button(label);
     }
-    
+
+    Bool button_small(Str const label)
+    {
+        return ImGui::SmallButton(label);
+    }
+
     Bool checkbox(Str const label, Bool &value)
     {
         return ImGui::Checkbox(label, &value);
@@ -252,12 +257,12 @@ namespace Minty::GUI
         return ImGui::SliderFloat(label, &value, min, max);
     }
     
-    Bool begin_combo(Str const label, Str const previewValue)
+    Bool combo_begin(Str const label, Str const previewValue)
     {
         return ImGui::BeginCombo(label, previewValue);
     }
     
-    void end_combo()
+    void combo_end()
     {
         ImGui::EndCombo();
     }
@@ -277,56 +282,67 @@ namespace Minty::GUI
         ImGui::TreePop();
     }
     
-    void same_line()
+    void layout_same_line()
     {
         ImGui::SameLine();
     }
     
-    void new_line()
+    void layout_new_line()
     {
         ImGui::NewLine();
     }
     
-    void separator()
+    void layout_separator()
     {
         ImGui::Separator();
     }
     
-    void spacing()
+    void layout_spacing()
     {
         ImGui::Spacing();
     }
     
-    Bool begin_popup(Str const strId)
+    Bool popup_begin(Str const strId)
     {
         return ImGui::BeginPopup(strId);
     }
     
-    Bool begin_popup_modal(Str const strId)
+    Bool popup_begin_modal(Str const strId)
     {
         return ImGui::BeginPopupModal(strId);
     }
     
-    void end_popup()
+    void popup_end()
     {
         ImGui::EndPopup();
     }
-    Bool begin_menu(Str const label)
+    
+    Bool menu_bar_begin()
+    {
+        return ImGui::BeginMenuBar();
+    }
+    
+    void menu_bar_end()
+    {
+        ImGui::EndMenuBar();
+    }
+    
+    Bool menu_begin(Str const label)
     {
         return ImGui::BeginMenu(label);
     }
     
-    void end_menu()
+    void menu_end()
     {
         ImGui::EndMenu();
     }
     
-    Bool begin_main_menu_bar()
+    Bool menu_bar_main_begin()
     {
         return ImGui::BeginMainMenuBar();
     }
     
-    void end_main_menu_bar()
+    void menu_bar_main_end()
     {
         ImGui::EndMainMenuBar();
     }
@@ -336,12 +352,12 @@ namespace Minty::GUI
         return ImGui::MenuItem(label, shortcut, selected);
     }
     
-    void set_tooltip(Str const text)
+    void tooltip_set(Str const text)
     {
         ImGui::SetTooltip(text);
     }
     
-    Bool is_item_hovered()
+    Bool query_is_item_hovered()
     {
         return ImGui::IsItemHovered();
     }
@@ -356,12 +372,12 @@ namespace Minty::GUI
         return ImGui::ColorEdit4(label, &value.x);
     }
     
-    Bool begin_table(Str const strId, Int columnCount)
+    Bool table_begin(Str const strId, Int columnCount)
     {
         return ImGui::BeginTable(strId, columnCount);
     }
     
-    void end_table()
+    void table_end()
     {
         ImGui::EndTable();
     }

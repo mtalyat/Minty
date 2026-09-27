@@ -32,19 +32,24 @@ namespace Minty::GUI
     void shutdown();
     void begin_frame();
     void end_frame();
+
+    //      Accessor functions
     RenderPassHandle get_render_pass();
 
+    //      Window functionsq
     Bool begin(Str const title);
     void end();
 
-    Bool begin_child(Str const title);
-    void end_child();
+    //      Child window functions
+    Bool child_begin(Str const title);
+    void child_end();
 
     //      Text functions
     void text(Str const text);
 
     //      Button functions
     Bool button(Str const label);
+    Bool button_small(Str const label);
 
     //      Checkbox functions
     Bool checkbox(Str const label, Bool& value);
@@ -63,8 +68,8 @@ namespace Minty::GUI
     Bool slider_float(Str const label, Float& value, Float min, Float max);
 
     //      Combo functions
-    Bool begin_combo(Str const label, Str const previewValue);
-    void end_combo();
+    Bool combo_begin(Str const label, Str const previewValue);
+    void combo_end();
 
     //      Selectable functions
     Bool selectable(Str const label, Bool selected = false);
@@ -74,39 +79,41 @@ namespace Minty::GUI
     void tree_pop();
 
     //      Layout functions
-    void same_line();
-    void new_line();
-    void separator();
-    void spacing();
+    void layout_same_line();
+    void layout_new_line();
+    void layout_separator();
+    void layout_spacing();
 
     //      Image functions
     // TODO
 
     //      Popup functions
-    Bool begin_popup(Str const strId);
-    Bool begin_popup_modal(Str const strId);
-    void end_popup();
+    Bool popup_begin(Str const strId);
+    Bool popup_begin_modal(Str const strId);
+    void popup_end();
 
     //      Menu functions
-    Bool begin_menu(Str const label);
-    void end_menu();
-    Bool begin_main_menu_bar();
-    void end_main_menu_bar();
+    Bool menu_bar_begin();
+    void menu_bar_end();
+    Bool menu_begin(Str const label);
+    void menu_end();
+    Bool menu_bar_main_begin();
+    void menu_bar_main_end();
     Bool menu_item(Str const label, Str const shortcut = nullptr, Bool selected = false);
 
     //      Tooltip functions
-    void set_tooltip(Str const text);
+    void tooltip_set(Str const text);
 
     //      Query functions
-    Bool is_item_hovered();
+    Bool query_is_item_hovered();
 
     //      Color functions
     Bool color_edit3(Str const label, Float3& value);
     Bool color_edit4(Str const label, Float4& value);
 
     //      Table functions
-    Bool begin_table(Str const strId, Int columnCount);
-    void end_table();
+    Bool table_begin(Str const strId, Int columnCount);
+    void table_end();
     void table_next_row();
     void table_next_column();
 }
