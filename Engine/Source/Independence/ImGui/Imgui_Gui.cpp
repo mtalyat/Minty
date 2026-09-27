@@ -7,6 +7,7 @@
 
 #include "Render/Manager/RenderManager.hpp"
 #include "Independence/Vulkan/Vulkan_RenderManager.hpp"
+#include "Render/RenderPass/RenderPassInfo.hpp"
 #include "Window/Window/Window.hpp"
 
 namespace Minty::GUI
@@ -14,7 +15,7 @@ namespace Minty::GUI
     static RenderManager* sp_renderManager = nullptr;
     static Bool s_initialized = false;
     static Bool s_showDemoWindow = true;
-    static VkFormat s_colorAttachmentFormat = VK_FORMAT_UNDEFINED;
+    static RenderPassHandle s_renderPass = INVALID_HANDLE;
 
     static Float srgb_to_linear(Float value)
     {
@@ -59,8 +60,21 @@ namespace Minty::GUI
 
         // Init Vulkan for ImGui
         RenderManager::Impl& impl = renderManager.get_impl();
-        Vector<RenderPassHandle> const& passes = renderManager.get_passes();
-        MINTY_ASSERT(passes.get_size() > 0, ErrorCodeEnum::GUI_InitializationFailed);
+
+        RenderAttachment colorAttachment{};
+        colorAttachment.aspect = ImageAspectFlagsEnum::Color;
+        colorAttachment.loadOperation = LoadOperationEnum::Load;
+        colorAttachment.storeOperation = StoreOperationEnum::Store;
+        colorAttachment.initialLayout = ImageLayoutEnum::Presentation;
+        colorAttachment.finalLayout = ImageLayoutEnum::Presentation;
+
+        RenderPassInfo renderPassInfo{};
+        Vector<RenderAttachment> attachments;
+        attachments.add(colorAttachment);
+        renderPassInfo.attachments = attachments;
+
+        s_renderPass = renderManager.create(renderPassInfo);
+
         ImGui_ImplVulkan_InitInfo init_info{};
         init_info.Instance = impl.get_instance();
         init_info.Device = impl.get_device();
@@ -70,7 +84,7 @@ namespace Minty::GUI
 
         init_info.DescriptorPool = VK_NULL_HANDLE;
         init_info.DescriptorPoolSize = 64;
-        init_info.PipelineInfoMain.RenderPass = impl.get_render_pass(passes.at(0));
+        init_info.PipelineInfoMain.RenderPass = impl.get_render_pass(s_renderPass);
         init_info.PipelineInfoMain.Subpass = 0;
         init_info.PipelineInfoMain.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
 
@@ -101,28 +115,61 @@ namespace Minty::GUI
             return;
         }
 
+        if (sp_renderManager != nullptr)
+        {
+            sp_renderManager->get_impl().sync();
+        }
+
         ImGui_ImplVulkan_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
 
+        if (sp_renderManager != nullptr && s_renderPass != INVALID_HANDLE)
+        {
+            sp_renderManager->destroy(s_renderPass);
+        }
+
         s_initialized = false;
         sp_renderManager = nullptr;
-        s_colorAttachmentFormat = VK_FORMAT_UNDEFINED;
+        s_renderPass = INVALID_HANDLE;
         s_showDemoWindow = true;
     }
 
-    void new_frame()
+    void begin_frame()
     {
-        if (!s_initialized)
-        {
-            initialize_impl(RenderManager::get_instance());
-        }
+        MINTY_ASSERT(s_initialized, ErrorCodeEnum::Library_NotInitialized);
 
         ImGui_ImplVulkan_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::ShowDemoWindow(&s_showDemoWindow);
+        if (s_showDemoWindow)
+        {
+            ImGui::ShowDemoWindow(&s_showDemoWindow);
+        }
+    }
+
+    void end_frame()
+    {
+        MINTY_ASSERT(s_initialized, ErrorCodeEnum::Library_NotInitialized);
+        MINTY_ASSERT(sp_renderManager != nullptr, ErrorCodeEnum::Library_NotInitialized);
+
+        if (!sp_renderManager->begin_pass(s_renderPass))
+        {
+            return;
+        }
+
+        ImGui::Render();
+
+        VkCommandBuffer const commandBuffer = sp_renderManager->get_impl().get_current_command_buffer();
+        ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer);
+
+        sp_renderManager->end_pass();
+    }
+
+    RenderPassHandle get_render_pass()
+    {
+        return s_renderPass;
     }
 
     Bool begin(String const &title)
@@ -327,18 +374,5 @@ namespace Minty::GUI
     void table_next_column()
     {
         ImGui::TableNextColumn();
-    }
-
-    void render()
-    {
-        if (!s_initialized)
-        {
-            initialize_impl(RenderManager::get_instance());
-        }
-
-        ImGui::Render();
-
-        VkCommandBuffer const commandBuffer = sp_renderManager->get_impl().get_current_command_buffer();
-        ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer);
     }
 }

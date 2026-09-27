@@ -13,6 +13,7 @@
 #include "Window/Window/Window.hpp"
 #include "Window/Window/WindowInfo.hpp"
 #include "Script/Script/ScriptGlobalContext.hpp"
+#include "GUI/GUI/Gui.hpp"
 
 using namespace Minty;
 
@@ -49,6 +50,9 @@ Minty::Application::Application(ApplicationInfo const &info)
     mp_scriptManager = new ScriptManager(info.scriptManagerInfo);
     mp_timeController = new TimeController(info.timeControllerInfo);
 
+    // Initialize the GUI
+    GUI::initialize(*mp_renderManager);
+
     // Promote to Created status
     trigger_promotion(StatusEnum::Created);
 }
@@ -57,6 +61,9 @@ Minty::Application::~Application()
 {
     // Promote to Destroyed status
     trigger_demotion(StatusEnum::Destroyed);
+
+    // Shutdown the GUI
+    GUI::shutdown();
 
     // Delete the managers
     delete mp_sceneManager;

@@ -1291,6 +1291,7 @@ RenderPassHandle Minty::RenderManager::Impl::create(RenderPassInfo const &render
 		m_device,
 		colorAttachmentDescriptions,
 		depthAttachmentDescriptions);
+	renderPassData.hasDepthAttachment = !depthAttachmentDescriptions.is_empty();
 	renderPassData.renderTarget = renderPassInfo.renderTarget == INVALID_HANDLE ? m_defaultRenderTarget : renderPassInfo.renderTarget;
 	renderPassData.viewport = renderPassInfo.viewport == INVALID_HANDLE ? m_defaultViewport : renderPassInfo.viewport;
 	renderPassData.clearDepth = renderPassInfo.clearDepth;
@@ -2367,13 +2368,16 @@ void Minty::RenderManager::Impl::create_render_pass_framebuffers(Vulkan_RenderPa
 	for (TextureHandle const &imageHandle : renderTargetData.images)
 	{
 		Vulkan_TextureData const &textureData = m_textureDataPool.at(imageHandle);
+		VkImageView const depthAttachment = renderPassData.hasDepthAttachment && m_depthStencilImage != INVALID_HANDLE
+			? m_textureDataPool.at(m_depthStencilImage).view
+			: VK_NULL_HANDLE;
 
 		VkFramebuffer framebuffer = Vulkan_Renderer::create_framebuffer(
 			m_device,
 			renderPassData.renderPass,
 			textureData.size,
 			textureData.view,
-			m_depthStencilImage != INVALID_HANDLE ? m_textureDataPool.at(m_depthStencilImage).view : VK_NULL_HANDLE);
+			depthAttachment);
 		renderPassData.framebuffers.add(std::move(framebuffer));
 	}
 }

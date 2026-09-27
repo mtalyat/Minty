@@ -11,6 +11,7 @@ namespace Minty
         VkRenderPass renderPass = VK_NULL_HANDLE;
         RenderTargetHandle renderTarget = INVALID_HANDLE;
         ViewportHandle viewport = INVALID_HANDLE;
+        Bool hasDepthAttachment = false;
         VkClearColorValue clearColor{};
         float clearDepth = 1.0f;
         uint32_t clearStencil = 0;

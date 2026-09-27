@@ -179,31 +179,37 @@ void Minty::SceneManager::on_render()
         return;
     }
 
-    GUI::new_frame();
+    // Start a new GUI frame
+    GUI::begin_frame();
 
     Vector<RenderPassHandle> const &passes = renderManager.get_passes();
     for (RenderPassHandle const passHandle : passes)
     {
+        if (passHandle == GUI::get_render_pass())
+        {
+            continue;
+        }
+
+        // Skip this pass if it cannot be started
         if (!renderManager.begin_pass(passHandle))
         {
             continue;
         }
 
-        // Render all active scenes into the currently open pass.
+        // Render all active scenes into the currently open pass
         for (SceneHandle const handle : m_activeScenes)
         {
             Scene &scene = at(handle);
             scene.on_render();
         }
 
-        if (renderManager.rendered_to_main())
-        {
-            GUI::render();
-        }
-
+        // Done with this pass
         renderManager.end_pass();
     }
 
+    GUI::end_frame();
+
+    // Done with the frame
     renderManager.end_frame();
 }
 

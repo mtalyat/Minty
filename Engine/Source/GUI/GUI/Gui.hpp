@@ -15,6 +15,7 @@
 #include "Core/Type/Int2.hpp"
 #include "Core/Type/Int3.hpp"
 #include "Core/Type/Int4.hpp"
+#include "Render/Type/Handle.hpp"
 #include "Core/Type/UInt2.hpp"
 #include "Core/Type/UInt3.hpp"
 #include "Core/Type/UInt4.hpp"
@@ -29,7 +30,9 @@ namespace Minty::GUI
     //      Core GUI functions
     void initialize(RenderManager& renderManager);
     void shutdown();
-    void new_frame();
+    void begin_frame();
+    void end_frame();
+    RenderPassHandle get_render_pass();
 
     Bool begin(String const& title);
     void end();
@@ -106,7 +109,4 @@ namespace Minty::GUI
     void end_table();
     void table_next_row();
     void table_next_column();
-
-    // Rendering
-    void render();
 }

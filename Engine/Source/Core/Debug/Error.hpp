@@ -99,6 +99,7 @@ namespace Minty
         Singleton_DifferentObject,
 
         Library = 600,
+        Library_NotInitialized,
         Library_InitializationFailed,
         Library_GLFW,
         Library_Vulkan,
