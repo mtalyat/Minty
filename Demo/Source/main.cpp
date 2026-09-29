@@ -1,8 +1,54 @@
 #include <Minty.hpp>
+#include "GUI/GUI/Gui.hpp"
 #include "World/Component/CanvasComponent.hpp"
 #include "World/Component/TextComponent.hpp"
 
 using namespace Minty;
+
+class DemoGuiSystem
+{
+public:
+    DemoGuiSystem(Scene &scene)
+        : mp_scene(&scene)
+    {
+    }
+
+    void on_render()
+    {
+        static Bool showWindow = true;
+        static Bool enableGlow = true;
+        static Float scale = 1.0f;
+        static Int clickCount = 0;
+
+        if (!GUI::begin("Minty Demo", &showWindow))
+        {
+            GUI::end();
+            return;
+        }
+
+        GUI::text("Welcome to the Minty demo window.");
+        GUI::layout_separator();
+        GUI::text("This panel is rendered with the engine GUI wrapper.");
+
+        if (GUI::button("Click me"))
+        {
+            ++clickCount;
+        }
+        GUI::layout_same_line();
+        GUI::text(F("Clicks: {}", clickCount).get_data());
+
+        GUI::checkbox("Enable glow", enableGlow);
+        GUI::slider_float("Scale", scale, 0.1f, 3.0f);
+
+        GUI::layout_separator();
+        GUI::text(F("Current scale: {}", scale).get_data());
+
+        GUI::end();
+    }
+
+private:
+    Scene *mp_scene;
+};
 
 static Logger* sp_eventLogger = nullptr;
 
@@ -21,6 +67,7 @@ int main()
     // TODO: move into application...
     SystemManager::register_system<RenderSystem>("Render");
     SystemManager::register_system<ScriptSystem>("Script");
+    SystemManager::register_system<DemoGuiSystem>("DemoGui");
 
     // APPLICATION
     ApplicationInfo applicationInfo{};
@@ -107,6 +154,7 @@ int main()
     worldSystemManager.create_system<RenderSystem>();
     worldSystemManager.create_system<ScriptSystem>();
     uiSystemManager.create_system<RenderSystem>();
+    uiSystemManager.create_system<DemoGuiSystem>();
 
     // Create camera entity
     EntityHandle const cameraEntity = worldEntityManager.create();

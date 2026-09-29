@@ -143,11 +143,6 @@ namespace Minty::GUI
         ImGui_ImplVulkan_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
-        if (s_showDemoWindow)
-        {
-            ImGui::ShowDemoWindow(&s_showDemoWindow);
-        }
     }
 
     void end_frame()
