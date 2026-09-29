@@ -1,4 +1,4 @@
-// dear imgui, v1.92.9b
+// dear imgui, v1.93.0 WIP
 // (tables and columns code)
 
 /*
@@ -375,7 +375,6 @@ bool    ImGui::BeginTableEx(const char* name, ImGuiID id, int columns_count, ImG
     const int previous_frame_active = table->LastFrameActive;
     const int instance_no = (previous_frame_active != g.FrameCount) ? 0 : table->InstanceCurrent + 1;
     const ImGuiTableFlags previous_flags = table->Flags;
-    const bool is_new_table = (previous_frame_active == -1);
     table->ID = id;
     table->Flags = flags;
     table->LastFrameActive = g.FrameCount;
@@ -384,6 +383,7 @@ bool    ImGui::BeginTableEx(const char* name, ImGuiID id, int columns_count, ImG
     table->IsLayoutLocked = false;
     table->InnerWidth = inner_width;
     table->NavLayer = (ImS8)outer_window->DC.NavLayerCurrent;
+    table->IsNewTable = (previous_frame_active == -1);
     temp_data->UserOuterSize = outer_size;
 
     // Instance data (for instance 0, TableID == TableInstanceID)
@@ -428,11 +428,8 @@ bool    ImGui::BeginTableEx(const char* name, ImGuiID id, int columns_count, ImG
                 SetNextWindowScroll(ImVec2(0.0f, 0.0f));
 
         // Create scrolling region (without border and zero window padding)
-        ImGuiChildFlags child_child_flags = (g.NextWindowData.HasFlags & ImGuiNextWindowDataFlags_HasChildFlags) ? g.NextWindowData.ChildFlags : ImGuiChildFlags_None;
-        ImGuiWindowFlags child_window_flags = (g.NextWindowData.HasFlags & ImGuiNextWindowDataFlags_HasWindowFlags) ? g.NextWindowData.WindowFlags : ImGuiWindowFlags_None;
-        if (flags & ImGuiTableFlags_ScrollX)
-            child_window_flags |= ImGuiWindowFlags_HorizontalScrollbar;
-        BeginChildEx(name, instance_id, outer_rect.GetSize(), child_child_flags, child_window_flags);
+        ImGuiWindowFlags child_window_flags = (flags & ImGuiTableFlags_ScrollX) ? ImGuiWindowFlags_HorizontalScrollbar : ImGuiWindowFlags_None;
+        BeginChildEx(name, instance_id, outer_rect.GetSize(), ImGuiChildFlags_None, child_window_flags);
         table->InnerWindow = g.CurrentWindow;
         table->WorkRect = table->InnerWindow->WorkRect;
         table->OuterRect = table->InnerWindow->Rect();
@@ -588,7 +585,7 @@ bool    ImGui::BeginTableEx(const char* name, ImGuiID id, int columns_count, ImG
     if (table->IsInitializing)
     {
         // Initialize
-        if (is_new_table)
+        if (table->IsNewTable)
         {
             table->SettingsOffset = -1;
             table->IsSettingsRequestLoad = true;
@@ -634,7 +631,7 @@ bool    ImGui::BeginTableEx(const char* name, ImGuiID id, int columns_count, ImG
     // At this point the ->NameOffset field of each column will be invalid until TableUpdateLayout() or the first call to TableSetupColumn()
     if (table->ColumnsNames.Buf.Size > 0)
         table->ColumnsNames.Buf.resize(0);
-    
+
     return true;
 }
 
@@ -1759,7 +1756,7 @@ void ImGui::TableSetupColumn(const char* label, ImGuiTableColumnFlags flags, flo
     ImGuiTableColumn* column = &table->Columns[column_idx];
 
     // If topology change goes into reconcile mode
-    if (table->IsReconcileMode == false && column->ID != column_id)
+    if (table->IsReconcileMode == false && column->ID != column_id && !table->IsNewTable)
     {
         table->IsReconcileMode = true;
         table->TempData->ReconcileColumnsRequests.reserve(table->ColumnsCount - column_idx);
@@ -3973,7 +3970,7 @@ void ImGui::TableSaveSettings(ImGuiTable* table)
         if (column->DisplayOrder != n)
             settings->SaveFlags |= ImGuiTableFlags_Reorderable;
         if (column->SortOrder != -1)
-            settings->SaveFlags |= ImGuiTableFlags_Sortable;
+            settings->SaveFlags |= ImGuiTableFlags_Sortable | ImGuiTableFlags_Reorderable; // Because SortOrder saving itself is gated, make sure every column is saved (#9519)
         if (column->IsUserEnabled != ((column->Flags & ImGuiTableColumnFlags_DefaultHide) == 0))
             settings->SaveFlags |= ImGuiTableFlags_Hideable;
     }
