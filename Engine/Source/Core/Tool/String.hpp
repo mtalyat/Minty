@@ -133,13 +133,23 @@ namespace Minty::Tool
     Bool ends_with(Char const* const text, Size const length, StringView const str) noexcept;
 
     /**
+     * @brief Compares the text with another text.
+     * @param text The text to compare.
+     * @param length The length of the text.
+     * @param other The other text to compare with.
+     * @param otherLength The length of the other text.
+     * @return Negative value if text < other, zero if text == other, positive value if text > other.
+     */
+    Int compare(Char const* const text, Size const length, Char const* const other, Size const otherLength) noexcept;
+
+    /**
      * @brief Compares the text with another substring.
      * @param text The text to compare.
      * @param length The length of the text.
      * @param other The substring to compare with.
      * @return Negative value if text < other, zero if text == other, positive value if text > other.
      */
-    Int compare(Char const* const text, Size const length, StringView const other) noexcept;
+    inline Int compare(Char const* const text, Size const length, StringView const other) noexcept { return compare(text, length, other.get_data(), other.get_size()); }
 
     Tuple<Size, Size> find_group(StringView const str, Char const open, Char const close, Size const index = 0);
 

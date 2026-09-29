@@ -192,9 +192,9 @@ Bool Minty::Tool::ends_with(Char const *const text, Size const length, StringVie
     return true;
 }
 
-Int Minty::Tool::compare(Char const *const text, Size const length, StringView const other) noexcept
+Int Minty::Tool::compare(Char const *const text, Size const length, Char const *const other, Size const otherLength) noexcept
 {
-    Size minSize = (length < other.get_size()) ? length : other.get_size();
+    Size minSize = (length < otherLength) ? length : otherLength;
     for (Size i = 0; i < minSize; ++i)
     {
         if (text[i] < other[i])
@@ -207,11 +207,11 @@ Int Minty::Tool::compare(Char const *const text, Size const length, StringView c
         }
     }
 
-    if (length < other.get_size())
+    if (length < otherLength)
     {
         return -1;
     }
-    else if (length > other.get_size())
+    else if (length > otherLength)
     {
         return 1;
     }

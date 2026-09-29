@@ -145,14 +145,14 @@ namespace Minty
 
     struct Key
     {
-        KeyEnum key;
+        KeyEnum value;
 
-        constexpr Key() : key(KeyEnum::Unknown) {}
-        constexpr Key(KeyEnum const key) : key(key) {}
+        constexpr Key() : value(KeyEnum::Unknown) {}
+        constexpr Key(KeyEnum const key) : value(key) {}
 
-        constexpr operator KeyEnum() const { return key; }
-        constexpr Bool operator==(Key const& other) const { return key == other.key; }
-        constexpr Bool operator!=(Key const& other) const { return key != other.key; }
+        constexpr operator KeyEnum() const { return value; }
+        constexpr Bool operator==(Key const& other) const { return value == other.value; }
+        constexpr Bool operator!=(Key  const& other) const { return value != other.value; }
     };
 
 	template<>
@@ -165,7 +165,7 @@ namespace Minty
 	template<>
 	struct Parser<Key>
 	{
-		inline static Bool parse(StringView const str, Key& value) { return Parser<KeyEnum>::parse(str, value.key); }
-		inline static String to_string(Key const& obj) { return Parser<KeyEnum>::to_string(obj.key); }
+		inline static Bool parse(StringView const str, Key& value) { return Parser<KeyEnum>::parse(str, value.value); }
+		inline static String to_string(Key const& obj) { return Parser<KeyEnum>::to_string(obj.value); }
 	};
 }

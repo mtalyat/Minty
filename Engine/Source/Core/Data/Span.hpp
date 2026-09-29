@@ -77,7 +77,7 @@ namespace Minty
 
         inline T *get_data() { return mp_data; }
 
-        inline T const *get_data() const { return mp_data; }
+        inline T *get_data() const { return mp_data; }
 
         /**
          * @brief Checks if this Span is empty (contains no elements).

@@ -68,6 +68,7 @@ namespace Minty
         constexpr Bool operator==(KeyModifier const& other) const { return flags == other.flags; }
         constexpr Bool operator!=(KeyModifier const& other) const { return flags != other.flags; }
 
+        constexpr Bool has_flag(KeyModifierFlagsEnum const flag) const { return (static_cast<Int>(flags) & static_cast<Int>(flag)) != 0; }
         constexpr Bool is_shift() const { return (static_cast<Int>(flags) & static_cast<Int>(KeyModifierFlagsEnum::Shift)) != 0; }
         constexpr Bool is_control() const { return (static_cast<Int>(flags) & static_cast<Int>(KeyModifierFlagsEnum::Control)) != 0; }
         constexpr Bool is_alt() const { return (static_cast<Int>(flags) & static_cast<Int>(KeyModifierFlagsEnum::Alt)) != 0; }
