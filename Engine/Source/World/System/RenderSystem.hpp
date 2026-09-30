@@ -48,6 +48,8 @@ namespace Minty
 #pragma region Methods
 
 	public:
+		void set_render_pass_filter(RenderPassHandle const renderPassFilter);
+		void clear_render_pass_filter();
 		void on_render(RenderPassHandle const renderPass);
 
 	private:
@@ -64,6 +66,7 @@ namespace Minty
 
 	private:
 		Scene* mp_scene;
+		RenderPassHandle m_renderPassFilter = INVALID_HANDLE;
 
 #pragma endregion
 	};

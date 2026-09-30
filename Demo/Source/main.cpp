@@ -217,9 +217,11 @@ int main()
     EntityManager& uiEntityManager = uiScene.get_entity_manager();
 
     // Add the systems
-    worldSystemManager.create_system<RenderSystem>();
+    RenderSystem &worldRenderSystem = worldSystemManager.create_system<RenderSystem>();
+    worldRenderSystem.set_render_pass_filter(sceneCaptureRenderPassHandle);
     worldSystemManager.create_system<ScriptSystem>();
-    uiSystemManager.create_system<RenderSystem>();
+    RenderSystem &uiRenderSystem = uiSystemManager.create_system<RenderSystem>();
+    uiRenderSystem.set_render_pass_filter(sceneCaptureRenderPassHandle);
     uiSystemManager.create_system<DemoGuiSystem>(sceneCaptureTextureHandle);
 
     // Create camera entity

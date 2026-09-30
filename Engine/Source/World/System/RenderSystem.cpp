@@ -221,8 +221,23 @@ Minty::RenderSystem::RenderSystem(Scene &scene)
 	MINTY_ASSERT(mp_scene != nullptr, ErrorCodeEnum::Argument_ExpectedNonNull);
 }
 
-void Minty::RenderSystem::on_render(RenderPassHandle const)
+void Minty::RenderSystem::set_render_pass_filter(RenderPassHandle const renderPassFilter)
 {
+	m_renderPassFilter = renderPassFilter;
+}
+
+void Minty::RenderSystem::clear_render_pass_filter()
+{
+	m_renderPassFilter = INVALID_HANDLE;
+}
+
+void Minty::RenderSystem::on_render(RenderPassHandle const renderPass)
+{
+	if (m_renderPassFilter != INVALID_HANDLE && renderPass != m_renderPassFilter)
+	{
+		return;
+	}
+
 	RenderManager &renderManager = RenderManager::get_instance();
 	ResourceManager &resourceManager = ResourceManager::get_instance();
 
