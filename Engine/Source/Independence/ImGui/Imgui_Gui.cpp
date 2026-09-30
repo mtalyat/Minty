@@ -15,7 +15,6 @@ namespace Minty::GUI
 {
     static RenderManager *sp_renderManager = nullptr;
     static Bool s_initialized = false;
-    static Bool s_showDemoWindow = true;
     static Bool s_dockSpaceCreatedThisFrame = false;
     static RenderPassHandle s_renderPass = INVALID_HANDLE;
     static Map<TextureHandle, ImTextureID> s_textures;
@@ -144,7 +143,6 @@ namespace Minty::GUI
         s_initialized = false;
         sp_renderManager = nullptr;
         s_renderPass = INVALID_HANDLE;
-        s_showDemoWindow = true;
     }
 
     void begin_frame()
