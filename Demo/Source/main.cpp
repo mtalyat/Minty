@@ -21,43 +21,56 @@ public:
 
     void on_gui()
     {
-        static Bool showWindow = true;
-        static Bool enableGlow = true;
-        static Float scale = 1.0f;
-        static Int clickCount = 0;
-
         GUI::dock_main();
 
-        if (!GUI::begin("Minty Demo", &showWindow))
+        Bool const sceneVisible = GUI::begin("Scene");
+        if (sceneVisible)
         {
-            GUI::end();
-            return;
+            if (m_textureHandle != INVALID_HANDLE)
+            {
+                Float2 available = GUI::layout_available();
+                available.x = Math::max(available.x, 1.0f);
+                available.y = Math::max(available.y, 1.0f);
+                GUI::image(m_textureHandle, available);
+            }
         }
+        GUI::end();
 
-        GUI::text("Welcome to the Minty demo window.");
-        GUI::layout_separator();
-        GUI::text("This panel is rendered with the engine GUI wrapper.");
-
-        if (GUI::button("Click me"))
+        Bool const gameVisible = GUI::begin("Game");
+        if (gameVisible)
         {
-            ++clickCount;
+            if (m_textureHandle != INVALID_HANDLE)
+            {
+                Float2 available = GUI::layout_available();
+                available.x = Math::max(available.x, 1.0f);
+                available.y = Math::max(available.y, 1.0f);
+                GUI::image(m_textureHandle, available);
+            }
         }
-        GUI::layout_same_line();
-        GUI::text(F("Clicks: {}", clickCount).get_data());
+        GUI::end();
 
-        GUI::checkbox("Enable glow", enableGlow);
-        GUI::slider_float("Scale", scale, 0.1f, 3.0f);
-
-        if (m_textureHandle != INVALID_HANDLE)
+        Bool const projectVisible = GUI::begin("Project");
+        if (projectVisible)
         {
-            Float const size = 256.0f * scale;
-            // Show the full offscreen scene-capture texture.
-            GUI::image(m_textureHandle, Float2(size, size));
         }
+        GUI::end();
 
-        GUI::layout_separator();
-        GUI::text(F("Current scale: {}", scale).get_data());
+        Bool const hierarchyVisible = GUI::begin("Hierarchy");
+        if (hierarchyVisible)
+        {
+        }
+        GUI::end();
 
+        Bool const propertiesVisible = GUI::begin("Properties");
+        if (propertiesVisible)
+        {
+        }
+        GUI::end();
+
+        Bool const consoleVisible = GUI::begin("Console");
+        if (consoleVisible)
+        {
+        }
         GUI::end();
     }
 

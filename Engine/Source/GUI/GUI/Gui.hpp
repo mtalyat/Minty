@@ -122,6 +122,7 @@ namespace Minty::GUI
     void layout_separator();
     void layout_spacing();
     void layout_dummy(Float2 const size = Float2(0.0f, 0.0f));
+    Float2 layout_available();
 
     //      Group functions
     void group_begin();

@@ -2150,14 +2150,15 @@ void Minty::RenderManager::Impl::refresh()
 		}
 	}
 
-	// Recreate framebuffers for all render passes that render to the main surface.
+	// Recreate framebuffers for render passes that either target the main surface
+	// or depend on depth resources that were just recreated.
 	for (RenderPassHandle const &renderPassHandle : m_renderPassDataPool.get_handles())
 	{
 		Vulkan_RenderPassData &renderPassData = m_renderPassDataPool.at(renderPassHandle);
 		if (renderPassData.renderTarget != INVALID_HANDLE)
 		{
 			Vulkan_RenderTargetData const &renderTargetData = m_renderTargetDataPool.at(renderPassData.renderTarget);
-			if (renderTargetData.surface == m_surface)
+			if (renderTargetData.surface == m_surface || renderPassData.hasDepthAttachment)
 			{
 				destroy_render_pass_framebuffers(renderPassData);
 				create_render_pass_framebuffers(renderPassData, renderPassData.renderTarget);

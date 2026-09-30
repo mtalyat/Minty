@@ -68,6 +68,9 @@ namespace Minty::GUI
         ImGui::StyleColorsDark();
         apply_linear_style_colors();
 
+        // Allow docked panels to collapse much further when users drag splitters.
+        ImGui::GetStyle().WindowMinSize = ImVec2(1.0f, 1.0f);
+
         // Init GLFW for ImGui
         Window &window = renderManager.get_window();
         ImGui_ImplGlfw_InitForVulkan(static_cast<GLFWwindow *>(window.get_native()), true);
@@ -401,6 +404,11 @@ namespace Minty::GUI
     void layout_dummy(Float2 const size)
     {
         ImGui::Dummy(Converter<Float2, ImVec2>::from_minty(size));
+    }
+
+    Float2 layout_available()
+    {
+        return Converter<Float2, ImVec2>::to_minty(ImGui::GetContentRegionAvail());
     }
 
     void group_begin()
