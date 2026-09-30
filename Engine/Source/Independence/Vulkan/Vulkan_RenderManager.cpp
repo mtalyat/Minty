@@ -381,6 +381,18 @@ UInt2 Minty::RenderManager::Impl::get_size(TextureHandle const handle) const
 	return UInt2(textureData.size.width, textureData.size.height);
 }
 
+VkImageView Minty::RenderManager::Impl::get_texture_view(TextureHandle const handle) const
+{
+    MINTY_ASSERT(m_textureDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+    return m_textureDataPool.at(handle).view;
+}
+
+VkSampler Minty::RenderManager::Impl::get_texture_sampler(TextureHandle const handle) const
+{
+    MINTY_ASSERT(m_textureDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+    return m_textureDataPool.at(handle).sampler;
+}
+
 SurfaceHandle Minty::RenderManager::Impl::create(SurfaceInfo const &surfaceInfo)
 {
 	// Get the window to use

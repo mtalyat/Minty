@@ -88,6 +88,8 @@ namespace Minty
         Bool is_valid(TextureHandle const handle) const;
         void set_data(TextureHandle const handle, View const data);
         UInt2 get_size(TextureHandle const handle) const;
+        VkImageView get_texture_view(TextureHandle const handle) const;
+        VkSampler get_texture_sampler(TextureHandle const handle) const;
 
         SurfaceHandle create(SurfaceInfo const &surfaceInfo);
         void destroy(SurfaceHandle const handle);

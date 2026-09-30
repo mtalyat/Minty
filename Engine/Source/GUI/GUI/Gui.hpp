@@ -128,7 +128,7 @@ namespace Minty::GUI
     void group_end();
 
     //      Image functions
-    // TODO
+    void image(TextureHandle const textureHandle, Float2 const size = Float2(0.0f, 0.0f), Float2 const uv0 = Float2(0.0f, 0.0f), Float2 const uv1 = Float2(1.0f, 1.0f));
 
     //      Popup functions
     Bool popup_begin(Str const strId);

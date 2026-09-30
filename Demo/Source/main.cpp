@@ -8,8 +8,8 @@ using namespace Minty;
 class DemoGuiSystem
 {
 public:
-    DemoGuiSystem(Scene &scene)
-        : mp_scene(&scene)
+    DemoGuiSystem(Scene &scene, TextureHandle textureHandle = INVALID_HANDLE)
+        : mp_scene(&scene), m_textureHandle(textureHandle)
     {
     }
 
@@ -25,7 +25,7 @@ public:
         static Bool enableGlow = true;
         static Float scale = 1.0f;
         static Int clickCount = 0;
-        
+
         GUI::dock_main();
 
         if (!GUI::begin("Minty Demo", &showWindow))
@@ -48,6 +48,14 @@ public:
         GUI::checkbox("Enable glow", enableGlow);
         GUI::slider_float("Scale", scale, 0.1f, 3.0f);
 
+        if (m_textureHandle != INVALID_HANDLE)
+        {
+            Float const one = 30.0f / 1000.0f;
+            Float const two = one + one;
+            Float const size = 256.0f * scale;
+            GUI::image(m_textureHandle, Float2(size, size), Float2(one, one), Float2(two, two));
+        }
+
         GUI::layout_separator();
         GUI::text(F("Current scale: {}", scale).get_data());
 
@@ -56,6 +64,7 @@ public:
 
 private:
     Scene *mp_scene;
+    TextureHandle m_textureHandle = INVALID_HANDLE;
 };
 
 static Logger* sp_eventLogger = nullptr;
@@ -162,7 +171,7 @@ int main()
     worldSystemManager.create_system<RenderSystem>();
     worldSystemManager.create_system<ScriptSystem>();
     uiSystemManager.create_system<RenderSystem>();
-    uiSystemManager.create_system<DemoGuiSystem>();
+    uiSystemManager.create_system<DemoGuiSystem>(textureHandle);
 
     // Create camera entity
     EntityHandle const cameraEntity = worldEntityManager.create();

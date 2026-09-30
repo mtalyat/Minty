@@ -17,6 +17,22 @@ namespace Minty::GUI
     static Bool s_initialized = false;
     static Bool s_showDemoWindow = true;
     static RenderPassHandle s_renderPass = INVALID_HANDLE;
+    static Map<TextureHandle, ImTextureID> s_textures;
+
+    static ImTextureID get_or_register_texture(RenderManager &renderManager, TextureHandle const textureHandle)
+    {
+        if (s_textures.contains(textureHandle))
+        {
+            return s_textures.at(textureHandle);
+        }
+
+        VkImageView const imageView = renderManager.get_impl().get_texture_view(textureHandle);
+        VkSampler const sampler = renderManager.get_impl().get_texture_sampler(textureHandle);
+        VkDescriptorSet const descriptorSet = ImGui_ImplVulkan_AddTexture(sampler, imageView, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+        ImTextureID const textureId = reinterpret_cast<ImTextureID>(descriptorSet);
+        s_textures.add(textureHandle, textureId);
+        return textureId;
+    }
 
     static Float srgb_to_linear(Float value)
     {
@@ -220,6 +236,19 @@ namespace Minty::GUI
     void bullet()
     {
         ImGui::Bullet();
+    }
+
+    void image(TextureHandle const textureHandle, Float2 const size, Float2 const uv0, Float2 const uv1)
+    {
+        MINTY_ASSERT(s_initialized, ErrorCodeEnum::GUI_NotInitialized);
+        MINTY_ASSERT(sp_renderManager != nullptr, ErrorCodeEnum::GUI_NotInitialized);
+        MINTY_ASSERT(sp_renderManager->is_valid(textureHandle), ErrorCodeEnum::Argument_KeyNotFound);
+
+        ImTextureID const textureId = get_or_register_texture(*sp_renderManager, textureHandle);
+        ImGui::Image(textureId,
+            Converter<Float2, ImVec2>::from_minty(size),
+            Converter<Float2, ImVec2>::from_minty(uv0),
+            Converter<Float2, ImVec2>::from_minty(uv1));
     }
 
     Bool text_link(Str const label)
