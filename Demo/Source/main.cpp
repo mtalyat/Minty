@@ -13,12 +13,20 @@ public:
     {
     }
 
+    void on_load()
+    {
+        // Enable docking
+        GUI::set_config_flag(GuiConfigFlagsEnum::DockingEnable, true);
+    }
+
     void on_render()
     {
         static Bool showWindow = true;
         static Bool enableGlow = true;
         static Float scale = 1.0f;
         static Int clickCount = 0;
+        
+        GUI::dock_main();
 
         if (!GUI::begin("Minty Demo", &showWindow))
         {

@@ -11,6 +11,7 @@
 #include "GUI/GUI/ChildFlags.hpp"
 #include "GUI/GUI/ColorEditFlags.hpp"
 #include "GUI/GUI/ComboFlags.hpp"
+#include "GUI/GUI/GuiConfigFlags.hpp"
 #include "GUI/GUI/HoveredFlags.hpp"
 #include "GUI/GUI/InputFlags.hpp"
 #include "GUI/GUI/InputTextFlags.hpp"
@@ -78,6 +79,13 @@ namespace Minty
     {
         inline static ComboFlagsEnum to_minty(ImGuiComboFlags const value) { return static_cast<ComboFlagsEnum>(value); }
         inline static ImGuiComboFlags from_minty(ComboFlagsEnum const value) { return static_cast<ImGuiComboFlags>(value); }
+    };
+
+    template<>
+    struct Converter<GuiConfigFlagsEnum, ImGuiConfigFlags>
+    {
+        inline static GuiConfigFlagsEnum to_minty(ImGuiConfigFlags const value) { return static_cast<GuiConfigFlagsEnum>(value); }
+        inline static ImGuiConfigFlags from_minty(GuiConfigFlagsEnum const value) { return static_cast<ImGuiConfigFlags>(value); }
     };
 
     template<>

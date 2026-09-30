@@ -260,6 +260,8 @@ namespace Minty
 
         GUI = 2700,
         GUI_InitializationFailed,
+        GUI_AlreadyInitialized,
+        GUI_NotInitialized,
 
         Unknown = ~0U
     };

@@ -35,12 +35,9 @@ namespace Minty::GUI
         }
     }
 
-    static void initialize_impl(RenderManager &renderManager)
+    void initialize(RenderManager &renderManager)
     {
-        if (s_initialized)
-        {
-            return;
-        }
+        MINTY_ASSERT(!s_initialized, ErrorCodeEnum::GUI_AlreadyInitialized);
 
         sp_renderManager = &renderManager;
 
@@ -102,19 +99,16 @@ namespace Minty::GUI
         MINTY_ASSERT(ImGui_ImplVulkan_Init(&init_info), ErrorCodeEnum::GUI_InitializationFailed);
 
         s_initialized = true;
-    }
 
-    void initialize(RenderManager &renderManager)
-    {
-        initialize_impl(renderManager);
+        // DEFAULT SETUP
+
+        // Set default config flags
+        set_config_flags(GuiConfigFlagsEnum::Default);
     }
 
     void shutdown()
     {
-        if (!s_initialized)
-        {
-            return;
-        }
+        MINTY_ASSERT(s_initialized, ErrorCodeEnum::GUI_NotInitialized);
 
         if (sp_renderManager != nullptr)
         {
@@ -138,7 +132,7 @@ namespace Minty::GUI
 
     void begin_frame()
     {
-        MINTY_ASSERT(s_initialized, ErrorCodeEnum::Library_NotInitialized);
+        MINTY_ASSERT(s_initialized, ErrorCodeEnum::GUI_NotInitialized);
 
         ImGui_ImplVulkan_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -147,8 +141,8 @@ namespace Minty::GUI
 
     void end_frame()
     {
-        MINTY_ASSERT(s_initialized, ErrorCodeEnum::Library_NotInitialized);
-        MINTY_ASSERT(sp_renderManager != nullptr, ErrorCodeEnum::Library_NotInitialized);
+        MINTY_ASSERT(s_initialized, ErrorCodeEnum::GUI_NotInitialized);
+        MINTY_ASSERT(sp_renderManager != nullptr, ErrorCodeEnum::GUI_NotInitialized);
 
         if (!sp_renderManager->begin_pass(s_renderPass))
         {
@@ -161,6 +155,36 @@ namespace Minty::GUI
         ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer);
 
         sp_renderManager->end_pass();
+    }
+
+    void set_config_flags(GuiConfigFlagsEnum const flags)
+    {
+        ImGuiIO &io = ImGui::GetIO();
+        io.ConfigFlags = Converter<GuiConfigFlagsEnum, ImGuiConfigFlags>::from_minty(flags);
+    }
+
+    void set_config_flag(GuiConfigFlagsEnum const flag, Bool const enabled)
+    {
+        ImGuiIO &io = ImGui::GetIO();
+        if (enabled)
+        {
+            io.ConfigFlags |= Converter<GuiConfigFlagsEnum, ImGuiConfigFlags>::from_minty(flag);
+        }
+        else
+        {
+            io.ConfigFlags &= ~Converter<GuiConfigFlagsEnum, ImGuiConfigFlags>::from_minty(flag);
+        }
+    }
+
+    GuiConfigFlagsEnum get_config_flags()
+    {
+        ImGuiIO &io = ImGui::GetIO();
+        return Converter<GuiConfigFlagsEnum, ImGuiConfigFlags>::to_minty(io.ConfigFlags);
+    }
+
+    void dock_main()
+    {
+        ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
     }
 
     RenderPassHandle get_render_pass()
@@ -547,7 +571,7 @@ namespace Minty::GUI
     {
         ImGui::TableNextRow(Converter<TableRowFlagsEnum, ImGuiTableRowFlags>::from_minty(flags), minRowHeight);
     }
-    
+
     void table_next_column()
     {
         ImGui::TableNextColumn();

@@ -29,6 +29,7 @@
 #include "GUI/GUI/ChildFlags.hpp"
 #include "GUI/GUI/ColorEditFlags.hpp"
 #include "GUI/GUI/ComboFlags.hpp"
+#include "GUI/GUI/GuiConfigFlags.hpp"
 #include "GUI/GUI/HoveredFlags.hpp"
 #include "GUI/GUI/InputFlags.hpp"
 #include "GUI/GUI/InputTextFlags.hpp"
@@ -55,6 +56,14 @@ namespace Minty::GUI
     void shutdown();
     void begin_frame();
     void end_frame();
+
+    //      Configuration functions
+    void set_config_flags(GuiConfigFlagsEnum const flags);
+    void set_config_flag(GuiConfigFlagsEnum const flag, Bool const enabled);
+    GuiConfigFlagsEnum get_config_flags();
+
+    //      Viewport functions
+    void dock_main();
 
     //      Accessor functions
     RenderPassHandle get_render_pass();
