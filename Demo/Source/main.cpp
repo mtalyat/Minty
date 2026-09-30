@@ -50,10 +50,9 @@ public:
 
         if (m_textureHandle != INVALID_HANDLE)
         {
-            Float const one = 30.0f / 1000.0f;
-            Float const two = one + one;
             Float const size = 256.0f * scale;
-            GUI::image(m_textureHandle, Float2(size, size), Float2(one, one), Float2(two, two));
+            // Show the full offscreen scene-capture texture.
+            GUI::image(m_textureHandle, Float2(size, size));
         }
 
         GUI::layout_separator();
@@ -135,9 +134,14 @@ int main()
     TextureHandle const textureHandle = renderManager.create(textureResourceHandle);
     RenderPassHandle const renderPassHandle = renderManager.create(renderPassResourceHandle);
 
-    // Create a small offscreen texture for a scene preview, then bind it to a render target and pass.
+    // Create an offscreen texture for scene preview using the current framebuffer size.
+    Int2 const sceneCaptureFramebufferSize = app.get_window().get_framebuffer_size();
+    UInt2 const sceneCaptureSize = UInt2(
+        static_cast<UInt>(Math::max(sceneCaptureFramebufferSize.x, 1)),
+        static_cast<UInt>(Math::max(sceneCaptureFramebufferSize.y, 1)));
+
     TextureInfo sceneCaptureTextureInfo{};
-    sceneCaptureTextureInfo.size = UInt2(512u, 512u);
+    sceneCaptureTextureInfo.size = sceneCaptureSize;
     sceneCaptureTextureInfo.format = ImageFormatEnum::R8G8B8A8_SRGB;
     sceneCaptureTextureInfo.usage = ImageUsageFlagsEnum::Sampled | ImageUsageFlagsEnum::Color;
     sceneCaptureTextureInfo.filter = TextureFilterEnum::Linear;
