@@ -221,7 +221,7 @@ Minty::RenderSystem::RenderSystem(Scene &scene)
 	MINTY_ASSERT(mp_scene != nullptr, ErrorCodeEnum::Argument_ExpectedNonNull);
 }
 
-void Minty::RenderSystem::on_render()
+void Minty::RenderSystem::on_render(RenderPassHandle const)
 {
 	RenderManager &renderManager = RenderManager::get_instance();
 	ResourceManager &resourceManager = ResourceManager::get_instance();

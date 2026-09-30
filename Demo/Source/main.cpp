@@ -19,7 +19,7 @@ public:
         GUI::set_config_flag(GuiConfigFlagsEnum::DockingEnable, true);
     }
 
-    void on_render()
+    void on_gui()
     {
         static Bool showWindow = true;
         static Bool enableGlow = true;
@@ -134,6 +134,38 @@ int main()
     RenderManager& renderManager = app.get_render_manager();
     TextureHandle const textureHandle = renderManager.create(textureResourceHandle);
     RenderPassHandle const renderPassHandle = renderManager.create(renderPassResourceHandle);
+
+    // Create a small offscreen texture for a scene preview, then bind it to a render target and pass.
+    TextureInfo sceneCaptureTextureInfo{};
+    sceneCaptureTextureInfo.size = UInt2(512u, 512u);
+    sceneCaptureTextureInfo.format = ImageFormatEnum::R8G8B8A8_SRGB;
+    sceneCaptureTextureInfo.usage = ImageUsageFlagsEnum::Sampled | ImageUsageFlagsEnum::Color;
+    sceneCaptureTextureInfo.filter = TextureFilterEnum::Linear;
+    sceneCaptureTextureInfo.addressMode = TextureAddressModeEnum::ClampToEdge;
+    TextureHandle const sceneCaptureTextureHandle = renderManager.create(sceneCaptureTextureInfo);
+
+    RenderTargetInfo sceneCaptureRenderTargetInfo{};
+    sceneCaptureRenderTargetInfo.images = { sceneCaptureTextureHandle };
+    RenderTargetHandle const sceneCaptureRenderTargetHandle = renderManager.create(sceneCaptureRenderTargetInfo);
+
+    RenderPassResource const &defaultRenderPassResource = resourceManager.at<RenderPassResource>(renderPassResourceHandle);
+    RenderPassInfo sceneCaptureRenderPassInfo{};
+    Vector<RenderAttachment> sceneCaptureAttachments = defaultRenderPassResource.attachments;
+    for (RenderAttachment &attachment : sceneCaptureAttachments)
+    {
+        if (attachment.aspect.has_flag(ImageAspectFlagsEnum::Color))
+        {
+            attachment.initialLayout = ImageLayoutEnum::Undefined;
+            attachment.finalLayout = ImageLayoutEnum::ShaderReadOnly;
+        }
+    }
+    sceneCaptureRenderPassInfo.attachments = sceneCaptureAttachments;
+    sceneCaptureRenderPassInfo.renderTarget = sceneCaptureRenderTargetHandle;
+    sceneCaptureRenderPassInfo.clearColor = Color::black();
+    sceneCaptureRenderPassInfo.clearDepth = defaultRenderPassResource.clearDepth;
+    sceneCaptureRenderPassInfo.clearStencil = defaultRenderPassResource.clearStencil;
+    RenderPassHandle const sceneCaptureRenderPassHandle = renderManager.create(sceneCaptureRenderPassInfo);
+
     PipelineHandle const pipelineHandle = renderManager.create(pipelineResourceHandle);
     MaterialHandle const materialHandle = renderManager.create(materialResourceHandle);
     GeometryHandle const geometryHandle = renderManager.create(meshResourceHandle);
@@ -171,7 +203,7 @@ int main()
     worldSystemManager.create_system<RenderSystem>();
     worldSystemManager.create_system<ScriptSystem>();
     uiSystemManager.create_system<RenderSystem>();
-    uiSystemManager.create_system<DemoGuiSystem>(textureHandle);
+    uiSystemManager.create_system<DemoGuiSystem>(sceneCaptureTextureHandle);
 
     // Create camera entity
     EntityHandle const cameraEntity = worldEntityManager.create();

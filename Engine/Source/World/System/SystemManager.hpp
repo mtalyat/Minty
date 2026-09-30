@@ -12,6 +12,7 @@
 #include "Core/Data/PriorityVector.hpp"
 #include "Core/Data/Map.hpp"
 #include "Core/Type/Status.hpp"
+#include "Render/Type/Handle.hpp"
 #include <concepts>
 
 namespace Minty
@@ -42,6 +43,12 @@ namespace Minty
         {
             Pointer system;
             Function<void(Pointer)> func;
+        };
+
+        struct RenderEventHook
+        {
+            Pointer system;
+            Function<void(Pointer, RenderPassHandle const)> func;
         };
 
 #pragma endregion
@@ -77,7 +84,8 @@ namespace Minty
         void on_frame_update(Timestep const &timestep);
         void on_fixed_update(Timestep const &timestep);
         void on_finalize();
-        void on_render();
+        void on_render(RenderPassHandle const renderPass);
+        void on_gui();
         void on_event(Event &event);
 
         // Status
@@ -114,7 +122,8 @@ namespace Minty
         PriorityVector<UpdateEventHook> m_frameUpdateHooks;
         PriorityVector<UpdateEventHook> m_fixedUpdateHooks;
         PriorityVector<EventHook> m_finalizeHooks;
-        PriorityVector<EventHook> m_renderHooks;
+        PriorityVector<RenderEventHook> m_renderHooks;
+        PriorityVector<EventHook> m_guiHooks;
         PriorityVector<EventEventHook> m_eventHooks;
 
         static Registry<Pointer, SystemManager&> s_registeredSystems;

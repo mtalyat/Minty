@@ -16,6 +16,7 @@ namespace Minty::GUI
     static RenderManager *sp_renderManager = nullptr;
     static Bool s_initialized = false;
     static Bool s_showDemoWindow = true;
+    static Bool s_dockSpaceCreatedThisFrame = false;
     static RenderPassHandle s_renderPass = INVALID_HANDLE;
     static Map<TextureHandle, ImTextureID> s_textures;
 
@@ -150,6 +151,8 @@ namespace Minty::GUI
     {
         MINTY_ASSERT(s_initialized, ErrorCodeEnum::GUI_NotInitialized);
 
+        s_dockSpaceCreatedThisFrame = false;
+
         ImGui_ImplVulkan_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
@@ -200,6 +203,12 @@ namespace Minty::GUI
 
     void dock_main()
     {
+        if (s_dockSpaceCreatedThisFrame)
+        {
+            return;
+        }
+
+        s_dockSpaceCreatedThisFrame = true;
         ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
     }
 

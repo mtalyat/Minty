@@ -19,6 +19,7 @@ Minty::SystemManager::SystemManager(SystemManagerInfo const &info, Scene &scene)
       m_fixedUpdateHooks(),
       m_finalizeHooks(),
       m_renderHooks(),
+      m_guiHooks(),
       m_eventHooks()
 {
 }
@@ -47,9 +48,17 @@ void Minty::SystemManager::on_finalize()
     }
 }
 
-void Minty::SystemManager::on_render()
+void Minty::SystemManager::on_render(RenderPassHandle const renderPass)
 {
-    for (EventHook const &hook : m_renderHooks)
+    for (RenderEventHook const &hook : m_renderHooks)
+    {
+        hook.func(hook.system, renderPass);
+    }
+}
+
+void Minty::SystemManager::on_gui()
+{
+    for (EventHook const &hook : m_guiHooks)
     {
         hook.func(hook.system);
     }

@@ -11,6 +11,7 @@
 #include "Core/Type/Rect.hpp"
 #include "Core/Type/Float2.hpp"
 #include "Core/Math/Matrix4x4.hpp"
+#include "Render/Type/Handle.hpp"
 
 namespace Minty
 {
@@ -47,7 +48,7 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		void on_render();
+		void on_render(RenderPassHandle const renderPass);
 
 	private:
 		static GeometryHandle create_sprite_quad_geometry(RenderManager &renderManager);

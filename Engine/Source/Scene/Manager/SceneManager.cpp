@@ -179,9 +179,6 @@ void Minty::SceneManager::on_render()
         return;
     }
 
-    // Start a new GUI frame
-    GUI::begin_frame();
-
     Vector<RenderPassHandle> const &passes = renderManager.get_passes();
     for (RenderPassHandle const passHandle : passes)
     {
@@ -200,11 +197,19 @@ void Minty::SceneManager::on_render()
         for (SceneHandle const handle : m_activeScenes)
         {
             Scene &scene = at(handle);
-            scene.on_render();
+            scene.on_render(passHandle);
         }
 
         // Done with this pass
         renderManager.end_pass();
+    }
+
+    // Run GUI after scene passes so systems can build one UI frame deterministically.
+    GUI::begin_frame();
+    for (SceneHandle const handle : m_activeScenes)
+    {
+        Scene &scene = at(handle);
+        scene.on_gui();
     }
 
     GUI::end_frame();

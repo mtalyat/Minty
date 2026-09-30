@@ -120,11 +120,19 @@ void Minty::SystemManager::register_system(StringView const name, Int const prio
         }
         if constexpr (HasOnRender<T>)
         {
-            manager.m_renderHooks.add({system, [](Pointer const system)
+            manager.m_renderHooks.add({system, [](Pointer const system, RenderPassHandle const renderPass)
                                {
-                                   static_cast<T *>(system)->on_render();
+                                   static_cast<T *>(system)->on_render(renderPass);
                                }},
                               priority);
+        }
+        if constexpr (HasOnGui<T>)
+        {
+            manager.m_guiHooks.add({system, [](Pointer const system)
+                            {
+                                static_cast<T *>(system)->on_gui();
+                            }},
+                           priority);
         }
         if constexpr (HasOnEvent<T>)
         {
@@ -225,6 +233,17 @@ void Minty::SystemManager::register_system(StringView const name, Int const prio
                 if (manager.m_renderHooks[i].system == system)
                 {
                     manager.m_renderHooks.remove(i);
+                    break;
+                }
+            }
+        }
+        if constexpr (HasOnGui<T>)
+        {
+            for (Size i = 0; i < manager.m_guiHooks.get_size(); ++i)
+            {
+                if (manager.m_guiHooks[i].system == system)
+                {
+                    manager.m_guiHooks.remove(i);
                     break;
                 }
             }

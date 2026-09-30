@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Render/Type/Handle.hpp"
+
 namespace Minty
 {
     class Scene;
@@ -33,7 +35,7 @@ namespace Minty
         void on_frame_update(Timestep const &timestep);
         void on_fixed_update(Timestep const &timestep);
         void on_finalize();
-        void on_render();
+        void on_render(RenderPassHandle const renderPass);
         void on_event(Event &event);
 
 #pragma endregion

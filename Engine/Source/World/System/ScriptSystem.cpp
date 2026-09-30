@@ -211,7 +211,7 @@ void Minty::ScriptSystem::on_finalize()
     }
 }
 
-void Minty::ScriptSystem::on_render()
+void Minty::ScriptSystem::on_render(RenderPassHandle const)
 {
     // Call all scripts attached to entities with the on_render method
     EntityManager &entityManager = mp_scene->get_entity_manager();

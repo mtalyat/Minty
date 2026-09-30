@@ -3,6 +3,7 @@
 #include "Core/Time/Timestep.hpp"
 #include "Platform/Type/Primitive.hpp"
 #include "Event/Event/Event.hpp"
+#include "Render/Type/Handle.hpp"
 
 namespace Minty
 {
@@ -67,8 +68,13 @@ namespace Minty
     };
 
     template<typename T>
-    concept HasOnRender = requires(T &system) {
-        { system.on_render() } -> std::same_as<void>;
+    concept HasOnRender = requires(T &system, RenderPassHandle const renderPass) {
+        { system.on_render(renderPass) } -> std::same_as<void>;
+    };
+
+    template<typename T>
+    concept HasOnGui = requires(T &system) {
+        { system.on_gui() } -> std::same_as<void>;
     };
 
     template <typename T>

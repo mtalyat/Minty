@@ -4,6 +4,7 @@
 #include "World/Entity/EntityManager.hpp"
 #include "World/System/SystemManager.hpp"
 #include "Core/Type/Status.hpp"
+#include "Render/Type/Handle.hpp"
 
 namespace Minty
 {
@@ -56,7 +57,8 @@ namespace Minty
         void on_frame_update(Timestep const &timestep);
         void on_fixed_update(Timestep const &timestep);
         void on_finalize();
-        void on_render();
+        void on_render(RenderPassHandle const renderPass);
+        void on_gui();
         void on_event(Event &event);
 
         void trigger_promotion(StatusEnum const status);

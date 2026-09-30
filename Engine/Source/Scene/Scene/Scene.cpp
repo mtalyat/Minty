@@ -86,9 +86,14 @@ void Minty::Scene::on_finalize()
     mp_systemManager->on_finalize();
 }
 
-void Minty::Scene::on_render()
+void Minty::Scene::on_render(RenderPassHandle const renderPass)
 {
-    mp_systemManager->on_render();
+    mp_systemManager->on_render(renderPass);
+}
+
+void Minty::Scene::on_gui()
+{
+    mp_systemManager->on_gui();
 }
 
 void Minty::Scene::on_event(Event &event)
