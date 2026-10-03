@@ -233,6 +233,7 @@ namespace Minty
         PipelineHandle m_boundPipeline;
         MaterialHandle m_boundMaterial;
         GeometryHandle m_boundGeometry;
+        RenderPassHandle m_activeRenderPass = INVALID_HANDLE;
 
         // temporary resources that must stay alive until their frame finishes
         Array<Vector<BufferHandle>, FRAMES_PER_FLIGHT> m_pendingBufferDestroy;

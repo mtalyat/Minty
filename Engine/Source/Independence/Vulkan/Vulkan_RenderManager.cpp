@@ -1887,6 +1887,7 @@ void Minty::RenderManager::Impl::end_frame()
 Bool Minty::RenderManager::Impl::begin_pass(RenderPassHandle const handle)
 {
 	MINTY_ASSERT(m_renderPassDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+	m_activeRenderPass = handle;
 
 	// Get the render pass data
 	Vulkan_RenderPassData const &renderPassData = m_renderPassDataPool.at(handle);
@@ -1934,23 +1935,37 @@ Bool Minty::RenderManager::Impl::begin_pass(RenderPassHandle const handle)
 	Vulkan_TextureData &targetTextureData = m_textureDataPool.at(renderTargetData.images.at(framebufferIndex));
 	VkExtent2D const targetExtent = targetTextureData.size;
 
-	// Identify the render area based on the viewport
-	VkOffset2D const offset = {static_cast<int32_t>(viewportData.viewport.x), static_cast<int32_t>(viewportData.viewport.y)};
+	// Identify the viewport/scissor and render area for the current target.
+	VkViewport passViewport = viewportData.viewport;
+	VkRect2D passScissor = viewportData.scissor;
+
+	if (renderTargetData.surface == INVALID_HANDLE)
+	{
+		// For offscreen targets, compute viewport/scissor from normalized settings against the target extent.
+		passViewport.x = viewportData.normalizedPosition.x * static_cast<Float>(targetExtent.width);
+		passViewport.y = viewportData.normalizedPosition.y * static_cast<Float>(targetExtent.height);
+		passViewport.width = viewportData.normalizedSize.x * static_cast<Float>(targetExtent.width);
+		passViewport.height = viewportData.normalizedSize.y * static_cast<Float>(targetExtent.height);
+		passViewport.minDepth = viewportData.viewport.minDepth;
+		passViewport.maxDepth = viewportData.viewport.maxDepth;
+
+		passScissor.offset.x = static_cast<int32_t>(viewportData.normalizedScissorPosition.x * static_cast<Float>(targetExtent.width));
+		passScissor.offset.y = static_cast<int32_t>(viewportData.normalizedScissorPosition.y * static_cast<Float>(targetExtent.height));
+		passScissor.extent.width = static_cast<uint32_t>(viewportData.normalizedScissorSize.x * static_cast<Float>(targetExtent.width));
+		passScissor.extent.height = static_cast<uint32_t>(viewportData.normalizedScissorSize.y * static_cast<Float>(targetExtent.height));
+	}
+
+	VkOffset2D const offset = {static_cast<int32_t>(passViewport.x), static_cast<int32_t>(passViewport.y)};
 	uint32_t const maxWidth = offset.x < 0 ? 0u : (offset.x >= static_cast<int32_t>(targetExtent.width) ? 0u : targetExtent.width - static_cast<uint32_t>(offset.x));
 	uint32_t const maxHeight = offset.y < 0 ? 0u : (offset.y >= static_cast<int32_t>(targetExtent.height) ? 0u : targetExtent.height - static_cast<uint32_t>(offset.y));
 	VkExtent2D const extent = {
-		viewportData.viewport.width > maxWidth ? maxWidth : static_cast<uint32_t>(viewportData.viewport.width),
-		viewportData.viewport.height > maxHeight ? maxHeight : static_cast<uint32_t>(viewportData.viewport.height)};
+		passViewport.width > maxWidth ? maxWidth : static_cast<uint32_t>(passViewport.width),
+		passViewport.height > maxHeight ? maxHeight : static_cast<uint32_t>(passViewport.height)};
 	VkRect2D const renderArea = {offset, extent};
 
-	// Track the attachment layout that this pass writes.
-	targetTextureData.layout = renderTargetData.surface != INVALID_HANDLE
-								   ? VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
-								   : VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-
 	// Apply the current viewport and scissor before drawing into this pass.
-	Vulkan_Renderer::bind_viewport(currentFrame.commandBuffer, viewportData.viewport);
-	Vulkan_Renderer::bind_scissor(currentFrame.commandBuffer, viewportData.scissor);
+	Vulkan_Renderer::bind_viewport(currentFrame.commandBuffer, passViewport);
+	Vulkan_Renderer::bind_scissor(currentFrame.commandBuffer, passScissor);
 
 	// Begin the render pass
 	Vulkan_Renderer::begin_render_pass(
@@ -1971,11 +1986,23 @@ void Minty::RenderManager::Impl::end_pass()
 	// End the render pass
 	Vulkan_Renderer::end_render_pass(currentFrame.commandBuffer);
 
+	// If the pass renders to a custom offscreen target, transition it to shader-read so it can be sampled later.
+	Vulkan_RenderPassData const &renderPassData = m_renderPassDataPool.at(m_activeRenderPass);
+	Vulkan_RenderTargetData const &renderTargetData = m_renderTargetDataPool.at(renderPassData.renderTarget);
+	if (renderTargetData.surface == INVALID_HANDLE)
+	{
+		for (TextureHandle const &imageHandle : renderTargetData.images)
+		{
+			transition_layout(currentFrame.commandBuffer, imageHandle, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+		}
+	}
+
 	// Clear all bound objects
 	m_boundPipeline = INVALID_HANDLE;
 	m_boundMaterial = INVALID_HANDLE;
 	m_boundGeometry = INVALID_HANDLE;
 	m_boundRenderView = INVALID_HANDLE;
+	m_activeRenderPass = INVALID_HANDLE;
 }
 
 void Minty::RenderManager::Impl::draw(View const pushValues, Object const &objectValues)
@@ -2196,15 +2223,10 @@ void Minty::RenderManager::Impl::refresh()
 		viewportData.scissor.extent.height = static_cast<uint32_t>(viewportData.normalizedScissorSize.y * static_cast<Float>(surfaceData.extent.height));
 	}
 
-	Float const aspect = surfaceData.extent.width > 0 && surfaceData.extent.height > 0
-		? static_cast<Float>(surfaceData.extent.width) / static_cast<Float>(surfaceData.extent.height)
-		: 1.0f;
-
 	for (RenderViewHandle const &renderViewHandle : m_renderViewDataPool.get_handles())
 	{
 		Vulkan_RenderViewData &renderViewData = m_renderViewDataPool.at(renderViewHandle);
-		renderViewData.aspectRatio = aspect;
-		renderViewData.update_projection(aspect);
+		renderViewData.update_projection(renderViewData.aspectRatio);
 		renderViewData.viewProjectionMatrix = renderViewData.projectionMatrix * renderViewData.viewMatrix;
 	}
 }

@@ -380,7 +380,7 @@ void Minty::RenderSystem::on_render(RenderPassHandle const renderPass)
 				sprite.get_size(),
 				sprite.get_pivot(),
 				1.0f,
-				static_cast<UInt32>(spriteComp.flipState),
+				static_cast<UInt32>(spriteComp.flipState) ^ 0x2u,
 				Float2(static_cast<Float>(textureSize.x), static_cast<Float>(textureSize.y)));
 		}
 
@@ -444,7 +444,7 @@ void Minty::RenderSystem::on_render(RenderPassHandle const renderPass)
 				sprite.get_size(),
 				sprite.get_pivot(),
 				1.0f,
-				static_cast<UInt32>(spriteComp.flipState),
+				static_cast<UInt32>(spriteComp.flipState) ^ 0x2u,
 				Float2(static_cast<Float>(textureSize.x), static_cast<Float>(textureSize.y)));
 		}
 

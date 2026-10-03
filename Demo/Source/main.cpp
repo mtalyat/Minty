@@ -8,8 +8,8 @@ using namespace Minty;
 class DemoGuiSystem
 {
 public:
-    DemoGuiSystem(Scene &scene, TextureHandle textureHandle = INVALID_HANDLE)
-        : mp_scene(&scene), m_textureHandle(textureHandle)
+    DemoGuiSystem(Scene &scene, RenderManager &renderManager, TextureHandle textureHandle = INVALID_HANDLE)
+        : mp_scene(&scene), mp_renderManager(&renderManager), m_textureHandle(textureHandle)
     {
     }
 
@@ -19,6 +19,35 @@ public:
         GUI::set_config_flag(GuiConfigFlagsEnum::DockingEnable, true);
     }
 
+    void show_texture_preview()
+    {
+        if (m_textureHandle == INVALID_HANDLE || mp_renderManager == nullptr)
+        {
+            return;
+        }
+
+        Float2 const available = GUI::layout_available();
+        Float2 size = available;
+        size.x = Math::max(size.x, 1.0f);
+        size.y = Math::max(size.y, 1.0f);
+
+        UInt2 const textureSize = mp_renderManager->get_size(m_textureHandle);
+        Float2 const textureSizeF = Float2(static_cast<Float>(textureSize.x), static_cast<Float>(textureSize.y));
+        Float const textureAspect = textureSizeF.x / Math::max(textureSizeF.y, 1.0f);
+        Float const panelAspect = size.x / Math::max(size.y, 1.0f);
+
+        if (panelAspect > textureAspect)
+        {
+            size.x = size.y * textureAspect;
+        }
+        else
+        {
+            size.y = size.x / textureAspect;
+        }
+
+        GUI::image(m_textureHandle, size);
+    }
+
     void on_gui()
     {
         GUI::dock_main();
@@ -26,26 +55,14 @@ public:
         Bool const sceneVisible = GUI::begin("Scene");
         if (sceneVisible)
         {
-            if (m_textureHandle != INVALID_HANDLE)
-            {
-                Float2 available = GUI::layout_available();
-                available.x = Math::max(available.x, 1.0f);
-                available.y = Math::max(available.y, 1.0f);
-                GUI::image(m_textureHandle, available);
-            }
+            show_texture_preview();
         }
         GUI::end();
 
         Bool const gameVisible = GUI::begin("Game");
         if (gameVisible)
         {
-            if (m_textureHandle != INVALID_HANDLE)
-            {
-                Float2 available = GUI::layout_available();
-                available.x = Math::max(available.x, 1.0f);
-                available.y = Math::max(available.y, 1.0f);
-                GUI::image(m_textureHandle, available);
-            }
+            show_texture_preview();
         }
         GUI::end();
 
@@ -75,7 +92,8 @@ public:
     }
 
 private:
-    Scene *mp_scene;
+    Scene *mp_scene = nullptr;
+    RenderManager *mp_renderManager = nullptr;
     TextureHandle m_textureHandle = INVALID_HANDLE;
 };
 
@@ -222,7 +240,7 @@ int main()
     worldSystemManager.create_system<ScriptSystem>();
     RenderSystem &uiRenderSystem = uiSystemManager.create_system<RenderSystem>();
     uiRenderSystem.set_render_pass_filter(sceneCaptureRenderPassHandle);
-    uiSystemManager.create_system<DemoGuiSystem>(sceneCaptureTextureHandle);
+    uiSystemManager.create_system<DemoGuiSystem>(renderManager, sceneCaptureTextureHandle);
 
     // Create camera entity
     EntityHandle const cameraEntity = worldEntityManager.create();
@@ -291,11 +309,9 @@ int main()
     // Create canvas root entity
     EntityHandle const uiCanvasEntity = uiEntityManager.create();
     CanvasComponent& canvasComponent = uiEntityManager.add<CanvasComponent>(uiCanvasEntity);
-    canvasComponent.resizeMode = CanvasResizeModeEnum::Dynamic;
+    canvasComponent.resizeMode = CanvasResizeModeEnum::FixedSize;
     Int2 const initialFramebufferSize = app.get_window().get_framebuffer_size();
-    UInt2 const initialCanvasResolution = UInt2(
-        static_cast<UInt>(Math::max(initialFramebufferSize.x, 1)),
-        static_cast<UInt>(Math::max(initialFramebufferSize.y, 1)));
+    UInt2 const initialCanvasResolution = UInt2(1920/4,1080/4);
     canvasComponent.resolution = initialCanvasResolution;
     UITransformComponent& canvasTransformComponent = uiEntityManager.add<UITransformComponent>(uiCanvasEntity);
     canvasTransformComponent.canvas = uiCanvasEntity;
@@ -308,7 +324,7 @@ int main()
     EntityHandle const uiChildEntity = uiEntityManager.create(uiCanvasEntity);
     UITransformComponent& childTransformComponent = uiEntityManager.add<UITransformComponent>(uiChildEntity);
     childTransformComponent.canvas = uiCanvasEntity;
-    childTransformComponent.transform = UITransform(16.0f, -16.0f, 64.0f, 64.0f, AnchorEnumFlags::TopLeft);
+    childTransformComponent.transform = UITransform(32.0f, -16.0f, 64.0f, 64.0f, AnchorEnumFlags::TopLeft);
     uiEntityManager.add<SpriteComponent>(uiChildEntity, SpriteComponent{
         spriteHandle2,
         uiMaterialHandle
@@ -318,7 +334,7 @@ int main()
     EntityHandle const uiChildEntity2 = uiEntityManager.create(uiCanvasEntity);
     UITransformComponent& childTransformComponent2 = uiEntityManager.add<UITransformComponent>(uiChildEntity2);
     childTransformComponent2.canvas = uiCanvasEntity;
-    childTransformComponent2.transform = UITransform(-16.0f, 16.0f, 64.0f, 64.0f, AnchorEnumFlags::BottomRight);
+    childTransformComponent2.transform = UITransform(-32.0f, 16.0f, 64.0f, 64.0f, AnchorEnumFlags::BottomRight);
     uiEntityManager.add<SpriteComponent>(uiChildEntity2, SpriteComponent{
         spriteHandle1,
         uiMaterialHandle
